@@ -58,28 +58,31 @@ export const apps = [
       "On-device speech recognition where supported.",
       "Local transcript search and session history.",
       "Reminder and calendar candidates with user confirmation.",
+      "Optional audio replay for Pro users — recordings stay on this device.",
+      "Optional Cloud Insights for Pro users — transcript text only, never audio.",
     ],
     policyProfile: {
       dataUse: [
         "voice recordings",
         "transcripts",
         "locally extracted reminders and calendar candidates",
+        "Pro subscription state and feature toggles",
       ],
       storage:
-        "EchoVault is designed around local device storage for recordings, transcripts, and generated action candidates.",
+        "EchoVault is designed around local device storage for recordings, transcripts, and generated action candidates. When you turn on \"Save voice for replay,\" recordings remain in app-private storage on this device until you delete the session. Audio is never uploaded.",
       sharing:
-        "Audio and transcripts are not sold. Optional sharing only happens when you choose to export or send content from the app.",
+        "Audio and transcripts are not sold. Optional sharing only happens when you choose to export or send content from the app. If you opt in to Cloud Insights (off by default, Pro only), the transcript text from a session is sent to a third-party large language model provider to generate a richer formatted summary; the audio file itself is never sent. You can turn Cloud Insights off at any time in the app, after which all extraction returns to running fully on-device.",
       permissions: [
         "Microphone access records voice notes.",
         "Speech recognition supports transcription.",
         "Calendar and reminders access is used only after you confirm actions.",
       ],
       paidFeatures:
-        "Paid features may expand local history limits or advanced organization without changing ownership of your content.",
+        "EchoVault Pro is offered as a monthly or annual auto-renewing subscription, or as a one-time lifetime purchase. Subscriptions may include an introductory free trial; payment is charged to your Apple ID, renews automatically unless cancelled at least 24 hours before the end of the current period, and can be managed or cancelled in your Apple ID settings. Pro unlocks unlimited session history, semantic search across past sessions, optional audio replay, and the optional Cloud Insights toggle described in the privacy policy. Free features remain available without payment.",
       termsUse:
         "Use EchoVault for personal note taking, task capture, and meeting recall. You are responsible for recording only where you have permission.",
       availability:
-        "Speech recognition, calendar, and reminders behavior can vary by device, OS version, region, and permissions.",
+        "Speech recognition, calendar, reminders, audio replay, and Cloud Insights behavior can vary by device, OS version, region, network connectivity, and the permissions or toggles you have granted.",
     },
   },
   {
