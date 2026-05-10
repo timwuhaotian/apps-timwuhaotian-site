@@ -9,7 +9,7 @@ describe("public app hub pages", () => {
     const markup = renderToStaticMarkup(<Home />);
 
     expect(markup).toContain(
-      "A calm directory for app introductions, support links, privacy",
+      "A curated collection of indie apps",
     );
     expect(markup).toContain("Apps by Tim Wu Haotian");
     expect(markup).toContain(

@@ -11,16 +11,23 @@ export default function Home() {
       <main className="page-shell main-stack" id="top">
         <section aria-labelledby="hero-title" className="hero">
           <div className="hero-card">
+            <div className="hero-ornament" aria-hidden="true">
+              <div className="hero-orb hero-orb-1" />
+              <div className="hero-orb hero-orb-2" />
+              <div className="hero-orb hero-orb-3" />
+            </div>
+            <div className="hero-label">Indie Apps Directory</div>
             <h1 id="hero-title">Apps by Tim Wu Haotian</h1>
             <p className="hero-lede">
-              A calm directory for app introductions, support links, privacy
-              policies, and terms of use.
+              A curated collection of indie apps — voice notes, dual-camera
+              recording, spatial memory, research briefings, and AI support
+              widgets. Built with care for iOS and the web.
             </p>
             <div className="hero-actions">
               <a className="button primary" href="#apps">
                 Browse apps
               </a>
-              <a className="button" href="mailto:timmy.wu@hotmail.com">
+              <a className="button ghost" href="mailto:timmy.wu@hotmail.com">
                 Contact support
               </a>
             </div>
@@ -40,22 +47,23 @@ export default function Home() {
           <div className="directory-body">
             <div className="directory-top">
               <div>
-                <h2 id="apps-title">Apps by Tim Wu Haotian</h2>
+                <h2 id="apps-title">Apps directory</h2>
                 <p className="section-summary">
-                  A public directory for app introductions, support links,
-                  privacy policies, and terms.
+                  Public pages for app introductions, privacy policies, and
+                  terms of use. Each app includes indexed support links for
+                  review and user reference.
                 </p>
               </div>
               <div className="directory-controls">
                 <span className="pill ios">iOS-first</span>
                 <span className="pill">{apps.length} apps</span>
-                <span className="pill">Indexed pages</span>
+                <span className="pill">Indexed</span>
               </div>
             </div>
 
             <div className="app-list" id="policies">
-              {apps.map((app) => (
-                <AppRow app={app} key={app.slug} />
+              {apps.map((app, i) => (
+                <AppRow app={app} key={app.slug} index={i} />
               ))}
             </div>
           </div>
@@ -64,7 +72,10 @@ export default function Home() {
 
       <footer className="site-footer">
         <div className="page-shell">
-          <span>Apps Hub · Tim Wu Haotian</span>
+          <div className="footer-brand">
+            <span className="footer-mark">A</span>
+            <span>Apps Hub · Tim Wu Haotian</span>
+          </div>
           <span>Stable public pages for app review, users, and support.</span>
         </div>
       </footer>
@@ -93,11 +104,17 @@ function SiteHeader() {
   );
 }
 
-function AppRow({ app }: { app: AppContent }) {
+function AppRow({ app, index }: { app: AppContent; index: number }) {
   const routes = getAppRoutes(app);
 
   return (
-    <article className="directory-row" style={accentStyle(app)}>
+    <article
+      className="directory-row"
+      style={{
+        ...accentStyle(app),
+        animationDelay: `${index * 80}ms`,
+      }}
+    >
       <Link href={routes.intro} aria-label={app.name} className="app-icon-link">
         <Image
           alt={`${app.name} icon`}
@@ -108,7 +125,7 @@ function AppRow({ app }: { app: AppContent }) {
         />
       </Link>
 
-      <div>
+      <div className="app-info">
         <h2>
           <Link href={routes.intro} className="app-name-link">{app.name}</Link>
         </h2>
