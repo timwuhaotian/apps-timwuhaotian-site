@@ -53,7 +53,7 @@ export const apps = [
     termsUpdatedAt: "2026-05-10",
     icon: "/apps/echo-vault/icon.png",
     screenshots: [],
-    accentColor: "#2563eb",
+    accentColor: "#25745d",
     features: [
       "On-device speech recognition where supported.",
       "Local transcript search and session history.",
@@ -102,7 +102,7 @@ export const apps = [
       "/apps/duetshot/screenshot-2.png",
       "/apps/duetshot/screenshot-3.png",
     ],
-    accentColor: "#db2777",
+    accentColor: "#7559c9",
     features: [
       "Simultaneous front and back camera recording.",
       "Creator tools for layouts, LUTs, watermarking, and trim flow.",
@@ -146,7 +146,7 @@ export const apps = [
     termsUpdatedAt: "2026-05-10",
     icon: "/apps/found/icon.png",
     screenshots: [],
-    accentColor: "#15803d",
+    accentColor: "#b46b20",
     features: [
       "Spatial asset records for rooms, containers, and layers.",
       "Object Capture and ARKit-oriented workflows.",
@@ -190,7 +190,7 @@ export const apps = [
     termsUpdatedAt: "2026-05-10",
     icon: "/apps/scholar-daily/icon.png",
     screenshots: [],
-    accentColor: "#a16207",
+    accentColor: "#2d65a3",
     features: [
       "Daily curated research briefings.",
       "Plain-English paper summaries.",

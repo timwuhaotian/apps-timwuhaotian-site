@@ -1,0 +1,1949 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apps Hub Design System · Tim Wu Haotian</title>
+  <style>
+    /*
+      Apps Hub Design System
+      Single-file HTML + CSS reference for a quiet public product directory.
+      No external assets or fonts are required.
+    */
+
+    :root {
+      color-scheme: light;
+
+      --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+      --bg: #f7f6f2;
+      --bg-soft: #fbfaf7;
+      --surface: #ffffff;
+      --surface-raised: #fffefb;
+      --surface-muted: #f1efe9;
+      --ink: #171717;
+      --ink-soft: #2f302f;
+      --muted: #6e706b;
+      --muted-2: #8d9088;
+      --line: #dfddd5;
+      --line-strong: #c9c6bc;
+      --focus: #2563eb;
+      --link: #155e75;
+      --link-hover: #0f3f51;
+
+      --accent-echo: #25745d;
+      --accent-duet: #7559c9;
+      --accent-found: #b46b20;
+      --accent-scholar: #2d65a3;
+      --accent-neutral: #4d5a5f;
+
+      --ok-bg: #eaf5ee;
+      --ok-text: #19583d;
+      --draft-bg: #f3eee5;
+      --draft-text: #72511d;
+      --ios-bg: #eaf1f8;
+      --ios-text: #234f79;
+
+      --shadow-xs: 0 1px 2px rgba(23, 23, 23, 0.04);
+      --shadow-sm: 0 8px 24px rgba(23, 23, 23, 0.06);
+      --shadow-md: 0 22px 50px rgba(23, 23, 23, 0.08);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-7: 32px;
+      --space-8: 40px;
+      --space-9: 56px;
+      --space-10: 72px;
+
+      --page: min(1120px, calc(100vw - 40px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background:
+        radial-gradient(circle at 12% -10%, rgba(37, 116, 93, 0.12), transparent 32%),
+        radial-gradient(circle at 80% 2%, rgba(117, 89, 201, 0.10), transparent 28%),
+        linear-gradient(180deg, var(--bg-soft), var(--bg) 360px);
+      color: var(--ink);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--link-hover);
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    figure,
+    blockquote {
+      margin: 0;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.36);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
+    ::selection {
+      background: rgba(37, 116, 93, 0.18);
+    }
+
+    .page-shell {
+      width: var(--page);
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(247, 246, 242, 0.78);
+      border-bottom: 1px solid rgba(223, 221, 213, 0.72);
+    }
+
+    .site-header__inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-5);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(37, 116, 93, 0.95), rgba(45, 101, 163, 0.95)),
+        #25745d;
+      box-shadow: var(--shadow-xs);
+      font-weight: 760;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 0;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.25;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      border-radius: 999px;
+      padding: 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 620;
+    }
+
+    .site-nav a:hover {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--ink);
+    }
+
+    main {
+      padding: var(--space-9) 0 var(--space-10);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: var(--space-7);
+      align-items: stretch;
+      margin-bottom: var(--space-10);
+    }
+
+    .hero-card,
+    .quiet-panel,
+    .component-card,
+    .sample-browser,
+    .token-card,
+    .code-card {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(223, 221, 213, 0.86);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-card {
+      padding: clamp(28px, 5vw, 56px);
+      display: grid;
+      align-content: center;
+      gap: var(--space-6);
+      min-height: 460px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      width: fit-content;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-echo);
+      box-shadow: 0 0 0 5px rgba(37, 116, 93, 0.12);
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 74px);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      max-width: 760px;
+    }
+
+    .hero-lede {
+      max-width: 680px;
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--ink-soft);
+      line-height: 1.62;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+    }
+
+    .button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 720;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .button.primary {
+      border-color: rgba(23, 23, 23, 0.9);
+      background: var(--ink);
+      color: white;
+    }
+
+    .button.primary:hover {
+      color: white;
+      background: #2a2a2a;
+    }
+
+    .button.ghost {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-aside {
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-4);
+      align-content: stretch;
+    }
+
+    .mini-directory {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .mini-app {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 12px;
+    }
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 780;
+      letter-spacing: -0.05em;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), var(--shadow-xs);
+    }
+
+    .app-icon.echo { background: linear-gradient(135deg, #1f6f58, #3f9d7d); }
+    .app-icon.duet { background: linear-gradient(135deg, #5f48b5, #9b80e5); }
+    .app-icon.found { background: linear-gradient(135deg, #a35d19, #e3a34d); }
+    .app-icon.scholar { background: linear-gradient(135deg, #285f98, #5c9ed5); }
+
+    .mini-app h3 {
+      font-size: 14px;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    .mini-app p {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-echo);
+    }
+
+    .aside-note {
+      margin-top: auto;
+      border-radius: var(--radius-lg);
+      background: var(--surface-muted);
+      padding: var(--space-5);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .aside-note strong {
+      color: var(--ink);
+    }
+
+    .section {
+      padding: var(--space-9) 0;
+      border-top: 1px solid rgba(223, 221, 213, 0.78);
+    }
+
+    .section:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .section-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.72fr) minmax(260px, 0.28fr);
+      gap: var(--space-7);
+      align-items: end;
+      margin-bottom: var(--space-7);
+    }
+
+    .section-kicker {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+
+    .section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.055em;
+      line-height: 1.03;
+    }
+
+    .section-summary {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .principle-card {
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      min-height: 190px;
+    }
+
+    .principle-card .number {
+      color: var(--muted-2);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      margin-bottom: var(--space-6);
+    }
+
+    .principle-card h3 {
+      font-size: 18px;
+      letter-spacing: -0.035em;
+      margin-bottom: var(--space-3);
+    }
+
+    .principle-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .token-card {
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .token-card h3 {
+      font-size: 16px;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-4);
+    }
+
+    .swatches {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .swatch {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      min-height: 48px;
+    }
+
+    .swatch-chip {
+      width: 44px;
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(23, 23, 23, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 720;
+      line-height: 1.15;
+    }
+
+    .swatch-use,
+    .swatch-code {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.15;
+    }
+
+    .swatch-code {
+      font-family: var(--font-mono);
+    }
+
+    .type-scale {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .type-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .type-label {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .type-sample.display {
+      font-size: 44px;
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      font-weight: 780;
+    }
+
+    .type-sample.h1 {
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+      font-weight: 760;
+    }
+
+    .type-sample.body {
+      font-size: 16px;
+      color: var(--ink-soft);
+    }
+
+    .type-sample.meta {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 760;
+    }
+
+    .spacing-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .spacing-item {
+      display: grid;
+      grid-template-columns: 72px 1fr 54px;
+      gap: var(--space-3);
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .spacing-bar {
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(37, 116, 93, 0.32), rgba(37, 116, 93, 0.08));
+      width: var(--w);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+
+    .component-card {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .component-header {
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-5);
+      background: rgba(251, 250, 247, 0.76);
+    }
+
+    .component-header h3 {
+      font-size: 18px;
+      letter-spacing: -0.035em;
+    }
+
+    .component-header p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .component-body {
+      padding: var(--space-5);
+    }
+
+    .badge-row,
+    .button-row,
+    .pill-row {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 26px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .badge.live {
+      background: var(--ok-bg);
+      color: var(--ok-text);
+    }
+
+    .badge.beta {
+      background: var(--draft-bg);
+      color: var(--draft-text);
+    }
+
+    .pill {
+      border-color: var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .pill.ios {
+      border-color: rgba(35, 79, 121, 0.18);
+      background: var(--ios-bg);
+      color: var(--ios-text);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .app-card {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .app-card .app-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      font-size: 18px;
+    }
+
+    .app-card h4 {
+      font-size: 20px;
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+    }
+
+    .app-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: var(--space-2);
+    }
+
+    .app-card-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: var(--space-4);
+    }
+
+    .text-links {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-top: var(--space-4);
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .text-links a {
+      color: var(--link);
+    }
+
+    .text-links a::after {
+      content: " →";
+    }
+
+    .policy-shell-demo {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .policy-top {
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(241, 239, 233, 0.6), rgba(255, 255, 255, 0));
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 680;
+      margin-bottom: var(--space-4);
+    }
+
+    .breadcrumb span:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-2);
+      color: var(--muted-2);
+    }
+
+    .policy-top h4 {
+      font-size: 26px;
+      letter-spacing: -0.055em;
+      line-height: 1.05;
+    }
+
+    .policy-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: var(--space-2);
+    }
+
+    .policy-content {
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .policy-content h5 {
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .policy-content p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .sample-browser {
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .browser-bar {
+      min-height: 54px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 250, 247, 0.82);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-5);
+      gap: var(--space-5);
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .browser-dots span {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: var(--line-strong);
+    }
+
+    .browser-path {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .sample-page {
+      padding: clamp(22px, 4vw, 40px);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(251, 250, 247, 0.84)),
+        var(--surface);
+    }
+
+    .directory-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: var(--space-5);
+      padding-bottom: var(--space-7);
+      border-bottom: 1px solid var(--line);
+      margin-bottom: var(--space-5);
+    }
+
+    .directory-top h3 {
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.065em;
+      line-height: 1;
+      margin-bottom: var(--space-3);
+    }
+
+    .directory-top p {
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .directory-controls {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .app-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .directory-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: var(--space-4);
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      padding: var(--space-4);
+    }
+
+    .directory-row h4 {
+      font-size: 18px;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .directory-row p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .row-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      min-width: 230px;
+    }
+
+    .link-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--link);
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .intro-preview {
+      display: grid;
+      grid-template-columns: minmax(0, 0.84fr) minmax(280px, 0.56fr);
+      gap: var(--space-7);
+      align-items: start;
+    }
+
+    .intro-main {
+      display: grid;
+      gap: var(--space-5);
+    }
+
+    .intro-heading {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .intro-heading .app-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 23px;
+      font-size: 24px;
+    }
+
+    .intro-heading h3 {
+      font-size: clamp(32px, 5vw, 54px);
+      letter-spacing: -0.075em;
+      line-height: 0.95;
+    }
+
+    .intro-heading p {
+      color: var(--muted);
+      margin-top: var(--space-2);
+    }
+
+    .feature-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .feature-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: var(--space-3);
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.7);
+      padding: var(--space-4);
+    }
+
+    .feature-check {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(37, 116, 93, 0.12);
+      color: var(--accent-echo);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .feature-item h4 {
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
+
+    .feature-item p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .screenshot-stack {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .phone-frame {
+      aspect-ratio: 9 / 16;
+      border-radius: 34px;
+      border: 1px solid var(--line-strong);
+      background:
+        radial-gradient(circle at 50% 10%, rgba(37, 116, 93, 0.24), transparent 34%),
+        linear-gradient(180deg, #ffffff, #efede6);
+      box-shadow: var(--shadow-md);
+      padding: 16px;
+      display: grid;
+      align-content: start;
+      gap: var(--space-3);
+      overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 84px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(23, 23, 23, 0.9);
+      margin: 0 auto var(--space-3);
+    }
+
+    .phone-block {
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(223, 221, 213, 0.8);
+      min-height: 78px;
+    }
+
+    .phone-block.small {
+      min-height: 42px;
+    }
+
+    .phone-block.hero-block {
+      min-height: 150px;
+      background: linear-gradient(135deg, rgba(37, 116, 93, 0.84), rgba(45, 101, 163, 0.75));
+    }
+
+    .side-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.76);
+      padding: var(--space-5);
+    }
+
+    .side-card h4 {
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-3);
+    }
+
+    .side-card dl {
+      display: grid;
+      gap: var(--space-3);
+      margin: 0;
+    }
+
+    .side-card div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: var(--space-3);
+      font-size: 13px;
+    }
+
+    .side-card div:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .side-card dt {
+      color: var(--muted);
+    }
+
+    .side-card dd {
+      margin: 0;
+      font-weight: 720;
+      text-align: right;
+    }
+
+    .code-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+
+    .code-card {
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .code-card__title {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(251, 250, 247, 0.78);
+    }
+
+    pre {
+      margin: 0;
+      padding: var(--space-5);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: var(--font-mono);
+      color: #30312e;
+      background: rgba(255, 255, 255, 0.58);
+      font-size: 12px;
+      line-height: 1.72;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: var(--space-3);
+      align-items: start;
+      padding: var(--space-4);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check-item strong {
+      color: var(--ink);
+    }
+
+    .checkmark {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--ok-bg);
+      color: var(--ok-text);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .footer {
+      padding: var(--space-8) 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer .page-shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .do-dont {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .quiet-list {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .quiet-list li + li {
+      margin-top: 8px;
+    }
+
+    .callout {
+      border: 1px solid rgba(37, 116, 93, 0.2);
+      background: rgba(37, 116, 93, 0.08);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      color: #205746;
+      font-size: 14px;
+    }
+
+    .callout strong {
+      color: #164234;
+    }
+
+    @media (max-width: 980px) {
+      :root {
+        --page: min(100vw - 28px, 900px);
+      }
+
+      .hero,
+      .section-header,
+      .intro-preview,
+      .code-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principles,
+      .token-grid,
+      .component-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .directory-row {
+        grid-template-columns: 56px 1fr;
+      }
+
+      .row-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      :root {
+        --page: min(100vw - 22px, 620px);
+      }
+
+      main {
+        padding-top: var(--space-7);
+      }
+
+      .site-header {
+        position: static;
+      }
+
+      .site-header__inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: var(--space-4) 0;
+      }
+
+      .site-nav {
+        justify-content: flex-start;
+      }
+
+      .hero-card {
+        min-height: auto;
+      }
+
+      .principles,
+      .token-grid,
+      .component-grid,
+      .checklist,
+      .do-dont {
+        grid-template-columns: 1fr;
+      }
+
+      .directory-top {
+        grid-template-columns: 1fr;
+      }
+
+      .directory-controls {
+        justify-content: flex-start;
+      }
+
+      .directory-row {
+        grid-template-columns: 48px 1fr;
+        gap: var(--space-3);
+        padding: var(--space-3);
+      }
+
+      .directory-row .app-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+      }
+
+      .row-actions {
+        grid-column: 1 / -1;
+      }
+
+      .link-chip {
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+
+      .intro-heading {
+        grid-template-columns: 1fr;
+      }
+
+      .browser-bar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: var(--space-4);
+      }
+
+      .browser-path {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="page-shell site-header__inner">
+      <a href="#top" class="brand" aria-label="Apps Hub Design System home">
+        <span class="brand-mark">A</span>
+        <span class="brand-copy">
+          <span class="brand-title">Apps Hub</span>
+          <span class="brand-subtitle">Design system for Tim Wu Haotian</span>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Design system sections">
+        <a href="#principles">原则</a>
+        <a href="#tokens">Tokens</a>
+        <a href="#components">组件</a>
+        <a href="#templates">页面模板</a>
+        <a href="#implementation">实现</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="page-shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-card">
+        <div class="eyebrow">Quiet product directory</div>
+        <h1 id="hero-title">A calm hub for apps, support links, and App Store policy pages.</h1>
+        <p class="hero-lede">
+          这个设计系统服务于一个静态友好的 Next.js 应用目录：优先清晰、稳定、易维护，而不是高压营销。首页帮助审核员和用户快速找到每个 app 的简介、隐私政策、条款与支持信息。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#templates">查看页面模板</a>
+          <a class="button" href="#components">查看组件</a>
+          <a class="button ghost" href="#implementation">实现约定</a>
+        </div>
+      </div>
+
+      <aside class="hero-aside quiet-panel" aria-label="Seed app preview">
+        <div class="mini-directory">
+          <article class="mini-app">
+            <span class="app-icon echo">EV</span>
+            <span>
+              <h3>EchoVault</h3>
+              <p>Intro · Privacy · Terms</p>
+            </span>
+            <span class="status-dot" aria-hidden="true"></span>
+          </article>
+          <article class="mini-app">
+            <span class="app-icon duet">DS</span>
+            <span>
+              <h3>DuetShot</h3>
+              <p>Intro · Privacy · Terms</p>
+            </span>
+            <span class="status-dot" aria-hidden="true"></span>
+          </article>
+          <article class="mini-app">
+            <span class="app-icon found">F</span>
+            <span>
+              <h3>Found</h3>
+              <p>Intro · Privacy · Terms</p>
+            </span>
+            <span class="status-dot" aria-hidden="true"></span>
+          </article>
+          <article class="mini-app">
+            <span class="app-icon scholar">SD</span>
+            <span>
+              <h3>ScholarDaily</h3>
+              <p>Intro · Privacy · Terms</p>
+            </span>
+            <span class="status-dot" aria-hidden="true"></span>
+          </article>
+        </div>
+        <div class="aside-note">
+          <strong>核心体验：</strong>每个 app 只有一张清晰卡片、一组稳定链接和一套可复用 policy renderer。具体文案从 <code>src/content/apps.ts</code> 注入。
+        </div>
+      </aside>
+    </section>
+
+    <section id="principles" class="section" aria-labelledby="principles-title">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">01 · Product language</p>
+          <h2 id="principles-title">视觉气质：安静、可信、可扫描。</h2>
+        </div>
+        <p class="section-summary">
+          这个 hub 的主要使用场景不是促销，而是让 App Store reviewer、用户和维护者迅速确认 app、政策与支持链接是否存在且可信。
+        </p>
+      </div>
+
+      <div class="principles">
+        <article class="principle-card">
+          <p class="number">01</p>
+          <h3>Directory first</h3>
+          <p>首页以列表为中心。每张卡片只保留 app 名称、短 intro、平台、状态和核心链接。</p>
+        </article>
+        <article class="principle-card">
+          <p class="number">02</p>
+          <h3>Readable legal</h3>
+          <p>隐私与条款页面看起来像产品文档：日期、owner、support email 和章节层级都要一眼可见。</p>
+        </article>
+        <article class="principle-card">
+          <p class="number">03</p>
+          <h3>Data-driven</h3>
+          <p>所有页面从同一个 app 数据源生成。设计上避免需要逐页复制布局或手写重复内容。</p>
+        </article>
+        <article class="principle-card">
+          <p class="number">04</p>
+          <h3>Soft identity</h3>
+          <p>品牌存在感来自系统化排版、留白和 app accent color，而不是大面积渐变或夸张动效。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tokens" class="section" aria-labelledby="tokens-title">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">02 · Foundations</p>
+          <h2 id="tokens-title">Tokens 让页面长期稳定。</h2>
+        </div>
+        <p class="section-summary">
+          建议在 Tailwind 中把这些变量映射成 theme tokens；本文件用 CSS variables 展示同一套命名体系。
+        </p>
+      </div>
+
+      <div class="token-grid">
+        <article class="token-card">
+          <h3>Core colors</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#f7f6f2"></span>
+              <span><span class="swatch-name">Background</span><br><span class="swatch-use">页面底色</span></span>
+              <span class="swatch-code">#F7F6F2</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#ffffff"></span>
+              <span><span class="swatch-name">Surface</span><br><span class="swatch-use">卡片/文档</span></span>
+              <span class="swatch-code">#FFFFFF</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#171717"></span>
+              <span><span class="swatch-name">Ink</span><br><span class="swatch-use">主文字</span></span>
+              <span class="swatch-code">#171717</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#6e706b"></span>
+              <span><span class="swatch-name">Muted</span><br><span class="swatch-use">辅助文字</span></span>
+              <span class="swatch-code">#6E706B</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#dfddd5"></span>
+              <span><span class="swatch-name">Line</span><br><span class="swatch-use">边框/分割线</span></span>
+              <span class="swatch-code">#DFDDD5</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="token-card">
+          <h3>App accents</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#25745d"></span>
+              <span><span class="swatch-name">EchoVault</span><br><span class="swatch-use">安全、存档、沉静</span></span>
+              <span class="swatch-code">#25745D</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#7559c9"></span>
+              <span><span class="swatch-name">DuetShot</span><br><span class="swatch-use">创作、配对、轻快</span></span>
+              <span class="swatch-code">#7559C9</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#b46b20"></span>
+              <span><span class="swatch-name">Found</span><br><span class="swatch-use">发现、温暖、线索</span></span>
+              <span class="swatch-code">#B46B20</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#2d65a3"></span>
+              <span><span class="swatch-name">ScholarDaily</span><br><span class="swatch-use">学术、日更、理性</span></span>
+              <span class="swatch-code">#2D65A3</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="token-card">
+          <h3>Typography</h3>
+          <div class="type-scale">
+            <div class="type-row">
+              <span class="type-label">Display</span>
+              <span class="type-sample display">Quiet hub</span>
+            </div>
+            <div class="type-row">
+              <span class="type-label">H1 / H2</span>
+              <span class="type-sample h1">Readable app pages</span>
+            </div>
+            <div class="type-row">
+              <span class="type-label">Body</span>
+              <span class="type-sample body">System UI keeps the site fast, familiar, and easy to maintain.</span>
+            </div>
+            <div class="type-row">
+              <span class="type-label">Meta</span>
+              <span class="type-sample meta">Updated · iOS · Public</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="token-card">
+          <h3>Spacing</h3>
+          <div class="spacing-list">
+            <div class="spacing-item"><span class="swatch-code">4</span><span class="spacing-bar" style="--w:4px"></span><span class="muted">xxs</span></div>
+            <div class="spacing-item"><span class="swatch-code">8</span><span class="spacing-bar" style="--w:8px"></span><span class="muted">xs</span></div>
+            <div class="spacing-item"><span class="swatch-code">12</span><span class="spacing-bar" style="--w:12px"></span><span class="muted">sm</span></div>
+            <div class="spacing-item"><span class="swatch-code">16</span><span class="spacing-bar" style="--w:16px"></span><span class="muted">md</span></div>
+            <div class="spacing-item"><span class="swatch-code">24</span><span class="spacing-bar" style="--w:24px"></span><span class="muted">lg</span></div>
+            <div class="spacing-item"><span class="swatch-code">40</span><span class="spacing-bar" style="--w:40px"></span><span class="muted">xl</span></div>
+            <div class="spacing-item"><span class="swatch-code">72</span><span class="spacing-bar" style="--w:72px"></span><span class="muted">page</span></div>
+          </div>
+        </article>
+
+        <article class="token-card">
+          <h3>Radius & shadow</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#fff;border-radius:8px"></span>
+              <span><span class="swatch-name">Small radius</span><br><span class="swatch-use">focus / code / small UI</span></span>
+              <span class="swatch-code">8</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#fff;border-radius:14px"></span>
+              <span><span class="swatch-name">Medium radius</span><br><span class="swatch-use">pills / compact cards</span></span>
+              <span class="swatch-code">14</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#fff;border-radius:22px;box-shadow:0 8px 24px rgba(23,23,23,.06)"></span>
+              <span><span class="swatch-name">Large radius</span><br><span class="swatch-use">app cards</span></span>
+              <span class="swatch-code">22</span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#fff;border-radius:32px;box-shadow:0 22px 50px rgba(23,23,23,.08)"></span>
+              <span><span class="swatch-name">Hero radius</span><br><span class="swatch-use">page previews</span></span>
+              <span class="swatch-code">32</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="token-card">
+          <h3>Interaction</h3>
+          <div class="callout">
+            <strong>Focus ring:</strong> 所有链接、按钮、policy URL 都使用清晰的 <code>:focus-visible</code>。触控目标建议不低于 40px；文本链接在正文中应保持高对比度。
+          </div>
+          <br>
+          <div class="button-row">
+            <a class="button primary" href="#templates">Primary</a>
+            <a class="button" href="#components">Secondary</a>
+            <a class="button ghost" href="#implementation">Ghost</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="components" class="section" aria-labelledby="components-title">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">03 · Components</p>
+          <h2 id="components-title">组件少，但每个都承担清晰任务。</h2>
+        </div>
+        <p class="section-summary">
+          App Hub 的组件库应该更像文档系统：导航、卡片、状态、链接和 policy shell 足够支撑 v1。
+        </p>
+      </div>
+
+      <div class="component-grid">
+        <article class="component-card">
+          <div class="component-header">
+            <div>
+              <h3>App directory card</h3>
+              <p>首页核心组件；来自同一个 app data source。</p>
+            </div>
+            <span class="badge live"><span class="dot"></span>Required</span>
+          </div>
+          <div class="component-body">
+            <article class="app-card">
+              <span class="app-icon echo">EV</span>
+              <div>
+                <h4>EchoVault</h4>
+                <p>Short app-specific intro from <code>src/content/apps.ts</code>. Keep it factual and easy to scan.</p>
+                <div class="app-card-meta">
+                  <span class="pill ios">iOS</span>
+                  <span class="badge live"><span class="dot"></span>Public</span>
+                </div>
+                <div class="text-links">
+                  <a href="/apps/echovault">Intro</a>
+                  <a href="/apps/echovault/privacy">Privacy</a>
+                  <a href="/apps/echovault/terms">Terms</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </article>
+
+        <article class="component-card">
+          <div class="component-header">
+            <div>
+              <h3>Status & platform pills</h3>
+              <p>用于快速判断 app 可用性与平台范围。</p>
+            </div>
+            <span class="badge live"><span class="dot"></span>Compact</span>
+          </div>
+          <div class="component-body">
+            <div class="badge-row">
+              <span class="badge live"><span class="dot"></span>Public</span>
+              <span class="badge beta"><span class="dot"></span>Beta</span>
+              <span class="pill ios">iOS</span>
+              <span class="pill">macOS</span>
+              <span class="pill">App Store</span>
+              <span class="pill">Support URL</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="component-card">
+          <div class="component-header">
+            <div>
+              <h3>Policy page shell</h3>
+              <p>隐私政策与条款共用结构，内容按 app 定制。</p>
+            </div>
+            <span class="badge live"><span class="dot"></span>Shared renderer</span>
+          </div>
+          <div class="component-body">
+            <div class="policy-shell-demo">
+              <div class="policy-top">
+                <div class="breadcrumb"><span>Apps</span><span>ScholarDaily</span><span>Privacy</span></div>
+                <h4>Privacy Policy</h4>
+                <p class="policy-meta">Last updated: 2026-05-10 · Owner: WU HAOTIAN · Support: timmy.wu@hotmail.com</p>
+              </div>
+              <div class="policy-content">
+                <section>
+                  <h5>Data collection</h5>
+                  <p>Use app-specific policy profiles to describe what data is collected, how it is used, and whether it is shared.</p>
+                </section>
+                <section>
+                  <h5>Contact</h5>
+                  <p>Keep the support email visible and consistent across every policy page.</p>
+                </section>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="component-card">
+          <div class="component-header">
+            <div>
+              <h3>Action links</h3>
+              <p>所有 App Store URL、support 和 legal 链接都要稳定、直接。</p>
+            </div>
+            <span class="badge live"><span class="dot"></span>URL-first</span>
+          </div>
+          <div class="component-body">
+            <div class="button-row">
+              <a class="button primary" href="/apps/scholardaily">Open intro</a>
+              <a class="button" href="/apps/scholardaily/privacy">Privacy</a>
+              <a class="button" href="/apps/scholardaily/terms">Terms</a>
+            </div>
+            <p class="section-summary" style="margin-top:16px;">正文中的 policy 链接可以用 text link；卡片和详情页顶部建议使用 pill-like buttons，便于审核员点击。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="templates" class="section" aria-labelledby="templates-title">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">04 · Page templates</p>
+          <h2 id="templates-title">三类页面：目录、简介、政策。</h2>
+        </div>
+        <p class="section-summary">
+          v1 只需要把路由 contract 做扎实：<code>/</code>、<code>/apps/[slug]</code>、<code>/apps/[slug]/privacy</code>、<code>/apps/[slug]/terms</code>。
+        </p>
+      </div>
+
+      <article class="sample-browser" aria-label="Home page template preview">
+        <div class="browser-bar">
+          <div class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="browser-path">/ · Apps directory</div>
+        </div>
+        <div class="sample-page">
+          <div class="directory-top">
+            <div>
+              <h3>Apps by Tim Wu Haotian</h3>
+              <p>A public directory for app introductions, support links, privacy policies, and terms. Built to be stable for App Store review and useful for users.</p>
+            </div>
+            <div class="directory-controls">
+              <span class="pill ios">iOS-first</span>
+              <span class="pill">4 apps</span>
+              <span class="pill">Indexed pages</span>
+            </div>
+          </div>
+
+          <div class="app-list">
+            <article class="directory-row">
+              <span class="app-icon echo">EV</span>
+              <div>
+                <h4>EchoVault</h4>
+                <p>App-specific summary placeholder. Replace with the real summary from the centralized data source.</p>
+                <div class="row-meta"><span class="pill ios">iOS</span><span class="badge live"><span class="dot"></span>Public</span></div>
+              </div>
+              <div class="row-actions"><a class="link-chip" href="/apps/echovault">Intro</a><a class="link-chip" href="/apps/echovault/privacy">Privacy</a><a class="link-chip" href="/apps/echovault/terms">Terms</a></div>
+            </article>
+
+            <article class="directory-row">
+              <span class="app-icon duet">DS</span>
+              <div>
+                <h4>DuetShot</h4>
+                <p>App-specific summary placeholder. Keep it one sentence so the row remains scannable.</p>
+                <div class="row-meta"><span class="pill ios">iOS</span><span class="badge live"><span class="dot"></span>Public</span></div>
+              </div>
+              <div class="row-actions"><a class="link-chip" href="/apps/duetshot">Intro</a><a class="link-chip" href="/apps/duetshot/privacy">Privacy</a><a class="link-chip" href="/apps/duetshot/terms">Terms</a></div>
+            </article>
+
+            <article class="directory-row">
+              <span class="app-icon found">F</span>
+              <div>
+                <h4>Found</h4>
+                <p>App-specific summary placeholder. Avoid feature overload on the home page.</p>
+                <div class="row-meta"><span class="pill ios">iOS</span><span class="badge live"><span class="dot"></span>Public</span></div>
+              </div>
+              <div class="row-actions"><a class="link-chip" href="/apps/found">Intro</a><a class="link-chip" href="/apps/found/privacy">Privacy</a><a class="link-chip" href="/apps/found/terms">Terms</a></div>
+            </article>
+
+            <article class="directory-row">
+              <span class="app-icon scholar">SD</span>
+              <div>
+                <h4>ScholarDaily</h4>
+                <p>App-specific summary placeholder. The same renderer can serve all app cards.</p>
+                <div class="row-meta"><span class="pill ios">iOS</span><span class="badge live"><span class="dot"></span>Public</span></div>
+              </div>
+              <div class="row-actions"><a class="link-chip" href="/apps/scholardaily">Intro</a><a class="link-chip" href="/apps/scholardaily/privacy">Privacy</a><a class="link-chip" href="/apps/scholardaily/terms">Terms</a></div>
+            </article>
+          </div>
+        </div>
+      </article>
+
+      <div style="height:24px"></div>
+
+      <article class="sample-browser" aria-label="App intro page template preview">
+        <div class="browser-bar">
+          <div class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="browser-path">/apps/[slug] · App intro</div>
+        </div>
+        <div class="sample-page intro-preview">
+          <div class="intro-main">
+            <div class="breadcrumb"><span>Apps</span><span>EchoVault</span></div>
+            <div class="intro-heading">
+              <span class="app-icon echo">EV</span>
+              <div>
+                <h3>EchoVault</h3>
+                <p>Tagline from data source. Use a factual one-line description instead of a marketing slogan.</p>
+              </div>
+            </div>
+            <p class="hero-lede" style="font-size:17px;">The intro page should explain what the app does, who it is for, supported platforms, and where to find privacy, terms, and App Store links. Screenshot sections are optional and should gracefully disappear when no screenshots are available.</p>
+
+            <div class="feature-list">
+              <article class="feature-item">
+                <span class="feature-check">✓</span>
+                <div><h4>Clear product summary</h4><p>One concise paragraph describes the app. Avoid overpromising or legal ambiguity.</p></div>
+              </article>
+              <article class="feature-item">
+                <span class="feature-check">✓</span>
+                <div><h4>Stable support links</h4><p>Intro, privacy, terms, support email, and App Store URL remain easy to access.</p></div>
+              </article>
+              <article class="feature-item">
+                <span class="feature-check">✓</span>
+                <div><h4>Data-generated pages</h4><p>The page uses <code>generateStaticParams</code> from the centralized app registry.</p></div>
+              </article>
+            </div>
+          </div>
+
+          <aside class="screenshot-stack">
+            <div class="phone-frame" aria-hidden="true">
+              <div class="phone-notch"></div>
+              <div class="phone-block hero-block"></div>
+              <div class="phone-block small"></div>
+              <div class="phone-block"></div>
+              <div class="phone-block small"></div>
+            </div>
+            <div class="side-card">
+              <h4>App metadata</h4>
+              <dl>
+                <div><dt>Platform</dt><dd>iOS</dd></div>
+                <div><dt>Status</dt><dd>Public</dd></div>
+                <div><dt>Support</dt><dd>timmy.wu@hotmail.com</dd></div>
+                <div><dt>Legal owner</dt><dd>WU HAOTIAN</dd></div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </article>
+
+      <div style="height:24px"></div>
+
+      <article class="sample-browser" aria-label="Policy page template preview">
+        <div class="browser-bar">
+          <div class="browser-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="browser-path">/apps/[slug]/privacy · /apps/[slug]/terms</div>
+        </div>
+        <div class="sample-page">
+          <div class="policy-shell-demo">
+            <div class="policy-top">
+              <div class="breadcrumb"><span>Apps</span><span>Found</span><span>Terms</span></div>
+              <h4>Terms of Use</h4>
+              <p class="policy-meta">Last updated: 2026-05-10 · Legal owner: WU HAOTIAN · Support: timmy.wu@hotmail.com</p>
+            </div>
+            <div class="policy-content">
+              <section>
+                <h5>1. App-specific terms</h5>
+                <p>Policy content should be strict enough for App Store URLs while remaining readable for ordinary users. Use tailored profiles per app, but render with a shared component.</p>
+              </section>
+              <section>
+                <h5>2. Platform-specific language</h5>
+                <p>Most apps are iOS-first today. Mention platform-specific limitations, subscriptions, local storage, analytics, or account features only when they apply to the app.</p>
+              </section>
+              <section>
+                <h5>3. Contact</h5>
+                <p>Every policy page should include the support email and legal owner in the header and final contact section.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="implementation" class="section" aria-labelledby="implementation-title">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">05 · Implementation notes</p>
+          <h2 id="implementation-title">让设计和 Next.js route contract 对齐。</h2>
+        </div>
+        <p class="section-summary">
+          样式可以迁移为 Tailwind tokens；页面应从 <code>src/content/apps.ts</code> 读取数据，并用测试保护路由和内容完整性。
+        </p>
+      </div>
+
+      <div class="code-grid">
+        <article class="code-card">
+          <div class="code-card__title">Data model shape</div>
+          <pre><code>type App = {
+  slug: string;
+  name: string;
+  tagline: string;
+  summary: string;
+  platforms: Array&lt;'iOS' | 'macOS' | 'Web'&gt;;
+  status: 'public' | 'beta' | 'draft';
+  appStoreUrl?: string;
+  supportEmail: string;
+  privacyUpdatedAt: string;
+  termsUpdatedAt: string;
+  icon: string;
+  screenshots: string[];
+  accentColor: string;
+  features: string[];
+  privacyProfile: PrivacyProfile;
+  termsProfile: TermsProfile;
+};</code></pre>
+        </article>
+
+        <article class="code-card">
+          <div class="code-card__title">Tailwind token mapping</div>
+          <pre><code>// tailwind.config.ts suggestion
+colors: {
+  canvas: '#F7F6F2',
+  surface: '#FFFFFF',
+  ink: '#171717',
+  muted: '#6E706B',
+  line: '#DFDDD5',
+  accent: {
+    echo: '#25745D',
+    duet: '#7559C9',
+    found: '#B46B20',
+    scholar: '#2D65A3',
+  },
+},
+borderRadius: {
+  card: '22px',
+  panel: '32px',
+}</code></pre>
+        </article>
+      </div>
+
+      <div style="height:24px"></div>
+
+      <div class="do-dont">
+        <article class="token-card">
+          <h3>Do</h3>
+          <ul class="quiet-list">
+            <li>用同一份 app 数据生成首页、intro、privacy、terms。</li>
+            <li>首页保持短句和明确链接，不展示长篇营销内容。</li>
+            <li>policy 页面在顶部显示更新日期、owner 和 support email。</li>
+            <li>截图缺失时隐藏截图区域，而不是显示破图。</li>
+            <li>用测试验证 slug 唯一、必填字段存在、未知 slug 返回 notFound。</li>
+          </ul>
+        </article>
+        <article class="token-card">
+          <h3>Don’t</h3>
+          <ul class="quiet-list">
+            <li>不要为每个 app 手写重复 page component。</li>
+            <li>不要把 privacy 和 terms 放进不可扫描的纯文本墙。</li>
+            <li>不要在 App Store support URL 中依赖临时重定向。</li>
+            <li>不要用太亮的品牌色覆盖可读性。</li>
+            <li>不要把未定义的 app 功能写进 legal copy。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div style="height:24px"></div>
+
+      <div class="checklist">
+        <div class="check-item"><span class="checkmark">✓</span><span><strong>Content contract:</strong> every app has slug, name, summary, policy dates, support email, icon, accent color.</span></div>
+        <div class="check-item"><span class="checkmark">✓</span><span><strong>Routes:</strong> intro, privacy, and terms render for EchoVault, DuetShot, Found, and ScholarDaily.</span></div>
+        <div class="check-item"><span class="checkmark">✓</span><span><strong>SEO:</strong> all app pages and policy pages are indexable, with readable titles and descriptions.</span></div>
+        <div class="check-item"><span class="checkmark">✓</span><span><strong>Deployment:</strong> use <code>NEXT_PUBLIC_SITE_URL</code> for absolute URLs and Vercel metadata.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="page-shell">
+      <span>Apps Hub Design System · single HTML/CSS reference</span>
+      <span>Built for a quiet, maintainable public app directory.</span>
+    </div>
+  </footer>
+</body>
+</html>

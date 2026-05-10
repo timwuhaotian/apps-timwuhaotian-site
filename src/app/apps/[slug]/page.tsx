@@ -1,7 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { AppShell } from "./AppShell";
+import { AppShell, StatusBadge } from "./AppShell";
 import { apps, getAppBySlug } from "@/content/apps";
 
 type PageProps = {
@@ -45,67 +46,82 @@ export default async function AppPage({ params }: PageProps) {
 
   return (
     <AppShell app={app}>
-      <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-6">
-          <p className="text-xl leading-8 text-zinc-700">{app.summary}</p>
+      <section className="intro-preview">
+        <div className="intro-main">
+          <p className="hero-lede">{app.summary}</p>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="feature-list">
             {app.features.map((feature) => (
-              <div className="rounded-lg border bg-white p-4" key={feature}>
-                <p className="text-sm leading-6 text-zinc-700">{feature}</p>
-              </div>
+              <article className="feature-item" key={feature}>
+                <span className="feature-check">✓</span>
+                <div>
+                  <h2>{featureTitle(feature)}</h2>
+                  <p>{feature}</p>
+                </div>
+              </article>
             ))}
           </div>
         </div>
 
-        <aside className="rounded-lg border bg-white p-5">
-          <dl className="space-y-4 text-sm">
-            <Info label="Status" value={app.status} />
-            <Info label="Platforms" value={app.platforms.join(", ")} />
-            {app.bundleId ? <Info label="Bundle ID" value={app.bundleId} /> : null}
-            <Info label="Support" value={app.supportEmail} />
-          </dl>
+        <aside className="screenshot-stack">
+          <MediaStrip app={app} />
+
+          <section className="side-card">
+            <h2>App metadata</h2>
+            <dl>
+              <Info label="Status" value={<StatusBadge status={app.status} />} />
+              <Info label="Platforms" value={app.platforms.join(", ")} />
+              {app.bundleId ? (
+                <Info label="Bundle ID" value={app.bundleId} />
+              ) : null}
+              <Info label="Support" value={app.supportEmail} />
+              <Info label="Legal owner" value={app.legalOwner} />
+            </dl>
+          </section>
         </aside>
       </section>
-
-      <MediaStrip app={app} />
     </AppShell>
   );
 }
 
-function Info({ label, value }: { label: string; value: string }) {
+function Info({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div>
-      <dt className="font-medium text-zinc-500">{label}</dt>
-      <dd className="mt-1 text-zinc-900">{value}</dd>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
     </div>
   );
 }
 
 function MediaStrip({ app }: { app: (typeof apps)[number] }) {
-  const media = app.screenshots.length > 0 ? app.screenshots : [app.icon];
+  const [src] = app.screenshots;
+
+  if (src) {
+    return (
+      <div className="phone-frame">
+        <Image
+          alt={`${app.name} product screenshot`}
+          height={1170}
+          src={src}
+          width={540}
+        />
+      </div>
+    );
+  }
 
   return (
-    <section className="grid gap-4">
-      <h2 className="text-lg font-semibold">Media</h2>
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        {media.map((src) => (
-          <div
-            className="relative aspect-[9/19.5] h-96 shrink-0 overflow-hidden rounded-lg border bg-zinc-100"
-            key={src}
-          >
-            <img
-              alt={`${app.name} product media`}
-              className={
-                app.screenshots.length > 0
-                  ? "h-full w-full object-cover"
-                  : "h-full w-full object-contain p-12"
-              }
-              src={src}
-            />
-          </div>
-        ))}
-      </div>
-    </section>
+    <div aria-hidden="true" className="phone-frame">
+      <div className="phone-notch" />
+      <div className="phone-block hero-block" />
+      <div className="phone-block small" />
+      <div className="phone-block" />
+      <div className="phone-block small" />
+    </div>
   );
+}
+
+function featureTitle(feature: string) {
+  const [title] = feature.split(".");
+
+  return title;
 }

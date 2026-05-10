@@ -1,50 +1,55 @@
-/* eslint-disable @next/next/no-img-element */
+import type { CSSProperties, ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { AppContent, getAppRoutes } from "@/content/apps";
+import { AppContent, getAppRoutes, getPolicyPage } from "@/content/apps";
 
 type AppShellProps = {
   app: AppContent;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export function AppShell({ app, children }: AppShellProps) {
   const routes = getAppRoutes(app);
 
   return (
-    <main className="min-h-screen bg-stone-50 text-zinc-950">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-5 py-8 sm:px-8 lg:px-10">
-        <header className="flex flex-col gap-6 border-b border-zinc-200 pb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <Link className="text-sm font-medium text-zinc-500" href="/">
-              Apps
-            </Link>
-            <div className="mt-4 flex items-center gap-4">
-              <img
-                alt={`${app.name} icon`}
-                className="h-16 w-16 rounded-2xl"
-                src={app.icon}
-              />
-              <div>
-                <h1 className="text-4xl font-semibold tracking-normal">
-                  {app.name}
-                </h1>
-                <p className="mt-2 max-w-2xl text-base leading-7 text-zinc-600">
-                  {app.tagline}
-                </p>
-              </div>
+    <main className="hub-page" style={accentStyle(app)}>
+      <div className="page-shell main-stack">
+        <header className="intro-main">
+          <nav aria-label="Breadcrumb" className="breadcrumb">
+            <Link href="/">Apps</Link>
+            <span>{app.name}</span>
+          </nav>
+
+          <div className="intro-heading">
+            <Image
+              alt={`${app.name} icon`}
+              className="app-icon"
+              height={148}
+              priority
+              src={app.icon}
+              width={148}
+            />
+            <div>
+              <h1>{app.name}</h1>
+              <p>{app.tagline}</p>
             </div>
           </div>
 
-          <nav className="flex flex-wrap gap-2 text-sm font-medium">
-            <Link className="rounded-md border px-3 py-2" href={routes.intro}>
+          <nav aria-label={`${app.name} pages`} className="hero-actions">
+            <Link className="button primary" href={routes.intro}>
               Intro
             </Link>
-            <Link className="rounded-md border px-3 py-2" href={routes.privacy}>
+            <Link className="button" href={routes.privacy}>
               Privacy
             </Link>
-            <Link className="rounded-md border px-3 py-2" href={routes.terms}>
+            <Link className="button" href={routes.terms}>
               Terms
             </Link>
+            {app.appStoreUrl ? (
+              <a className="button ghost" href={app.appStoreUrl}>
+                App Store
+              </a>
+            ) : null}
           </nav>
         </header>
 
@@ -52,4 +57,59 @@ export function AppShell({ app, children }: AppShellProps) {
       </div>
     </main>
   );
+}
+
+export function PolicyArticle({
+  app,
+  kind,
+  policy,
+}: {
+  app: AppContent;
+  kind: "privacy" | "terms";
+  policy: ReturnType<typeof getPolicyPage>;
+}) {
+  return (
+    <article className="policy-shell">
+      <header className="policy-top">
+        <nav aria-label="Breadcrumb" className="breadcrumb">
+          <Link href="/">Apps</Link>
+          <Link href={getAppRoutes(app).intro}>{app.name}</Link>
+          <span>{kind === "privacy" ? "Privacy" : "Terms"}</span>
+        </nav>
+        <h1>{policy.title}</h1>
+        <p className="policy-meta">
+          Last updated: {policy.updatedAt} · Legal owner: {app.legalOwner} ·
+          Support: {app.supportEmail}
+        </p>
+      </header>
+
+      <div className="policy-content">
+        {policy.sections.map((section) => (
+          <section key={section.heading}>
+            <h2>{section.heading}</h2>
+            <p>{section.body}</p>
+          </section>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+export function StatusBadge({ status }: { status: AppContent["status"] }) {
+  const label =
+    status === "live" ? "Public" : status === "beta" ? "Beta" : "Draft";
+  const tone = status === "live" ? "live" : status === "beta" ? "beta" : "draft";
+
+  return (
+    <span className={`badge ${tone}`}>
+      <span className="dot" />
+      {label}
+    </span>
+  );
+}
+
+export function accentStyle(app: AppContent): CSSProperties {
+  return {
+    "--app-accent": app.accentColor,
+  } as CSSProperties;
 }

@@ -33,6 +33,17 @@ describe("apps content contract", () => {
     }
   });
 
+  it("uses the design-system app accent tokens", () => {
+    expect(
+      Object.fromEntries(apps.map((app) => [app.slug, app.accentColor])),
+    ).toEqual({
+      "echo-vault": "#25745d",
+      duetshot: "#7559c9",
+      found: "#b46b20",
+      "scholar-daily": "#2d65a3",
+    });
+  });
+
   it("finds apps by slug", () => {
     const firstApp = apps[0];
 
