@@ -35,7 +35,7 @@ export default async function TermsPage({ params }: PageProps) {
   const policy = getPolicyPage(app, "terms");
 
   return (
-    <AppShell app={app}>
+    <AppShell app={app} currentPage="terms">
       <PolicyArticle app={app} kind="terms" policy={policy} />
     </AppShell>
   );

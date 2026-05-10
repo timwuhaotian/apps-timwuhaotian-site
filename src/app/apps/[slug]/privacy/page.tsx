@@ -35,7 +35,7 @@ export default async function PrivacyPage({ params }: PageProps) {
   const policy = getPolicyPage(app, "privacy");
 
   return (
-    <AppShell app={app}>
+    <AppShell app={app} currentPage="privacy">
       <PolicyArticle app={app} kind="privacy" policy={policy} />
     </AppShell>
   );

@@ -6,9 +6,14 @@ import { AppContent, getAppRoutes, getPolicyPage } from "@/content/apps";
 type AppShellProps = {
   app: AppContent;
   children: ReactNode;
+  currentPage?: "intro" | "privacy" | "terms";
 };
 
-export function AppShell({ app, children }: AppShellProps) {
+export function AppShell({
+  app,
+  children,
+  currentPage = "intro",
+}: AppShellProps) {
   const routes = getAppRoutes(app);
 
   return (
@@ -36,15 +41,27 @@ export function AppShell({ app, children }: AppShellProps) {
           </div>
 
           <nav aria-label={`${app.name} pages`} className="hero-actions">
-            <Link className="button primary" href={routes.intro}>
+            <PageLink
+              current={currentPage}
+              href={routes.intro}
+              page="intro"
+            >
               Intro
-            </Link>
-            <Link className="button" href={routes.privacy}>
+            </PageLink>
+            <PageLink
+              current={currentPage}
+              href={routes.privacy}
+              page="privacy"
+            >
               Privacy
-            </Link>
-            <Link className="button" href={routes.terms}>
+            </PageLink>
+            <PageLink
+              current={currentPage}
+              href={routes.terms}
+              page="terms"
+            >
               Terms
-            </Link>
+            </PageLink>
             {app.appStoreUrl ? (
               <a className="button ghost" href={app.appStoreUrl}>
                 App Store
@@ -56,6 +73,30 @@ export function AppShell({ app, children }: AppShellProps) {
         {children}
       </div>
     </main>
+  );
+}
+
+function PageLink({
+  children,
+  current,
+  href,
+  page,
+}: {
+  children: ReactNode;
+  current: NonNullable<AppShellProps["currentPage"]>;
+  href: string;
+  page: NonNullable<AppShellProps["currentPage"]>;
+}) {
+  const isCurrent = current === page;
+
+  return (
+    <Link
+      aria-current={isCurrent ? "page" : undefined}
+      className={`button ${isCurrent ? "primary" : ""}`.trim()}
+      href={href}
+    >
+      {children}
+    </Link>
   );
 }
 

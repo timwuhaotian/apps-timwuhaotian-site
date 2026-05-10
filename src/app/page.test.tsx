@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import Home from "./page";
 import AppPage from "./apps/[slug]/page";
+import PrivacyPage from "./apps/[slug]/privacy/page";
 
 describe("public app hub pages", () => {
   it("renders the design-system home directory contract", () => {
@@ -26,4 +27,31 @@ describe("public app hub pages", () => {
     expect(markup).toContain('href="/apps/duetshot/terms"');
     expect(markup).toContain("Simultaneous front and back camera recording.");
   });
+
+  it("keeps intro feature cards concise without duplicate title/body copy", async () => {
+    const page = await AppPage({ params: Promise.resolve({ slug: "duetshot" }) });
+    const markup = renderToStaticMarkup(page);
+
+    expect(
+      occurrences(markup, "Simultaneous front and back camera recording"),
+    ).toBe(1);
+  });
+
+  it("marks the current policy page in the shared app navigation", async () => {
+    const page = await PrivacyPage({
+      params: Promise.resolve({ slug: "duetshot" }),
+    });
+    const markup = renderToStaticMarkup(page);
+
+    expect(markup).toMatch(
+      /<a aria-current="page" class="button primary" href="\/apps\/duetshot\/privacy">Privacy<\/a>/,
+    );
+    expect(markup).not.toMatch(
+      /<a aria-current="page"[^>]*>Intro<\/a>/,
+    );
+  });
 });
+
+function occurrences(markup: string, text: string) {
+  return markup.split(text).length - 1;
+}

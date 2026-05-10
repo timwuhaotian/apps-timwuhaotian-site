@@ -11,14 +11,10 @@ export default function Home() {
       <main className="page-shell main-stack" id="top">
         <section aria-labelledby="hero-title" className="hero">
           <div className="hero-card">
-            <p className="eyebrow">Quiet product directory</p>
-            <h1 id="hero-title">
-              A calm hub for apps, support links, and App Store policy pages.
-            </h1>
+            <h1 id="hero-title">Apps by Tim Wu Haotian</h1>
             <p className="hero-lede">
-              Apps by Tim Wu Haotian is a public directory for stable intro,
-              privacy, terms, and support pages. It is built to be clear for
-              App Store review and useful for people looking for product facts.
+              A calm directory for app introductions, support links, privacy
+              policies, and terms of use.
             </p>
             <div className="hero-actions">
               <a className="button primary" href="#apps">
@@ -27,24 +23,8 @@ export default function Home() {
               <a className="button" href="mailto:timmy.wu@hotmail.com">
                 Contact support
               </a>
-              <a className="button ghost" href="#policies">
-                Policy URLs
-              </a>
             </div>
           </div>
-
-          <aside aria-label="Seed app preview" className="hero-aside quiet-panel">
-            <div className="mini-directory">
-              {apps.map((app) => (
-                <MiniApp app={app} key={app.slug} />
-              ))}
-            </div>
-            <p className="aside-note">
-              <strong>Core experience:</strong> one scannable directory card,
-              one stable route set, and policy pages generated from{" "}
-              <code>src/content/apps.ts</code>.
-            </p>
-          </aside>
         </section>
 
         <section aria-labelledby="apps-title" className="directory-panel" id="apps">
@@ -113,40 +93,25 @@ function SiteHeader() {
   );
 }
 
-function MiniApp({ app }: { app: AppContent }) {
-  return (
-    <article className="mini-app" style={accentStyle(app)}>
-      <Image
-        alt={`${app.name} icon`}
-        className="app-icon"
-        height={84}
-        src={app.icon}
-        width={84}
-      />
-      <span>
-        <h3>{app.name}</h3>
-        <p>Intro · Privacy · Terms</p>
-      </span>
-      <span aria-hidden="true" className="status-dot" />
-    </article>
-  );
-}
-
 function AppRow({ app }: { app: AppContent }) {
   const routes = getAppRoutes(app);
 
   return (
     <article className="directory-row" style={accentStyle(app)}>
-      <Image
-        alt={`${app.name} icon`}
-        className="app-icon"
-        height={112}
-        src={app.icon}
-        width={112}
-      />
+      <Link href={routes.intro} aria-label={app.name} className="app-icon-link">
+        <Image
+          alt={`${app.name} icon`}
+          className="app-icon"
+          height={112}
+          src={app.icon}
+          width={112}
+        />
+      </Link>
 
       <div>
-        <h2>{app.name}</h2>
+        <h2>
+          <Link href={routes.intro} className="app-name-link">{app.name}</Link>
+        </h2>
         <p>{app.summary}</p>
         <div className="row-meta">
           {app.platforms.map((platform) => (

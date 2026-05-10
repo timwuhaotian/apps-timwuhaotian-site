@@ -45,7 +45,7 @@ export default async function AppPage({ params }: PageProps) {
   }
 
   return (
-    <AppShell app={app}>
+    <AppShell app={app} currentPage="intro">
       <section className="intro-preview">
         <div className="intro-main">
           <p className="hero-lede">{app.summary}</p>
@@ -54,10 +54,7 @@ export default async function AppPage({ params }: PageProps) {
             {app.features.map((feature) => (
               <article className="feature-item" key={feature}>
                 <span className="feature-check">✓</span>
-                <div>
-                  <h2>{featureTitle(feature)}</h2>
-                  <p>{feature}</p>
-                </div>
+                <p>{feature}</p>
               </article>
             ))}
           </div>
@@ -118,10 +115,4 @@ function MediaStrip({ app }: { app: (typeof apps)[number] }) {
       <div className="phone-block small" />
     </div>
   );
-}
-
-function featureTitle(feature: string) {
-  const [title] = feature.split(".");
-
-  return title;
 }
