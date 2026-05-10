@@ -16,6 +16,8 @@ describe("public app hub pages", () => {
       "Stable public pages for app review, users, and support.",
     );
     expect(markup).toContain('href="/apps/duetshot/privacy"');
+    expect(markup).toContain('href="https://kodda.dev"');
+    expect(markup).toContain(">Website</a>");
     expect(markup).toContain("directory-row");
     expect(markup).toContain("iOS-first");
     expect(markup).toContain("5 apps");
@@ -30,6 +32,14 @@ describe("public app hub pages", () => {
     expect(markup).toContain("App metadata");
     expect(markup).toContain('href="/apps/duetshot/terms"');
     expect(markup).toContain("Simultaneous front and back camera recording.");
+  });
+
+  it("renders web app production links on intro pages", async () => {
+    const page = await AppPage({ params: Promise.resolve({ slug: "kodda" }) });
+    const markup = renderToStaticMarkup(page);
+
+    expect(markup).toContain('href="https://kodda.dev"');
+    expect(markup).toContain("<dt>Website</dt>");
   });
 
   it("keeps intro feature cards concise without duplicate title/body copy", async () => {

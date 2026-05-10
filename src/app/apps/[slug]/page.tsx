@@ -71,6 +71,12 @@ export default async function AppPage({ params }: PageProps) {
               {app.bundleId ? (
                 <Info label="Bundle ID" value={app.bundleId} />
               ) : null}
+              {app.websiteUrl ? (
+                <Info
+                  label="Website"
+                  value={<a href={app.websiteUrl}>{app.websiteUrl}</a>}
+                />
+              ) : null}
               <Info label="Support" value={app.supportEmail} />
               <Info label="Legal owner" value={app.legalOwner} />
             </dl>

@@ -144,6 +144,11 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
       </div>
 
       <nav aria-label={`${app.name} links`} className="row-actions">
+        {app.websiteUrl ? (
+          <a className="link-chip" href={app.websiteUrl}>
+            Website
+          </a>
+        ) : null}
         <Link className="link-chip" href={routes.intro}>
           Intro
         </Link>

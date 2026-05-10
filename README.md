@@ -8,6 +8,7 @@ Managed apps:
 - DuetShot
 - Found
 - ScholarDaily
+- Kodda
 
 ## Development
 
@@ -41,6 +42,7 @@ Required fields:
 - `summary`
 - `platforms`
 - `status`
+- `websiteUrl` for web apps
 - `supportEmail`
 - `legalOwner`
 - `privacyUpdatedAt`
@@ -60,6 +62,8 @@ Each app automatically gets:
 - Terms: `/apps/[slug]/terms`
 
 Use those URLs in App Store Connect for each app's marketing, privacy, and terms fields.
+
+Web apps should also include a production `websiteUrl`; Kodda uses `https://kodda.dev`.
 
 ## Deployment
 

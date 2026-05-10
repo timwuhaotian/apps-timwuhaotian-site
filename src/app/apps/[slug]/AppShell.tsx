@@ -67,6 +67,11 @@ export function AppShell({
                 App Store
               </a>
             ) : null}
+            {app.websiteUrl ? (
+              <a className="button ghost app-tabs__cta" href={app.websiteUrl}>
+                Website
+              </a>
+            ) : null}
           </nav>
         </header>
 
@@ -102,11 +107,9 @@ function PageLink({
 
 export function PolicyArticle({
   app,
-  kind,
   policy,
 }: {
   app: AppContent;
-  kind: "privacy" | "terms";
   policy: ReturnType<typeof getPolicyPage>;
 }) {
   return (

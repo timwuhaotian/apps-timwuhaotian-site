@@ -36,7 +36,7 @@ export default async function PrivacyPage({ params }: PageProps) {
 
   return (
     <AppShell app={app} currentPage="privacy">
-      <PolicyArticle app={app} kind="privacy" policy={policy} />
+      <PolicyArticle app={app} policy={policy} />
     </AppShell>
   );
 }

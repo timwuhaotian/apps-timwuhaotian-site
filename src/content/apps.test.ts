@@ -34,6 +34,18 @@ describe("apps content contract", () => {
     }
   });
 
+  it("requires production links for web apps", () => {
+    const webApps = apps.filter((app) => app.platforms.includes("Web"));
+
+    expect(webApps.length).toBeGreaterThan(0);
+
+    for (const app of webApps) {
+      expect(app.websiteUrl).toMatch(/^https:\/\/.+/);
+    }
+
+    expect(getAppBySlug("kodda")?.websiteUrl).toBe("https://kodda.dev");
+  });
+
   it("uses the design-system app accent tokens", () => {
     expect(
       Object.fromEntries(apps.map((app) => [app.slug, app.accentColor])),

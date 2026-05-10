@@ -23,6 +23,7 @@ export type AppContent = {
   status: AppStatus;
   bundleId?: string;
   appStoreUrl?: string;
+  websiteUrl?: string;
   supportEmail: string;
   legalOwner: string;
   privacyUpdatedAt: string;
@@ -230,6 +231,7 @@ export const apps = [
       "Kodda turns product documentation, FAQs, and connected knowledge sources into a grounded AI support widget that can be shared by public link, website embed, or API.",
     platforms: ["Web"],
     status: "beta",
+    websiteUrl: "https://kodda.dev",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-05-10",

@@ -36,7 +36,7 @@ export default async function TermsPage({ params }: PageProps) {
 
   return (
     <AppShell app={app} currentPage="terms">
-      <PolicyArticle app={app} kind="terms" policy={policy} />
+      <PolicyArticle app={app} policy={policy} />
     </AppShell>
   );
 }
