@@ -725,6 +725,27 @@ blockquote {
   line-height: 1.45;
 }
 
+/* App page tabs (Intro / Privacy / Terms) */
+.app-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.app-tabs .button {
+  min-height: 38px;
+  padding: 0 16px;
+  font-size: 13.5px;
+}
+
+.app-tabs__cta {
+  margin-left: auto;
+}
+
 .feature-list {
   display: grid;
   gap: 14px;

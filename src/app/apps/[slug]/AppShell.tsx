@@ -40,7 +40,7 @@ export function AppShell({
             </div>
           </div>
 
-          <nav aria-label={`${app.name} pages`} className="hero-actions">
+          <nav aria-label={`${app.name} pages`} className="app-tabs">
             <PageLink
               current={currentPage}
               href={routes.intro}
@@ -63,7 +63,7 @@ export function AppShell({
               Terms
             </PageLink>
             {app.appStoreUrl ? (
-              <a className="button ghost" href={app.appStoreUrl}>
+              <a className="button ghost app-tabs__cta" href={app.appStoreUrl}>
                 App Store
               </a>
             ) : null}
@@ -112,11 +112,6 @@ export function PolicyArticle({
   return (
     <article className="policy-shell">
       <header className="policy-top">
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <Link href="/">Apps</Link>
-          <Link href={getAppRoutes(app).intro}>{app.name}</Link>
-          <span>{kind === "privacy" ? "Privacy" : "Terms"}</span>
-        </nav>
         <h1>{policy.title}</h1>
         <p className="policy-meta">
           Last updated: {policy.updatedAt} · Legal owner: {app.legalOwner} ·
