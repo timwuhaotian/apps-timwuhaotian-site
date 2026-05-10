@@ -222,6 +222,50 @@ export const apps = [
         "Briefing availability depends on source feeds, backend processing, network access, and subscription state.",
     },
   },
+  {
+    slug: "kodda",
+    name: "Kodda",
+    tagline: "AI support widget for product docs and FAQs.",
+    summary:
+      "Kodda turns product documentation, FAQs, and connected knowledge sources into a grounded AI support widget that can be shared by public link, website embed, or API.",
+    platforms: ["Web"],
+    status: "beta",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-05-10",
+    termsUpdatedAt: "2026-05-10",
+    icon: "/apps/kodda/icon.png",
+    screenshots: [],
+    accentColor: "#0f766e",
+    features: [
+      "Upload documents, websites, and knowledge sources for indexing.",
+      "Deploy a grounded support assistant by public link, embed, or API.",
+      "Use plan-based quotas, integrations, analytics, and source-backed answers.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "product documentation and FAQs",
+        "workspace account details",
+        "uploaded files, website content, and connected knowledge sources",
+        "chat messages, source citations, analytics, and subscription state",
+      ],
+      storage:
+        "Kodda stores workspace data, uploaded or connected knowledge sources, indexed chunks, vector search metadata, bot configuration, conversations, and billing entitlement state in supporting backend services.",
+      sharing:
+        "Workspace content and conversations are not sold. Kodda may send retrieved context and chat messages to configured AI model providers to generate answers, and may share billing or authentication data with the services needed to run account and subscription features.",
+      permissions: [
+        "Network access is required to use the web app, chat widget, public links, and API.",
+        "Connected sources such as Google Drive or Notion are accessed only after you authorize them.",
+        "Website embeds require allowed-domain configuration before they can serve visitor chats.",
+      ],
+      paidFeatures:
+        "Paid plans may unlock higher usage limits, website embed, API access, integrations, custom rate limits, analytics, white-label options, and priority support. Billing and entitlement state are managed by the configured subscription provider.",
+      termsUse:
+        "Use Kodda to create support assistants from content you own, control, or have permission to process. You are responsible for the accuracy of your docs, bot configuration, allowed domains, and published answers.",
+      availability:
+        "Kodda availability depends on network access, browser behavior, configured AI and embedding providers, connected services, quota limits, and backend infrastructure health.",
+    },
+  },
 ] satisfies AppContent[];
 
 export function getAppBySlug(slug: string) {

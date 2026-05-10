@@ -8,13 +8,17 @@ describe("public app hub pages", () => {
   it("renders the design-system home directory contract", () => {
     const markup = renderToStaticMarkup(<Home />);
 
-    expect(markup).toContain("Quiet product directory");
+    expect(markup).toContain(
+      "A calm directory for app introductions, support links, privacy",
+    );
     expect(markup).toContain("Apps by Tim Wu Haotian");
-    expect(markup).toContain("stable intro, privacy, terms, and support pages");
+    expect(markup).toContain(
+      "Stable public pages for app review, users, and support.",
+    );
     expect(markup).toContain('href="/apps/duetshot/privacy"');
     expect(markup).toContain("directory-row");
     expect(markup).toContain("iOS-first");
-    expect(markup).toContain("4 apps");
+    expect(markup).toContain("5 apps");
   });
 
   it("renders an app intro with the shared policy navigation shell", async () => {

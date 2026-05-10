@@ -7,12 +7,13 @@ import {
 } from "@/content/apps";
 
 describe("apps content contract", () => {
-  it("lists the four real managed apps", () => {
+  it("lists the five real managed apps", () => {
     expect(apps.map((app) => app.slug)).toEqual([
       "echo-vault",
       "duetshot",
       "found",
       "scholar-daily",
+      "kodda",
     ]);
   });
 
@@ -41,6 +42,7 @@ describe("apps content contract", () => {
       duetshot: "#7559c9",
       found: "#b46b20",
       "scholar-daily": "#2d65a3",
+      kodda: "#0f766e",
     });
   });
 
@@ -75,6 +77,7 @@ describe("apps content contract", () => {
     expect(privacyBodies.join(" ")).toContain("camera and microphone");
     expect(privacyBodies.join(" ")).toContain("spatial asset");
     expect(privacyBodies.join(" ")).toContain("daily research briefings");
+    expect(privacyBodies.join(" ")).toContain("product documentation and FAQs");
     expect(new Set(privacyBodies).size).toBe(apps.length);
   });
 });
