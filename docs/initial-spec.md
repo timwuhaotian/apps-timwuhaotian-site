@@ -45,17 +45,25 @@ Each app should support:
 - `supportEmail`
 - `privacyUpdatedAt`
 - `termsUpdatedAt`
-- `heroImage`
+- `icon`
+- `screenshots`
 - `accentColor`
 - `features`
 
-Policy content can start from shared templates with per-app overrides.
+Policy content should be tailored per app while reusing a shared renderer.
 
 ## Management Model
 
 The preferred first implementation is file-based data.
 
 Use `src/content/apps.ts` as the single source of truth, then generate all app routes from it.
+
+Current managed apps:
+
+- EchoVault
+- DuetShot
+- Found
+- ScholarDaily
 
 ## Visual Direction
 
@@ -86,21 +94,22 @@ Suggested coverage:
 ## Open Decisions
 
 1. Should this hub be personal-brand first (`timwuhaotian.com/apps`) or app-directory first (`apps.timwuhaotian.com`)?
-2. Do privacy and terms pages share one universal policy, or does every app need app-specific wording?
-3. Should app pages be content-managed through TypeScript files, Markdown/MDX, or a lightweight admin later?
-4. Do you want every app page indexed by search engines, or should policy pages be mostly utility pages?
-5. Should each app have screenshots and icons in this first version, or start with text-only entries?
-6. Which apps should be included in the seed data?
-7. What is the canonical support email and legal owner name?
-8. Are apps mostly iOS-only, or do some need Android/web/platform-specific policy language?
-9. Do you want the site bilingual now, or English-only first?
-10. Should generated privacy/terms copy be strict and minimal, or more user-friendly and explanatory?
+2. Resolved: privacy and terms pages use tailored per-app profiles.
+3. Resolved for v1: content is managed in TypeScript files.
+4. Resolved: all app pages and policy pages should be indexed.
+5. Resolved: each app should have an icon; screenshots are included when available.
+6. Resolved: seed apps are EchoVault, DuetShot, Found, and ScholarDaily.
+7. Resolved: support email is `timmy.wu@hotmail.com`; legal owner is `WU HAOTIAN`.
+8. Mostly iOS-first today, with platform-specific policy language.
+9. Resolved: English first.
+10. Resolved: privacy/terms copy should be strict enough for App Store URLs but still readable.
 
 ## First Build Acceptance Criteria
 
 - A clean Next.js + Tailwind + TypeScript project exists in this folder.
 - App data is centralized.
-- Home page lists seed apps from the centralized data source.
+- Home page lists EchoVault, DuetShot, Found, and ScholarDaily from the centralized data source.
 - Intro, privacy, and terms routes work for every seed app.
 - Tests validate the app data and route contract.
 - The README explains how to add a new app and where to put App Store URLs.
+- Vercel deployment is supported with `NEXT_PUBLIC_SITE_URL`.
