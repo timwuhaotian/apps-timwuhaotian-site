@@ -25,6 +25,8 @@ describe("public app hub pages", () => {
     expect(markup).toContain("directory-row");
     expect(markup).toContain("iOS-first");
     expect(markup).toContain("5 apps");
+    expect(markup).toContain('type="application/ld+json"');
+    expect(markup).toContain("ItemList");
   });
 
   it("renders an app intro with the shared policy navigation shell", async () => {
@@ -34,6 +36,9 @@ describe("public app hub pages", () => {
     expect(markup).toContain("breadcrumb");
     expect(markup).toContain("DuetShot");
     expect(markup).toContain("App metadata");
+    expect(markup).toContain("Key questions");
+    expect(markup).toContain("SoftwareApplication");
+    expect(markup).toContain("FAQPage");
     expect(markup).toContain('href="/apps/duetshot/terms"');
     expect(markup).toContain("Simultaneous front and back camera recording.");
   });

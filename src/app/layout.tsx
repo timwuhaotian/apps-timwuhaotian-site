@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { siteMetadata } from "@/content/seo";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -21,18 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ??
-      "https://apps-timwuhaotian-site.vercel.app",
-  ),
-  title: "Apps by Tim Wu Haotian",
-  description: "A central hub for app intros, privacy policies, and terms.",
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export const metadata: Metadata = siteMetadata;
 
 export default function RootLayout({
   children,

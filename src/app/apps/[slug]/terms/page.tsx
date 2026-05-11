@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppShell, PolicyArticle } from "../AppShell";
 import { apps, getAppBySlug, getPolicyPage } from "@/content/apps";
+import { getAppMetadata } from "@/content/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -16,13 +17,7 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const app = getAppBySlug((await params).slug);
 
-  return app
-    ? {
-        title: `${app.name} Terms of Use`,
-        description: `Terms of use for ${app.name}.`,
-        robots: { index: true, follow: true },
-      }
-    : {};
+  return app ? getAppMetadata(app, "terms") : {};
 }
 
 export default async function TermsPage({ params }: PageProps) {

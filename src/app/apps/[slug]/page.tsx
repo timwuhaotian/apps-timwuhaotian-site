@@ -4,6 +4,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AppShell, StatusBadge } from "./AppShell";
 import { apps, getAppBySlug } from "@/content/apps";
+import {
+  buildAppJsonLd,
+  getAppFaqs,
+  getAppMetadata,
+  serializeJsonLd,
+} from "@/content/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -22,19 +28,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return {
-    title: `${app.name} | Apps by Tim Wu Haotian`,
-    description: app.summary,
-    openGraph: {
-      title: app.name,
-      description: app.summary,
-      images: [app.icon],
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
-  };
+  return getAppMetadata(app, "intro");
 }
 
 export default async function AppPage({ params }: PageProps) {
@@ -44,8 +38,16 @@ export default async function AppPage({ params }: PageProps) {
     notFound();
   }
 
+  const faqs = getAppFaqs(app);
+
   return (
     <AppShell app={app} currentPage="intro">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(buildAppJsonLd(app.slug)),
+        }}
+      />
       <section className="app-detail-grid">
         <div className="app-detail-copy">
           <p className="hero-lede">{app.summary}</p>
@@ -58,6 +60,16 @@ export default async function AppPage({ params }: PageProps) {
               </article>
             ))}
           </div>
+
+          <section className="app-faq" aria-labelledby={`${app.slug}-faq-title`}>
+            <h2 id={`${app.slug}-faq-title`}>Key questions</h2>
+            {faqs.map((faq) => (
+              <article key={faq.question}>
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </article>
+            ))}
+          </section>
         </div>
 
         <aside className="app-detail-rail">

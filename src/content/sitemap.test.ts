@@ -19,4 +19,26 @@ describe("sitemap", () => {
       );
     }
   });
+
+  it("adds search priority, update cadence, and app image discovery hints", () => {
+    const entries = sitemap();
+    const home = entries.find(
+      (entry) => entry.url === "https://apps-timwuhaotian-site.vercel.app",
+    );
+    const duetshot = entries.find((entry) =>
+      entry.url.endsWith("/apps/duetshot"),
+    );
+
+    expect(home).toMatchObject({
+      changeFrequency: "weekly",
+      priority: 1,
+    });
+    expect(duetshot).toMatchObject({
+      changeFrequency: "monthly",
+      priority: 0.8,
+    });
+    expect(duetshot?.images).toContain(
+      "https://apps-timwuhaotian-site.vercel.app/apps/duetshot/icon.png",
+    );
+  });
 });

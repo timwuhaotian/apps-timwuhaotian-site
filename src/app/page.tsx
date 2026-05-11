@@ -2,10 +2,17 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AppContent, apps, getAppRoutes } from "@/content/apps";
+import { buildHomeJsonLd, serializeJsonLd } from "@/content/seo";
 
 export default function Home() {
   return (
     <div className="hub-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(buildHomeJsonLd()),
+        }}
+      />
       <SiteHeader />
 
       <main className="page-shell main-stack" id="top">
