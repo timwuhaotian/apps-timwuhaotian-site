@@ -187,7 +187,9 @@ export const apps = [
     summary:
       "ScholarDaily delivers a concise daily research briefing with plain-English summaries, archives, search, and premium access to deeper paper collections.",
     platforms: ["iOS"],
-    status: "beta",
+    status: "live",
+    bundleId: "com.gosingk.scholardaily",
+    appStoreUrl: "https://apps.apple.com/us/app/scholardaily/id6767979151",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-05-10",

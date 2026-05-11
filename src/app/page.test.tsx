@@ -17,6 +17,10 @@ describe("public app hub pages", () => {
     );
     expect(markup).toContain('href="/apps/duetshot/privacy"');
     expect(markup).toContain('href="https://kodda.dev"');
+    expect(markup).toContain(
+      'href="https://apps.apple.com/us/app/scholardaily/id6767979151"',
+    );
+    expect(markup).toContain(">App Store</a>");
     expect(markup).toContain(">Website</a>");
     expect(markup).toContain("directory-row");
     expect(markup).toContain("iOS-first");
@@ -40,6 +44,37 @@ describe("public app hub pages", () => {
 
     expect(markup).toContain('href="https://kodda.dev"');
     expect(markup).toContain("<dt>Website</dt>");
+  });
+
+  it("renders ScholarDaily App Store links after launch", async () => {
+    const page = await AppPage({
+      params: Promise.resolve({ slug: "scholar-daily" }),
+    });
+    const markup = renderToStaticMarkup(page);
+
+    expect(markup).toContain(
+      'href="https://apps.apple.com/us/app/scholardaily/id6767979151"',
+    );
+    expect(markup).toContain("<dt>App Store</dt>");
+    expect(markup).toContain(">Public</span>");
+  });
+
+  it("renders app detail pages with the dedicated spacing shell", async () => {
+    const page = await AppPage({ params: Promise.resolve({ slug: "duetshot" }) });
+    const markup = renderToStaticMarkup(page);
+
+    expect(markup).toContain("app-detail-hero");
+    expect(markup).toContain("app-detail-grid");
+    expect(markup).toContain("app-detail-rail");
+    expect(markup).toContain("metadata-card");
+  });
+
+  it("loads above-fold app screenshots eagerly", async () => {
+    const page = await AppPage({ params: Promise.resolve({ slug: "duetshot" }) });
+    const markup = renderToStaticMarkup(page);
+
+    expect(markup).toContain("DuetShot product screenshot");
+    expect(markup).toContain('loading="eager"');
   });
 
   it("keeps intro feature cards concise without duplicate title/body copy", async () => {

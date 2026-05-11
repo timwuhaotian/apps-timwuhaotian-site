@@ -46,8 +46,8 @@ export default async function AppPage({ params }: PageProps) {
 
   return (
     <AppShell app={app} currentPage="intro">
-      <section className="intro-preview">
-        <div className="intro-main">
+      <section className="app-detail-grid">
+        <div className="app-detail-copy">
           <p className="hero-lede">{app.summary}</p>
 
           <div className="feature-list">
@@ -60,16 +60,22 @@ export default async function AppPage({ params }: PageProps) {
           </div>
         </div>
 
-        <aside className="screenshot-stack">
+        <aside className="app-detail-rail">
           <MediaStrip app={app} />
 
-          <section className="side-card">
+          <section className="metadata-card">
             <h2>App metadata</h2>
             <dl>
               <Info label="Status" value={<StatusBadge status={app.status} />} />
               <Info label="Platforms" value={app.platforms.join(", ")} />
               {app.bundleId ? (
                 <Info label="Bundle ID" value={app.bundleId} />
+              ) : null}
+              {app.appStoreUrl ? (
+                <Info
+                  label="App Store"
+                  value={<a href={app.appStoreUrl}>Open listing</a>}
+                />
               ) : null}
               {app.websiteUrl ? (
                 <Info
@@ -105,6 +111,7 @@ function MediaStrip({ app }: { app: (typeof apps)[number] }) {
         <Image
           alt={`${app.name} product screenshot`}
           height={1170}
+          loading="eager"
           src={src}
           width={540}
         />

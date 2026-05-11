@@ -46,6 +46,14 @@ describe("apps content contract", () => {
     expect(getAppBySlug("kodda")?.websiteUrl).toBe("https://kodda.dev");
   });
 
+  it("tracks ScholarDaily as a live App Store app", () => {
+    expect(getAppBySlug("scholar-daily")).toMatchObject({
+      appStoreUrl: "https://apps.apple.com/us/app/scholardaily/id6767979151",
+      bundleId: "com.gosingk.scholardaily",
+      status: "live",
+    });
+  });
+
   it("uses the design-system app accent tokens", () => {
     expect(
       Object.fromEntries(apps.map((app) => [app.slug, app.accentColor])),

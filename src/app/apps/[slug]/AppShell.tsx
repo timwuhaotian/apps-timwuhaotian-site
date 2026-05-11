@@ -19,13 +19,13 @@ export function AppShell({
   return (
     <main className="hub-page" style={accentStyle(app)}>
       <div className="page-shell main-stack">
-        <header className="intro-main">
+        <header className="app-detail-hero">
           <nav aria-label="Breadcrumb" className="breadcrumb">
             <Link href="/">Apps</Link>
             <span>{app.name}</span>
           </nav>
 
-          <div className="intro-heading">
+          <div className="app-detail-title">
             <Image
               alt={`${app.name} icon`}
               className="app-icon"
