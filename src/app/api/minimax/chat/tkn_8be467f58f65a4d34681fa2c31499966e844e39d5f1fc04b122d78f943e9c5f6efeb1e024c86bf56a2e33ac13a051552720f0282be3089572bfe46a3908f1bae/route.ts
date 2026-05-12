@@ -368,6 +368,13 @@ function stripThinkingBlocks(text: string) {
     .trim();
 }
 
+function parseAllowedOrigins() {
+  return (process.env.MINIMAX_PROXY_ALLOWED_ORIGINS ?? "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 function stringAt(value: unknown, keys: string[]) {
   let current = value;
 
