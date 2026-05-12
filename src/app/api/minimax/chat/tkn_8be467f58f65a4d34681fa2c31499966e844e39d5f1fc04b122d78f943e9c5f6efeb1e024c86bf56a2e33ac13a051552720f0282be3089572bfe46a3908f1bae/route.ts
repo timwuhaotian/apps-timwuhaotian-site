@@ -271,7 +271,7 @@ function isProduction() {
 // best-effort soft cap layered on top of the upstream API key protection.
 function checkRateLimit(request: Request) {
   const now = Date.now();
-  const limit = readPositiveInt(process.env.MINIMAX_PROXY_RATE_LIMIT, 30);
+  const limit = readPositiveInt(process.env.MINIMAX_PROXY_RATE_LIMIT, 200);
   const windowMs = readPositiveInt(
     process.env.MINIMAX_PROXY_RATE_WINDOW_MS,
     60_000,
