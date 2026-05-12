@@ -35,7 +35,7 @@ export type AppContent = {
   policyProfile: PolicyProfile;
 };
 
-const supportEmail = "timmy.wu@hotmail.com";
+const supportEmail = "gosingk@gmail.com";
 const legalOwner = "WU HAOTIAN";
 
 export const apps = [
@@ -50,8 +50,8 @@ export const apps = [
     bundleId: "com.gosingk.echovault",
     supportEmail,
     legalOwner,
-    privacyUpdatedAt: "2026-05-10",
-    termsUpdatedAt: "2026-05-10",
+    privacyUpdatedAt: "2026-05-12",
+    termsUpdatedAt: "2026-05-12",
     icon: "/apps/echo-vault/icon.png",
     screenshots: [],
     accentColor: "#25745d",
@@ -64,26 +64,27 @@ export const apps = [
     ],
     policyProfile: {
       dataUse: [
-        "voice recordings",
-        "transcripts",
-        "locally extracted reminders and calendar candidates",
-        "Pro subscription state and feature toggles",
+        "voice recordings (temporarily stored on-device during recording, deleted after processing unless saved as Pro audio replay)",
+        "transcripts (generated on-device via Apple's on-device Speech framework, stored locally)",
+        "locally extracted reminders and calendar candidates (generated on-device via rule-based processing, sent to Apple Reminders or Calendar only with your explicit confirmation)",
+        "Pro subscription state and feature toggles (managed via Apple In-App Purchase)",
+        "Cloud Insights transcript text (only when Pro user explicitly enables the feature — audio is never sent)",
       ],
       storage:
-        "EchoVault is designed around local device storage for recordings, transcripts, and generated action candidates. When you turn on \"Save voice for replay,\" recordings remain in app-private storage on this device until you delete the session. Audio is never uploaded.",
+        "EchoVault is designed around local device storage. Audio recordings are stored temporarily on-device during recording. After transcription, raw audio is automatically deleted unless you choose to save it as a Pro audio replay feature. Transcripts and generated action candidates are stored in the app's private sandbox on your device. Saved audio remains on your device only and can be deleted at any time from within the app or via iOS settings. EchoVault does not sync session data to any cloud backup from the app side; standard iOS device backups may include app data depending on your device backup settings.",
       sharing:
-        "Audio and transcripts are not sold. Optional sharing only happens when you choose to export or send content from the app. If you opt in to Cloud Insights (off by default, Pro only), the transcript text from a session is sent to a third-party large language model provider to generate a richer formatted summary; the audio file itself is never sent. You can turn Cloud Insights off at any time in the app, after which all extraction returns to running fully on-device.",
+        "Audio and transcripts are never sold. Audio is never uploaded to any server. Optional sharing only happens when you choose to export or send content from the app. If you opt in to Cloud Insights (off by default, Pro only), the transcript text from a session is sent to our server at apps.timwuhaotian.dev to generate a richer formatted summary using a third-party large language model. The audio file itself is never sent. Cloud Insights transcript text is not retained on the server after processing is complete. You can turn Cloud Insights off at any time in the app, after which all extraction returns to running fully on-device. EchoVault does not use any third-party analytics, tracking SDKs, or advertising frameworks.",
       permissions: [
-        "Microphone access records voice notes.",
-        "Speech recognition supports transcription.",
-        "Calendar and reminders access is used only after you confirm actions.",
+        "Microphone access records voice notes. Audio is captured locally and processed on-device by default.",
+        "Speech recognition supports transcription using Apple's on-device SFSpeechRecognizer when available — no audio or transcript is transmitted during recognition.",
+        "Calendar and reminders access is used only after you confirm individual action items.",
       ],
       paidFeatures:
-        "EchoVault Pro is offered as a monthly or annual auto-renewing subscription, or as a one-time lifetime purchase. Subscriptions may include an introductory free trial; payment is charged to your Apple ID, renews automatically unless cancelled at least 24 hours before the end of the current period, and can be managed or cancelled in your Apple ID settings. Pro unlocks unlimited session history, semantic search across past sessions, optional audio replay, and the optional Cloud Insights toggle described in the privacy policy. Free features remain available without payment.",
+        "EchoVault Pro is offered as a monthly or annual auto-renewing subscription, or as a one-time lifetime purchase. Subscriptions may include an introductory free trial; payment is charged to your Apple ID, renews automatically unless cancelled at least 24 hours before the end of the current period, and can be managed or cancelled in your Apple ID settings. Pro unlocks unlimited session history, semantic search across past sessions, optional audio replay, and the optional Cloud Insights toggle described in this privacy policy. Free features remain available without payment.",
       termsUse:
-        "Use EchoVault for personal note taking, task capture, and meeting recall. You are responsible for recording only where you have permission.",
+        "Use EchoVault for personal note taking, task capture, and meeting recall. You are responsible for recording only where you have permission. EchoVault is not intended for users under 13.",
       availability:
-        "Speech recognition, calendar, reminders, audio replay, and Cloud Insights behavior can vary by device, OS version, region, network connectivity, and the permissions or toggles you have granted.",
+        "On-device speech recognition, calendar, reminders, audio replay, and Cloud Insights behavior can vary by device, OS version, region, network connectivity, and the permissions or toggles you have granted.",
     },
   },
   {
