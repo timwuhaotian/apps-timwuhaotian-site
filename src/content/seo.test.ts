@@ -10,14 +10,23 @@ import {
 } from "@/content/seo";
 
 describe("seo and geo metadata", () => {
-  it("keeps AI discovery crawlers explicitly allowed", () => {
+  it("blocks AI discovery crawlers from all routes including /api/", () => {
     const rules = Array.isArray(robots().rules)
       ? robots().rules
       : [robots().rules];
-    const userAgents = rules.flatMap((rule) => rule.userAgent ?? []);
+    const aiBotRules = rules.filter((rule) => {
+      const agents = Array.isArray(rule.userAgent)
+        ? rule.userAgent
+        : [rule.userAgent].filter(Boolean);
+      return agents.some((agent) => aiCrawlerUserAgents.includes(agent as typeof aiCrawlerUserAgents[number]));
+    });
 
-    for (const bot of aiCrawlerUserAgents) {
-      expect(userAgents).toContain(bot);
+    expect(aiBotRules.length).toBeGreaterThan(0);
+    for (const rule of aiBotRules) {
+      const disallow = Array.isArray(rule.disallow)
+        ? rule.disallow
+        : [rule.disallow].filter(Boolean);
+      expect(disallow).toContain("/api/");
     }
   });
 
