@@ -15,7 +15,7 @@ describe("sitemap", () => {
 
     for (const route of expectedRoutes) {
       expect(urls).toContain(
-        `https://apps-timwuhaotian-site.vercel.app${route}`,
+        `https://apps.timwuhaotian.dev${route}`,
       );
     }
   });
@@ -23,7 +23,7 @@ describe("sitemap", () => {
   it("adds search priority, update cadence, and app image discovery hints", () => {
     const entries = sitemap();
     const home = entries.find(
-      (entry) => entry.url === "https://apps-timwuhaotian-site.vercel.app",
+      (entry) => entry.url === "https://apps.timwuhaotian.dev",
     );
     const duetshot = entries.find((entry) =>
       entry.url.endsWith("/apps/duetshot"),
@@ -38,7 +38,7 @@ describe("sitemap", () => {
       priority: 0.8,
     });
     expect(duetshot?.images).toContain(
-      "https://apps-timwuhaotian-site.vercel.app/apps/duetshot/icon.png",
+      "https://apps.timwuhaotian.dev/apps/duetshot/icon.png",
     );
   });
 });

@@ -16,7 +16,7 @@ export type JsonLdGraph = {
 
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://apps-timwuhaotian-site.vercel.app"
+  "https://apps.timwuhaotian.dev"
 ).replace(/\/$/, "");
 
 export const siteName = "Apps by Tim Wu Haotian";
