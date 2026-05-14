@@ -95,7 +95,8 @@ describe("apps content contract", () => {
     expect(privacyTitles).toContain("EchoVault Privacy Policy");
     expect(privacyBodies.join(" ")).toContain("voice recordings");
     expect(privacyBodies.join(" ")).toContain("camera and microphone");
-    expect(privacyBodies.join(" ")).toContain("spatial asset");
+    expect(privacyBodies.join(" ")).toContain("photos captured in the app");
+    expect(privacyBodies.join(" ")).toContain("Google AdMob");
     expect(privacyBodies.join(" ")).toContain("daily research briefings");
     expect(privacyBodies.join(" ")).toContain("product documentation and FAQs");
     expect(new Set(privacyBodies).size).toBe(apps.length);

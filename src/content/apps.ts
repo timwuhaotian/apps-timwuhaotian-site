@@ -152,46 +152,58 @@ export const apps = [
   {
     slug: "found",
     name: "Found",
-    tagline: "A spatial memory for physical belongings.",
+    tagline: "A private photo + GPS memory for the things you put down.",
     summary:
-      "Found indexes personal assets with spatial context, object capture workflows, NFC identity, and local-first search for where things were last seen.",
+      "Found saves a photo of an item with its GPS coordinate, on-device Vision labels, and OCR text so you can later search by name, tag, or anything that was written on the object.",
     platforms: ["iOS", "iPadOS"],
-    status: "in development",
+    status: "beta",
     bundleId: "com.gosingk.ios-found",
     supportEmail,
     legalOwner,
-    privacyUpdatedAt: "2026-05-10",
-    termsUpdatedAt: "2026-05-10",
+    privacyUpdatedAt: "2026-05-15",
+    termsUpdatedAt: "2026-05-15",
     icon: "/apps/found/icon.png",
     screenshots: [],
     accentColor: "#b46b20",
     features: [
-      "Spatial asset records for rooms, containers, and layers.",
-      "Object Capture and ARKit-oriented workflows.",
-      "NFC tagging for physical item identity.",
+      "Capture a photo, store it locally with GPS coordinates, timestamp, and accuracy.",
+      "On-device Vision labels and OCR text make every saved item searchable.",
+      "Tags, names, and last-place notes recall where each item was placed.",
+      "Optional Object Capture, AR overlays, UWB precision finding, and NFC tag reading on supported hardware.",
     ],
     policyProfile: {
       dataUse: [
-        "spatial asset records",
-        "camera scans",
-        "location proofs",
-        "NFC tag identifiers",
+        "photos captured in the app (stored only in the app's private sandbox on your device)",
+        "GPS coordinates with horizontal accuracy attached to each saved photo (stored on-device only)",
+        "on-device Vision classifications and OCR text generated locally (stored on-device only)",
+        "item names, tags, and last-place notes you enter",
+        "Apple identifier for advertisers (IDFA), only if you grant the App Tracking Transparency prompt, used to request personalized banner ads from Google AdMob",
+        "device-level identifiers and SKAdNetwork attribution signals sent by the iOS system to Google AdMob and its mediation networks for ad rendering and conversion measurement",
       ],
       storage:
-        "Found is designed to keep asset maps, spatial proofs, and scan records on your device unless you choose to export them.",
+        "Found stores all photos, GPS coordinates, Vision labels, OCR text, tags, and last-place notes in the app's private sandbox on your device. No Found account exists, no cloud backend processes your item data, and Found does not upload your photos or item list anywhere. Standard iOS device backups may include this data depending on your device backup settings.",
       sharing:
-        "Asset records are not sold. Sharing is limited to exports or system actions you start.",
+        "Found does not sell your item data. The only data that leaves your device is what Google AdMob and its iOS SDKs need to render banner advertisements: this includes IDFA when you have granted the App Tracking Transparency permission, otherwise a non-personalized ad request is made without IDFA. AdMob may also receive coarse signals from the iOS system such as approximate location (derived from IP), device type, OS version, and SKAdNetwork attribution postbacks. Your photos, GPS coordinates, Vision labels, OCR text, item names, tags, and last-place notes are never sent to Google AdMob or to any other Found backend. Found has no analytics SDK and no crash reporting beyond what AdMob's SDK includes for ad delivery.",
+      thirdParties: [
+        {
+          name: "Google AdMob (Google LLC, United States)",
+          description:
+            "Renders banner ads at the top and bottom of the Found app. Receives Apple's identifier for advertisers (IDFA) only when you accept the App Tracking Transparency prompt; otherwise receives a non-personalized ad request. May also receive coarse signals provided by the iOS system: IP-derived approximate location, device type, OS version, time zone, and SKAdNetwork attribution postbacks for measuring ad conversions. Does not receive your photos, GPS coordinates, item names, tags, OCR text, or Vision labels. Google AdMob may share these signals with its mediation networks to serve ads. You can revoke the App Tracking Transparency permission at any time in iOS Settings > Privacy & Security > Tracking. AdMob privacy policy: https://policies.google.com/privacy",
+        },
+      ],
       permissions: [
-        "Camera access supports scan and object capture workflows.",
-        "Location access can attach last-known place context to assets.",
-        "NFC access reads or writes tags that identify your belongings.",
+        "Camera access is required to capture the photo of an item you want to remember.",
+        "Location access (When in Use) attaches a GPS coordinate and horizontal accuracy to each saved photo. Coarse location only is sufficient; precise location is not required.",
+        "Photo library access is only requested if you choose to import an existing image instead of taking a new photo.",
+        "App Tracking Transparency prompts you once to allow Google AdMob to use your IDFA for personalized advertising. Denying still lets ads serve, but they will be non-personalized.",
+        "Optional Nearby Interaction (UWB) and NFC permissions only activate on supported devices when you use the advanced precision finding or tag reading features. Neither is required for the core photo + GPS flow.",
       ],
       paidFeatures:
-        "Paid features may expand asset limits, advanced spatial tools, or export workflows.",
+        "Found is free to use and supported by Google AdMob banner advertising. There are currently no in-app purchases or subscriptions.",
       termsUse:
-        "Use Found for belongings and spaces you own or have permission to scan, tag, and document.",
+        "Use Found for belongings and spaces you own or have permission to photograph, tag, and document. Do not use Found to capture or store images of other people without their consent.",
       availability:
-        "Spatial mapping, Object Capture, NFC, and AR guidance depend on supported Apple hardware and OS capabilities.",
+        "The core photo + GPS memory works on any iPhone or iPad running the supported iOS version. Optional 3D Object Capture and ARKit overlays require an iPhone with LiDAR (iPhone 12 Pro or later). UWB precision finding requires an iPhone 11 or later. NFC tag reading requires an iPhone 7 or later.",
     },
   },
   {
