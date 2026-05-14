@@ -27,7 +27,7 @@ describe("apps content contract", () => {
     for (const app of apps) {
       expect(app.slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
       expect(app.name.length).toBeGreaterThan(1);
-      expect(app.supportEmail).toBe("timmy.wu@hotmail.com");
+      expect(app.supportEmail).toBe("gosingk@gmail.com");
       expect(app.legalOwner).toBe("WU HAOTIAN");
       expect(app.icon).toMatch(/^\/apps\/.+\/icon\.png$/);
       expect(app.policyProfile.dataUse.length).toBeGreaterThan(0);

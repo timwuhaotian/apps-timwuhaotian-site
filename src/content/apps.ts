@@ -4,6 +4,11 @@ export type AppPlatform = "iOS" | "iPadOS" | "Android" | "Web";
 
 export type PolicyKind = "privacy" | "terms";
 
+type ThirdParty = {
+  name: string;
+  description: string;
+};
+
 type PolicyProfile = {
   dataUse: string[];
   storage: string;
@@ -12,6 +17,7 @@ type PolicyProfile = {
   paidFeatures: string;
   termsUse: string;
   availability: string;
+  thirdParties?: ThirdParty[];
 };
 
 export type AppContent = {
@@ -50,7 +56,7 @@ export const apps = [
     bundleId: "com.gosingk.echovault",
     supportEmail,
     legalOwner,
-    privacyUpdatedAt: "2026-05-12",
+    privacyUpdatedAt: "2026-05-14",
     termsUpdatedAt: "2026-05-12",
     icon: "/apps/echo-vault/icon.png",
     screenshots: [],
@@ -68,12 +74,19 @@ export const apps = [
         "transcripts (generated on-device via Apple's on-device Speech framework, stored locally)",
         "locally extracted reminders and calendar candidates (generated on-device via rule-based processing, sent to Apple Reminders or Calendar only with your explicit confirmation)",
         "Pro subscription state and feature toggles (managed via Apple In-App Purchase)",
-        "Cloud Insights transcript text (only when Pro user explicitly enables the feature — audio is never sent)",
+        "Cloud Insights transcript text (only when a Pro user has accepted the in-app consent screen that names the third-party processor; transmitted to MiniMax, a large language model operated by Shanghai Lingyi Wanwu Technology Co., Ltd. in the People's Republic of China — audio is never sent)",
       ],
       storage:
         "EchoVault is designed around local device storage. Audio recordings are stored temporarily on-device during recording. After transcription, raw audio is automatically deleted unless you choose to save it as a Pro audio replay feature. Transcripts and generated action candidates are stored in the app's private sandbox on your device. Saved audio remains on your device only and can be deleted at any time from within the app or via iOS settings. EchoVault does not sync session data to any cloud backup from the app side; standard iOS device backups may include app data depending on your device backup settings.",
       sharing:
-        "Audio and transcripts are never sold. Audio is never uploaded to any server. Optional sharing only happens when you choose to export or send content from the app. If you opt in to Cloud Insights (off by default, Pro only), the transcript text from a session is sent to our server at apps.timwuhaotian.dev to generate a richer formatted summary using a third-party large language model. The audio file itself is never sent. Cloud Insights transcript text is not retained on the server after processing is complete. You can turn Cloud Insights off at any time in the app, after which all extraction returns to running fully on-device. EchoVault does not use any third-party analytics, tracking SDKs, or advertising frameworks.",
+        "Audio and transcripts are never sold. Audio is never uploaded to any server. Cloud Insights is opt-in and off by default for every user, including paying subscribers. The first time a Pro user enables Cloud Insights, the app shows an in-app consent screen that names the third-party processor (MiniMax, operated by Shanghai Lingyi Wanwu Technology Co., Ltd. in the People's Republic of China), describes exactly what is sent (plain-text transcript only, never audio, no identifiers), and links to MiniMax's privacy policy. No transcript leaves the device until you accept that screen. Once accepted, transcript text from a session you summarize is sent over HTTPS to apps.timwuhaotian.dev, which proxies the request to MiniMax for inference; the response (a formatted summary and action items) is returned to your device. Transcript text is not retained on the EchoVault proxy after the response is returned, and the request is sent to MiniMax without any user account or device identifier. You can turn Cloud Insights off at any time in the History tab; doing so stops all transmission immediately and returns the app to fully on-device processing. EchoVault does not use any third-party analytics, tracking SDKs, or advertising frameworks. See the Third Parties section below for details on the only external service that may receive data.",
+      thirdParties: [
+        {
+          name: "MiniMax (Shanghai Lingyi Wanwu Technology Co., Ltd., People's Republic of China)",
+          description:
+            "Receives the plain-text transcript of a session only when you (a) hold a Pro subscription, (b) have accepted the in-app Cloud Insights consent screen, and (c) explicitly summarize that session. Purpose: run a large language model inference and return a formatted summary plus structured action items. Transcript text is not retained on the EchoVault proxy after the response is returned, and no account or device identifier is sent with the request. Because MiniMax processes the request in China, transcript text leaves your country during processing. MiniMax's privacy policy: https://intl.minimaxi.com/protocol/privacy-policy",
+        },
+      ],
       permissions: [
         "Microphone access records voice notes. Audio is captured locally and processed on-device by default.",
         "Speech recognition supports transcription using Apple's on-device SFSpeechRecognizer when available — no audio or transcript is transmitted during recognition.",
@@ -295,6 +308,16 @@ export function getPolicyPage(app: AppContent, kind: PolicyKind) {
 
 function getPrivacyPage(app: AppContent) {
   const dataUse = app.policyProfile.dataUse.join(", ");
+  const thirdPartiesSection = app.policyProfile.thirdParties?.length
+    ? [
+        {
+          heading: "Third Parties We Share Data With",
+          body: app.policyProfile.thirdParties
+            .map((tp) => `${tp.name} — ${tp.description}`)
+            .join(" "),
+        },
+      ]
+    : [];
 
   return {
     title: `${app.name} Privacy Policy`,
@@ -316,6 +339,7 @@ function getPrivacyPage(app: AppContent) {
         heading: "Sharing",
         body: app.policyProfile.sharing,
       },
+      ...thirdPartiesSection,
       {
         heading: "Support",
         body: `For privacy questions, contact ${app.supportEmail}. This policy is maintained by ${app.legalOwner}.`,
