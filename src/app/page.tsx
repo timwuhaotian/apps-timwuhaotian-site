@@ -34,7 +34,7 @@ export default function Home() {
               <a className="button primary" href="#apps">
                 Browse apps
               </a>
-              <a className="button ghost" href="mailto:timmy.wu@hotmail.com">
+              <a className="button ghost" href="mailto:gosingk@gmail.com">
                 Contact support
               </a>
             </div>
@@ -104,7 +104,7 @@ function SiteHeader() {
         <nav aria-label="App hub sections" className="site-nav">
           <a href="#apps">Apps</a>
           <a href="#policies">Policies</a>
-          <a href="mailto:timmy.wu@hotmail.com">Support</a>
+          <a href="mailto:gosingk@gmail.com">Support</a>
         </nav>
       </div>
     </header>

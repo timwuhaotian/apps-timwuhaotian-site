@@ -168,7 +168,7 @@ export function buildHomeJsonLd(): JsonLdGraph {
         "@id": `${siteUrl}/#organization`,
         name: "Tim Wu Haotian",
         url: siteUrl,
-        email: "timmy.wu@hotmail.com",
+        email: "gosingk@gmail.com",
       },
       {
         "@type": "WebSite",
