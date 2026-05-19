@@ -7,12 +7,13 @@ import {
 } from "@/content/apps";
 
 describe("apps content contract", () => {
-  it("lists the five real managed apps", () => {
+  it("lists the six real managed apps", () => {
     expect(apps.map((app) => app.slug)).toEqual([
       "echo-vault",
       "duetshot",
       "found",
       "scholar-daily",
+      "client-memory",
       "kodda",
     ]);
   });
@@ -62,6 +63,7 @@ describe("apps content contract", () => {
       duetshot: "#7559c9",
       found: "#b46b20",
       "scholar-daily": "#2d65a3",
+      "client-memory": "#c04a1c",
       kodda: "#0f766e",
     });
   });

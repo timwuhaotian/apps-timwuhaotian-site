@@ -252,6 +252,57 @@ export const apps = [
     },
   },
   {
+    slug: "client-memory",
+    name: "ClientMemory",
+    tagline: "Local-first CRM with on-device AI for solo agents.",
+    summary:
+      "ClientMemory is a private CRM that lives entirely on your iPhone. It records each client's calls, viewings, messages, and deals, then uses Apple Intelligence on-device to summarise the relationship and draft the next follow-up. There is no account, no server, and no third-party LLM.",
+    platforms: ["iOS"],
+    status: "in development",
+    bundleId: "com.gosingk.clientmemory",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-05-19",
+    termsUpdatedAt: "2026-05-19",
+    icon: "/apps/client-memory/icon.png",
+    screenshots: [
+      "/apps/client-memory/screenshot-1.png",
+      "/apps/client-memory/screenshot-2.png",
+      "/apps/client-memory/screenshot-3.png",
+    ],
+    accentColor: "#c04a1c",
+    features: [
+      "Today, Clients, Pipeline, Insights — designed around a solo agent's daily loop.",
+      "Apple Intelligence (FoundationModels) generates client summaries, next-step suggestions, and follow-up drafts on-device.",
+      "Private notes — a heuristic flags sensitive language and a single tap keeps that entry out of every future AI prompt.",
+      "Optional iCloud Drive sync (Pro) into your own private container — opt-in, off by default, and never to our servers.",
+      "Full English and Simplified Chinese localisation, including the home-screen icon label.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "client records you create (names, contact details, tags, status, custom fields, timeline entries, deals) — stored only in the app's private sandbox on your device",
+        "AI-generated summaries, next-step suggestions, and follow-up drafts produced on-device by Apple's FoundationModels framework — stored locally alongside the client they describe",
+        "optional iCloud Drive backup blobs (Pro only, opt-in) saved as a single JSON snapshot inside your personal iCloud container",
+        "Pro subscription state, daily AI generation count, and feature toggles managed via Apple In-App Purchase and iOS shared preferences",
+      ],
+      storage:
+        "ClientMemory stores every client, timeline entry, pipeline deal, reminder, and AI output in a local SQLite database inside the app's private sandbox, protected by iOS Data Protection. There is no ClientMemory account and no backend that receives your data. If you turn on iCloud sync (Pro), a single JSON snapshot of the database is written to your own iCloud Drive container so other devices signed into the same Apple ID can read it; the snapshot lives in your iCloud, not ours, and toggling sync off stops further writes. Standard iOS device backups may include the local database depending on your device backup settings.",
+      sharing:
+        "Client records, timeline entries, deals, and AI outputs are never sold and never sent to any ClientMemory server. ClientMemory has no analytics SDK, no crash-reporting third party, and no advertising framework. All generative AI runs locally on your device via Apple's FoundationModels (Apple Intelligence) framework — prompts and outputs do not leave the device and are not seen by Apple, OpenAI, Anthropic, MiniMax, or any other third party. The only data path off-device is the optional iCloud Drive sync, which is opt-in, off by default, and routes through your own iCloud container under your Apple ID. Notes you have marked private are excluded from the context sent into the on-device model.",
+      permissions: [
+        "No microphone, camera, contacts, location, calendar, or photo library permissions are required to use ClientMemory.",
+        "Network access is requested only if you enable iCloud Drive sync (Pro), and only to communicate with Apple's iCloud servers using the framework provided by iOS.",
+        "App Tracking Transparency is not requested. ClientMemory does not use IDFA or any cross-app tracking identifier.",
+      ],
+      paidFeatures:
+        "ClientMemory Pro is offered as a monthly or annual auto-renewing subscription, or as a one-time lifetime purchase. Subscriptions are charged to your Apple ID at confirmation, renew automatically unless cancelled at least 24 hours before the end of the current period, and can be managed or cancelled in your Apple ID settings. Pro unlocks unlimited daily AI generations (summaries, follow-up drafts, weekly insights), multi-device iCloud Drive sync, smart lists, custom fields, and CSV/JSON exports. Free features remain available without payment.",
+      termsUse:
+        "Use ClientMemory to manage relationships with people who have agreed to be your client. You are responsible for complying with local data-protection rules in the jurisdiction where you do business, including obtaining any consent your client needs to give before you record their personal details. ClientMemory is not intended for users under 13.",
+      availability:
+        "On-device generative features require an iPhone running iOS 26.0 or later that supports Apple Intelligence and has it enabled in Settings → Apple Intelligence & Siri. iCloud Drive sync requires that you are signed into iCloud and that iCloud Drive is enabled for ClientMemory. Daily AI generation limits, in-app purchase prices, and the availability of Pro plans can vary by region, App Store account state, and OS version.",
+    },
+  },
+  {
     slug: "kodda",
     name: "Kodda",
     tagline: "AI support widget for product docs and FAQs.",
