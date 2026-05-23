@@ -1,0 +1,46 @@
+User-Agent: *
+Allow: /
+
+User-Agent: Mediapartners-Google
+Allow: /
+
+User-Agent: AdsBot-Google
+Allow: /
+
+User-Agent: Googlebot
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: Bingbot
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: GPTBot
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: ChatGPT-User
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: PerplexityBot
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: ClaudeBot
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+User-Agent: anthropic-ai
+Disallow: /
+Disallow: /api/
+Allow: /app-ads.txt
+
+Host: https://apps.timwuhaotian.dev
+Sitemap: https://apps.timwuhaotian.dev/sitemap.xml

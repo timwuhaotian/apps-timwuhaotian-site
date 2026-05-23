@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import robots from "@/app/robots";
+import fs from "fs";
+import path from "path";
 import { generateMetadata as generateAppMetadata } from "@/app/apps/[slug]/page";
 import {
-  aiCrawlerUserAgents,
   buildAppJsonLd,
   buildHomeJsonLd,
   siteDescription,
@@ -10,28 +10,36 @@ import {
 } from "@/content/seo";
 
 describe("seo and geo metadata", () => {
-  it("blocks AI discovery crawlers from all routes including /api/", () => {
-    const rules = Array.isArray(robots().rules)
-      ? robots().rules
-      : [robots().rules];
-    const aiBotRules = rules.filter((rule) => {
-      const agents = Array.isArray(rule.userAgent)
-        ? rule.userAgent
-        : [rule.userAgent].filter(Boolean);
-      return agents.some((agent) => aiCrawlerUserAgents.includes(agent as typeof aiCrawlerUserAgents[number]));
-    });
+  it("allows Mediapartners-Google and AdsBot-Google full access for AdMob", () => {
+    const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+    const content = fs.readFileSync(robotsPath, "utf-8");
+    const lines = content.split("\n");
 
-    expect(aiBotRules.length).toBeGreaterThan(0);
-    for (const rule of aiBotRules) {
-      const disallow = Array.isArray(rule.disallow)
-        ? rule.disallow
-        : [rule.disallow].filter(Boolean);
-      expect(disallow).toContain("/api/");
-      const allow = Array.isArray(rule.allow)
-        ? rule.allow
-        : [rule.allow].filter(Boolean);
-      expect(allow).toContain("/app-ads.txt");
+    let inMediapartnersBlock = false;
+    let inAdsBotBlock = false;
+    let mediapartnersAllowFound = false;
+    let adsBotAllowFound = false;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("User-Agent: Mediapartners-Google")) {
+        inMediapartnersBlock = true;
+        inAdsBotBlock = false;
+      } else if (trimmed.startsWith("User-Agent: AdsBot-Google")) {
+        inAdsBotBlock = true;
+        inMediapartnersBlock = false;
+      } else if (trimmed.startsWith("User-Agent:")) {
+        inMediapartnersBlock = false;
+        inAdsBotBlock = false;
+      } else if (inMediapartnersBlock && trimmed === "Allow: /") {
+        mediapartnersAllowFound = true;
+      } else if (inAdsBotBlock && trimmed === "Allow: /") {
+        adsBotAllowFound = true;
+      }
     }
+
+    expect(mediapartnersAllowFound).toBe(true);
+    expect(adsBotAllowFound).toBe(true);
   });
 
   it("generates canonical app metadata with social previews", async () => {

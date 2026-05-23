@@ -142,28 +142,6 @@ export function buildSitemap(): MetadataRoute.Sitemap {
   ];
 }
 
-export function buildRobots(): MetadataRoute.Robots {
-  return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-      },
-      {
-        userAgent: "*",
-        allow: "/app-ads.txt",
-      },
-      {
-        userAgent: aiCrawlerUserAgents.map((bot) => bot),
-        disallow: ["/", "/api/"],
-        allow: ["/app-ads.txt"],
-      },
-    ],
-    sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl,
-  };
-}
-
 export function buildHomeJsonLd(): JsonLdGraph {
   return {
     "@context": "https://schema.org",
