@@ -27,6 +27,10 @@ describe("seo and geo metadata", () => {
         ? rule.disallow
         : [rule.disallow].filter(Boolean);
       expect(disallow).toContain("/api/");
+      const allow = Array.isArray(rule.allow)
+        ? rule.allow
+        : [rule.allow].filter(Boolean);
+      expect(allow).toContain("/app-ads.txt");
     }
   });
 

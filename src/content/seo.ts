@@ -152,6 +152,7 @@ export function buildRobots(): MetadataRoute.Robots {
       {
         userAgent: aiCrawlerUserAgents.map((bot) => bot),
         disallow: ["/", "/api/"],
+        allow: ["/app-ads.txt"],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
