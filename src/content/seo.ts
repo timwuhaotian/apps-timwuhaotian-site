@@ -150,6 +150,10 @@ export function buildRobots(): MetadataRoute.Robots {
         allow: "/",
       },
       {
+        userAgent: "*",
+        allow: "/app-ads.txt",
+      },
+      {
         userAgent: aiCrawlerUserAgents.map((bot) => bot),
         disallow: ["/", "/api/"],
         allow: ["/app-ads.txt"],
