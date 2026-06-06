@@ -18,3 +18,17 @@ describe("app detail spacing contract", () => {
     expect(css).toContain("overflow-wrap: anywhere;");
   });
 });
+
+describe("premium home polish contract", () => {
+  it("shows product imagery in the hero without relying on decorative orbs", () => {
+    expect(css).toContain(".hero-showcase");
+    expect(css).toContain(".hero-icon-wall");
+    expect(css).not.toContain(".hero-orb");
+  });
+
+  it("keeps tactile hover motion scoped to fine pointer devices", () => {
+    expect(css).toContain("@media (hover: hover) and (pointer: fine)");
+    expect(css).toContain(".directory-row:hover");
+    expect(css).toContain(".hero-visual-link:hover");
+  });
+});

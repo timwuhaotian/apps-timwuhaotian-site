@@ -18,26 +18,24 @@ export default function Home() {
       <main className="page-shell main-stack" id="top">
         <section aria-labelledby="hero-title" className="hero">
           <div className="hero-card">
-            <div className="hero-ornament" aria-hidden="true">
-              <div className="hero-orb hero-orb-1" />
-              <div className="hero-orb hero-orb-2" />
-              <div className="hero-orb hero-orb-3" />
+            <div className="hero-copy">
+              <div className="hero-label">Indie Apps Directory</div>
+              <h1 id="hero-title">Apps by Tim Wu Haotian</h1>
+              <p className="hero-lede">
+                A curated collection of indie apps — voice notes, dual-camera
+                recording, spatial memory, research briefings, and AI support
+                widgets. Built with care for iOS and the web.
+              </p>
+              <div className="hero-actions">
+                <a className="button primary" href="#apps">
+                  Browse apps
+                </a>
+                <a className="button ghost" href="mailto:gosingk@gmail.com">
+                  Contact support
+                </a>
+              </div>
             </div>
-            <div className="hero-label">Indie Apps Directory</div>
-            <h1 id="hero-title">Apps by Tim Wu Haotian</h1>
-            <p className="hero-lede">
-              A curated collection of indie apps — voice notes, dual-camera
-              recording, spatial memory, research briefings, and AI support
-              widgets. Built with care for iOS and the web.
-            </p>
-            <div className="hero-actions">
-              <a className="button primary" href="#apps">
-                Browse apps
-              </a>
-              <a className="button ghost" href="mailto:gosingk@gmail.com">
-                Contact support
-              </a>
-            </div>
+            <HeroShowcase featuredApps={apps} />
           </div>
         </section>
 
@@ -111,6 +109,46 @@ function SiteHeader() {
   );
 }
 
+function HeroShowcase({ featuredApps }: { featuredApps: AppContent[] }) {
+  return (
+    <aside aria-label="Featured app shortcuts" className="hero-showcase">
+      <div className="hero-showcase-top">
+        <span>Six public surfaces</span>
+        <span>Review-ready</span>
+      </div>
+
+      <div className="hero-icon-wall">
+        {featuredApps.map((app, index) => {
+          const routes = getAppRoutes(app);
+
+          return (
+            <Link
+              className="hero-visual-link"
+              href={routes.intro}
+              key={app.slug}
+              style={accentStyle(app)}
+            >
+              <Image
+                alt={`${app.name} hero icon`}
+                className="hero-visual-icon"
+                height={96}
+                priority={index < 3}
+                sizes="(max-width: 680px) 64px, 86px"
+                src={app.icon}
+                width={96}
+              />
+              <span className="hero-visual-copy">
+                <strong>{app.name}</strong>
+                <span>{statusLabel(app.status)}</span>
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </aside>
+  );
+}
+
 function AppRow({ app, index }: { app: AppContent; index: number }) {
   const routes = getAppRoutes(app);
 
@@ -176,16 +214,18 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
 }
 
 function StatusBadge({ status }: { status: AppContent["status"] }) {
-  const label =
-    status === "live" ? "Public" : status === "beta" ? "Beta" : "Draft";
   const tone = status === "live" ? "live" : status === "beta" ? "beta" : "draft";
 
   return (
     <span className={`badge ${tone}`}>
       <span className="dot" />
-      {label}
+      {statusLabel(status)}
     </span>
   );
+}
+
+function statusLabel(status: AppContent["status"]) {
+  return status === "live" ? "Public" : status === "beta" ? "Beta" : "Draft";
 }
 
 function accentStyle(app: AppContent): CSSProperties {

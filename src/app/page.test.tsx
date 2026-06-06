@@ -23,10 +23,21 @@ describe("public app hub pages", () => {
     expect(markup).toContain(">App Store</a>");
     expect(markup).toContain(">Website</a>");
     expect(markup).toContain("directory-row");
+    expect(markup).toContain("hero-showcase");
+    expect(markup).toContain("Featured app shortcuts");
     expect(markup).toContain("iOS-first");
     expect(markup).toContain("6 apps");
     expect(markup).toContain('type="application/ld+json"');
     expect(markup).toContain("ItemList");
+  });
+
+  it("uses app imagery instead of decorative hero orbs above the fold", () => {
+    const markup = renderToStaticMarkup(<Home />);
+
+    expect(markup).toContain("EchoVault hero icon");
+    expect(markup).toContain("DuetShot hero icon");
+    expect(markup).toContain('href="/apps/echo-vault"');
+    expect(markup).not.toContain("hero-orb");
   });
 
   it("renders an app intro with the shared policy navigation shell", async () => {
