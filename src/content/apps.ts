@@ -52,8 +52,9 @@ export const apps = [
     summary:
       "EchoVault records voice notes, transcribes them on device when available, and turns spoken tasks or meetings into local reminders and calendar-ready actions.",
     platforms: ["iOS"],
-    status: "in development",
+    status: "live",
     bundleId: "com.gosingk.echovault",
+    appStoreUrl: "https://apps.apple.com/us/app/echovault-voice-note-recorder/id6767749169",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-05-14",
@@ -157,8 +158,9 @@ export const apps = [
     summary:
       "Found saves a photo of an item with its GPS coordinate, on-device Vision labels, and OCR text so you can later search by name, tag, or anything that was written on the object.",
     platforms: ["iOS", "iPadOS"],
-    status: "beta",
+    status: "live",
     bundleId: "com.gosingk.ios-found",
+    appStoreUrl: "https://apps.apple.com/us/app/found-photo-spot-find-car/id6767745845",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-05-15",
