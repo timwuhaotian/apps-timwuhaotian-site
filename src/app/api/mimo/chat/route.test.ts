@@ -15,14 +15,14 @@ function jsonResponse(body: unknown, status = 200) {
 function chatRequest(body: unknown) {
   return new Request("https://apps.timwuhaotian.dev/api/mimo/chat", {
     body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-app-secret": "test-secret" },
     method: "POST",
   });
 }
 
 describe("MiMo chat proxy route", () => {
   beforeEach(() => {
-    process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key" };
+    process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key", MIMO_APP_SECRET: "test-secret" };
     resetMimoProxyForTests();
   });
 
@@ -64,5 +64,30 @@ describe("MiMo chat proxy route", () => {
   it("returns 400 when messages are missing", async () => {
     const res = await POST(chatRequest({}));
     expect(res.status).toBe(400);
+  });
+
+  it("returns 401 with wrong app secret", async () => {
+    const res = await new Request("https://apps.timwuhaotian.dev/api/mimo/chat", {
+      body: JSON.stringify({ messages: [{ content: "hi", role: "user" }] }),
+      headers: { "Content-Type": "application/json", "x-app-secret": "wrong-secret" },
+      method: "POST",
+    });
+    const result = await POST(res);
+    expect(result.status).toBe(401);
+  });
+
+  it("passes when MIMO_APP_SECRET is not configured (open mode)", async () => {
+    const fetchMock = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(jsonResponse({ choices: [{ message: { content: "ok" } }] }));
+
+    process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key" };
+    delete process.env.MIMO_APP_SECRET;
+
+    const res = await POST(
+      chatRequest({ messages: [{ content: "hi", role: "user" }] }),
+    );
+
+    expect(res.status).toBe(200);
   });
 });

@@ -15,14 +15,14 @@ function jsonResponse(body: unknown, status = 200) {
 function asrRequest(body: unknown) {
   return new Request("https://apps.timwuhaotian.dev/api/mimo/asr", {
     body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-app-secret": "test-secret" },
     method: "POST",
   });
 }
 
 describe("MiMo ASR proxy route", () => {
   beforeEach(() => {
-    process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key" };
+    process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key", MIMO_APP_SECRET: "test-secret" };
     resetMimoProxyForTests();
   });
 

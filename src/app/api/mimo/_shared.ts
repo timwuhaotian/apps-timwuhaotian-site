@@ -80,6 +80,19 @@ export function mimoApiKey() {
   return cleanString(process.env.MIMO_API_KEY);
 }
 
+export function checkAppSecret(request: Request) {
+  const secret = cleanString(process.env.MIMO_APP_SECRET);
+  const provided = request.headers.get("x-app-secret");
+
+  if (!secret) return { ok: true as const }; // skip when not configured
+
+  if (!provided || provided !== secret) {
+    return { ok: false as const };
+  }
+
+  return { ok: true as const };
+}
+
 export async function readUpstreamJson(response: Response) {
   try {
     return (await response.json()) as unknown;

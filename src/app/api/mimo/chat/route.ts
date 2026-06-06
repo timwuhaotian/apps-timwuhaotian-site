@@ -1,4 +1,5 @@
 import {
+  checkAppSecret,
   checkRateLimit,
   corsHeadersFor,
   isRecord,
@@ -29,6 +30,11 @@ export async function POST(request: Request) {
       { error: "Rate limit exceeded", retryAfterSeconds: rateLimit.retryAfterSeconds },
       { headers, status: 429 },
     );
+  }
+
+  const appSecret = checkAppSecret(request);
+  if (!appSecret.ok) {
+    return Response.json({ error: "Unauthorized" }, { headers, status: 401 });
   }
 
   const apiKey = mimoApiKey();
