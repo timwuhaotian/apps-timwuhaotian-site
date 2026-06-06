@@ -69,9 +69,9 @@ export async function POST(request: Request) {
 
   const data = await readUpstreamJson(upstream);
   if (!upstream.ok) {
-    return Response.json(data ?? { error: "mimo-upstream-error" }, {
+    return Response.json({ error: "mimo-upstream-error" }, {
       headers,
-      status: upstream.status,
+      status: upstream.status === 401 ? 503 : upstream.status,
     });
   }
 
