@@ -350,6 +350,62 @@ export const apps = [
         "Kodda availability depends on network access, browser behavior, configured AI and embedding providers, connected services, quota limits, and backend infrastructure health.",
     },
   },
+  {
+    slug: "ai-chinese-dict",
+    name: "AI Chinese Dict",
+    tagline: "An on-device AI Chinese dictionary for English speakers.",
+    summary:
+      "AI Chinese Dict turns any Chinese word, phrase, or sentence into pinyin, a clear English meaning, and natural example sentences using on-device Apple Intelligence — then files it into a spaced-review deck. Everything is generated and stored on your device; there is no account and no dictionary backend.",
+    platforms: ["iOS", "iPadOS"],
+    status: "in development",
+    bundleId: "com.aidict.aiPersonalDict",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-07",
+    termsUpdatedAt: "2026-06-07",
+    icon: "/apps/ai-chinese-dict/icon.png",
+    screenshots: [],
+    accentColor: "#a86617",
+    features: [
+      "Capture any Chinese word, phrase, or sentence and get pinyin, an English meaning, and example sentences.",
+      "On-device analysis via Apple Intelligence (Foundation Models) on supported devices, with an offline fallback editor when it is unavailable.",
+      "Spaced-review deck with mastery progress and a daily streak.",
+      "Built-in zh-CN text-to-speech reads the Chinese headword aloud, fully offline.",
+      "Favorites, full manual editing, and categories — all stored locally on your device.",
+      "Free, supported by Google AdMob advertising.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "the Chinese words, phrases, and sentences you capture, together with the pinyin, English meanings, and example sentences generated for them (stored only in the app's private storage on your device)",
+        "your review progress, favorites, categories, app settings, and daily streak (stored on-device only)",
+        "Apple identifier for advertisers (IDFA), only if you grant the App Tracking Transparency prompt, used to request personalized ads from Google AdMob",
+        "device-level identifiers and SKAdNetwork attribution signals sent by the iOS system to Google AdMob and its mediation networks for ad rendering and conversion measurement",
+      ],
+      storage:
+        "AI Chinese Dict stores your saved words, pinyin, meanings, example sentences, review progress, favorites, categories, and settings in the app's private storage on your device. There is no AI Chinese Dict account and no dictionary backend that receives your data, and your word list is never uploaded anywhere. Word analysis runs on-device using Apple's Foundation Models (Apple Intelligence) framework where available, or an offline local fallback; the text you enter is not sent to any dictionary or AI server operated by us. Standard iOS device backups may include this data depending on your device backup settings.",
+      sharing:
+        "AI Chinese Dict does not sell your data and does not send your words, definitions, or review history to any backend. The only data that leaves your device is what Google AdMob and its iOS SDKs need to render advertisements: this includes the IDFA when you have granted the App Tracking Transparency permission, otherwise a non-personalized ad request is made without the IDFA. AdMob may also receive coarse signals from the iOS system such as approximate location (derived from IP address), device type, OS version, and SKAdNetwork attribution postbacks. For users in the European Economic Area, the United Kingdom, and Switzerland, a Google-certified consent message (via Google's User Messaging Platform) is shown before any personalized ad is requested. AI Chinese Dict has no analytics SDK and no crash reporting beyond what AdMob's SDK includes for ad delivery. You can turn ads off, or switch to non-personalized ads, at any time in the app's settings.",
+      thirdParties: [
+        {
+          name: "Google AdMob (Google LLC, United States)",
+          description:
+            "Renders the native, banner, and optional rewarded advertisements shown in AI Chinese Dict. Receives Apple's identifier for advertisers (IDFA) only when you accept the App Tracking Transparency prompt; otherwise receives a non-personalized ad request without the IDFA. May also receive coarse signals provided by the iOS system: IP-derived approximate location, device type, OS version, time zone, and SKAdNetwork attribution postbacks for measuring ad conversions. Does not receive your saved words, pinyin, meanings, example sentences, categories, or review history. For users in the EEA, the UK, and Switzerland, Google's User Messaging Platform presents a consent form before personalized ads are served. You can revoke the App Tracking Transparency permission at any time in iOS Settings > Privacy & Security > Tracking, or disable ads inside the app. AdMob privacy policy: https://policies.google.com/privacy",
+        },
+      ],
+      permissions: [
+        "No microphone, camera, contacts, location, or photo library permissions are required to use AI Chinese Dict.",
+        "Text-to-speech uses the device's built-in speech synthesizer to read the Chinese headword aloud; no audio is recorded or transmitted.",
+        "App Tracking Transparency prompts you once to allow Google AdMob to use your IDFA for personalized advertising. Denying still lets ads serve, but they will be non-personalized.",
+        "Network access is used only to load advertisements from Google AdMob and, in supported regions, the consent message; the dictionary itself works offline.",
+      ],
+      paidFeatures:
+        "AI Chinese Dict is free to use and supported by Google AdMob advertising, including a native card, a banner, and an optional rewarded ad that unlocks deeper review analysis. There are currently no in-app purchases or subscriptions.",
+      termsUse:
+        "Use AI Chinese Dict for personal language learning. Word analysis is generated by on-device AI and may be imperfect — verify important translations against an authoritative source before relying on them. AI Chinese Dict is not intended for users under 13.",
+      availability:
+        "On-device AI word analysis uses Apple's Foundation Models (Apple Intelligence) and requires a supported iPhone or iPad running iOS 26 or later with Apple Intelligence enabled; on other devices the app falls back to an offline editor you complete yourself. Text-to-speech voices, advertising availability, the App Tracking Transparency prompt, and the regional consent message can vary by device, OS version, region, and network connectivity.",
+    },
+  },
 ] satisfies AppContent[];
 
 export function getAppBySlug(slug: string) {

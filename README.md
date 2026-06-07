@@ -9,6 +9,7 @@ Managed apps:
 - Found
 - ScholarDaily
 - Kodda
+- AI Chinese Dict
 
 ## Development
 

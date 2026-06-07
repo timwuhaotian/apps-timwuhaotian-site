@@ -26,7 +26,7 @@ describe("public app hub pages", () => {
     expect(markup).toContain("hero-showcase");
     expect(markup).toContain("Featured app shortcuts");
     expect(markup).toContain("iOS-first");
-    expect(markup).toContain("6 apps");
+    expect(markup).toContain("7 apps");
     expect(markup).toContain('type="application/ld+json"');
     expect(markup).toContain("ItemList");
   });

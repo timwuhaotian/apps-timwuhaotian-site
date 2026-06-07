@@ -7,7 +7,7 @@ import {
 } from "@/content/apps";
 
 describe("apps content contract", () => {
-  it("lists the six real managed apps", () => {
+  it("lists the seven real managed apps", () => {
     expect(apps.map((app) => app.slug)).toEqual([
       "echo-vault",
       "duetshot",
@@ -15,6 +15,7 @@ describe("apps content contract", () => {
       "scholar-daily",
       "client-memory",
       "kodda",
+      "ai-chinese-dict",
     ]);
   });
 
@@ -65,6 +66,7 @@ describe("apps content contract", () => {
       "scholar-daily": "#2d65a3",
       "client-memory": "#c04a1c",
       kodda: "#0f766e",
+      "ai-chinese-dict": "#a86617",
     });
   });
 
