@@ -351,6 +351,59 @@ export const apps = [
     },
   },
   {
+    slug: "ai-quick-note",
+    name: "AI Quick Note",
+    tagline: "Brain dump → tidy note, 100% offline.",
+    summary:
+      "AI Quick Note turns messy thoughts into structured notes — automatically. Type anything and on-device AI classifies the type, gives it a title, and organizes it into a checklist, address, contact, hint, or journal entry. Everything stays on your device; there is no account and no server.",
+    platforms: ["iOS"],
+    status: "in development",
+    bundleId: "com.gosingk.aiquicknote",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-07",
+    termsUpdatedAt: "2026-06-07",
+    icon: "/apps/ai-quick-note/icon.png",
+    screenshots: [
+      "/apps/ai-quick-note/01_write_messy_notes.png",
+      "/apps/ai-quick-note/02_ai_organizes_instantly.png",
+      "/apps/ai-quick-note/03_chaos_to_action.png",
+      "/apps/ai-quick-note/04_find_anything_fast.png",
+      "/apps/ai-quick-note/05_private_by_design.png",
+    ],
+    accentColor: "#E8603C",
+    features: [
+      "Dump any messy thought and get a structured note — automatically.",
+      "On-device AI via Apple Intelligence (Foundation Models) on supported devices, with a built-in offline organizer when it is unavailable.",
+      "Seven auto-detected note types: To-do, Shopping, Idea, Address, Contact, Password hint, Journal.",
+      "Semantic search finds notes by meaning, not just keywords — search 'that dentist' and find 'Dr. Park on 5th'.",
+      "One-tap call, directions, and email from contact and address notes.",
+      "Free, supported by advertising placeholders (no real ad SDK shipped yet).",
+    ],
+    policyProfile: {
+      dataUse: [
+        "the notes, checklists, addresses, contacts, and other content you create (stored only in the app's private storage on your device via SharedPreferences)",
+        "your app settings including theme, accent color, and ad density preference (stored on-device only)",
+        "on-device AI analysis results — note type, title, structured content, keywords, and reminder suggestions produced locally by Apple's FoundationModels framework or the built-in offline organizer",
+      ],
+      storage:
+        "AI Quick Note stores every note, checklist item, address, contact field, password hint, and journal entry in the app's private SharedPreferences storage on your device. There is no AI Quick Note account, no cloud backend, and no server that receives your data. On-device AI analysis runs locally using Apple's Foundation Models (Apple Intelligence) where available, or a deterministic offline fallback; the text you enter is never sent to any AI server operated by us. Standard iOS device backups may include this data depending on your device backup settings.",
+      sharing:
+        "AI Quick Note does not sell your data and does not send your notes, content, or analysis results to any backend. The app has no analytics SDK, no crash-reporting third party, and no advertising framework. No network requests are made at any time — the app works fully offline. Your notes never leave your device.",
+      permissions: [
+        "No microphone, camera, contacts, location, calendar, or photo library permissions are required to use AI Quick Note.",
+        "No network access is requested or used. The app works fully offline.",
+        "App Tracking Transparency is not requested. AI Quick Note does not use IDFA or any cross-app tracking identifier.",
+      ],
+      paidFeatures:
+        "AI Quick Note is free to use. There are currently no in-app purchases or subscriptions. Advertising placeholders are present in the UI but no real ad SDK is shipped; if advertising is introduced in a future update, this policy will be revised accordingly.",
+      termsUse:
+        "Use AI Quick Note for personal note taking, task capture, and idea organization. The on-device AI organizes text you provide; it may be imperfect — review structured output before relying on it for important information such as addresses or passwords. AI Quick Note stores password hints only, never actual passwords. AI Quick Note is not intended for users under 13.",
+      availability:
+        "On-device AI note organization uses Apple's Foundation Models (Apple Intelligence) and requires an iPhone running iOS 26 or later that supports Apple Intelligence and has it enabled in Settings → Apple Intelligence & Siri. On other devices the app falls back to a deterministic offline organizer that works without AI. Semantic search, note types, and all core features work on any supported device without network access.",
+    },
+  },
+  {
     slug: "ai-chinese-dict",
     name: "AI Chinese Dict",
     tagline: "An on-device AI Chinese dictionary for English speakers.",
