@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { siteMetadata } from "@/content/seo";
 import "./globals.css";
@@ -24,6 +24,11 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = siteMetadata;
 
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f7f7f2",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,7 +39,12 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

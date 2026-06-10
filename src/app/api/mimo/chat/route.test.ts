@@ -77,9 +77,9 @@ describe("MiMo chat proxy route", () => {
   });
 
   it("passes when MIMO_APP_SECRET is not configured (open mode)", async () => {
-    const fetchMock = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValue(jsonResponse({ choices: [{ message: { content: "ok" } }] }));
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      jsonResponse({ choices: [{ message: { content: "ok" } }] }),
+    );
 
     process.env = { ...originalEnv, MIMO_API_KEY: "test-mimo-key" };
     delete process.env.MIMO_APP_SECRET;

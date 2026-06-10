@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { AppShell, StatusBadge } from "./AppShell";
+import { ExternalLink } from "@/components/site-chrome";
 import { apps, getAppBySlug } from "@/content/apps";
 import {
   buildAppJsonLd,
@@ -55,7 +56,9 @@ export default async function AppPage({ params }: PageProps) {
           <div className="feature-list">
             {app.features.map((feature) => (
               <article className="feature-item" key={feature}>
-                <span className="feature-check">✓</span>
+                <span aria-hidden="true" className="feature-check">
+                  ✓
+                </span>
                 <p>{feature}</p>
               </article>
             ))}
@@ -86,16 +89,29 @@ export default async function AppPage({ params }: PageProps) {
               {app.appStoreUrl ? (
                 <Info
                   label="App Store"
-                  value={<a href={app.appStoreUrl}>Open listing</a>}
+                  value={
+                    <ExternalLink href={app.appStoreUrl}>
+                      Open listing
+                    </ExternalLink>
+                  }
                 />
               ) : null}
               {app.websiteUrl ? (
                 <Info
                   label="Website"
-                  value={<a href={app.websiteUrl}>{app.websiteUrl}</a>}
+                  value={
+                    <ExternalLink href={app.websiteUrl}>
+                      {app.websiteUrl.replace(/^https?:\/\//, "")}
+                    </ExternalLink>
+                  }
                 />
               ) : null}
-              <Info label="Support" value={app.supportEmail} />
+              <Info
+                label="Support"
+                value={
+                  <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+                }
+              />
               <Info label="Legal owner" value={app.legalOwner} />
             </dl>
           </section>
@@ -115,19 +131,36 @@ function Info({ label, value }: { label: string; value: ReactNode }) {
 }
 
 function MediaStrip({ app }: { app: (typeof apps)[number] }) {
-  const [src] = app.screenshots;
+  const [lead, ...rest] = app.screenshots;
+  const thumbs = rest.slice(0, 3);
 
-  if (src) {
+  if (lead) {
     return (
-      <div className="phone-frame">
-        <Image
-          alt={`${app.name} product screenshot`}
-          height={1170}
-          loading="eager"
-          src={src}
-          width={540}
-        />
-      </div>
+      <>
+        <div className="phone-frame">
+          <Image
+            alt={`${app.name} product screenshot`}
+            height={1170}
+            loading="eager"
+            src={lead}
+            width={540}
+          />
+        </div>
+        {thumbs.length > 0 ? (
+          <div className="shot-strip">
+            {thumbs.map((src, index) => (
+              <Image
+                alt={`${app.name} screenshot ${index + 2}`}
+                className="shot-thumb"
+                height={390}
+                key={src}
+                src={src}
+                width={180}
+              />
+            ))}
+          </div>
+        ) : null}
+      </>
     );
   }
 

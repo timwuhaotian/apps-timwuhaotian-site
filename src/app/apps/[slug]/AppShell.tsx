@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { AppContent, getAppRoutes, getPolicyPage } from "@/content/apps";
 
 type AppShellProps = {
@@ -15,19 +16,26 @@ export function AppShell({
   currentPage = "intro",
 }: AppShellProps) {
   const routes = getAppRoutes(app);
+  // Policy pages carry their own <h1> in PolicyArticle, so the masthead
+  // title demotes to keep one h1 per page.
+  const TitleTag = currentPage === "intro" ? "h1" : "p";
 
   return (
-    <main className="hub-page" style={accentStyle(app)}>
-      <div className="page-shell main-stack">
+    <div className="hub-page" style={accentStyle(app)}>
+      <SiteHeader />
+
+      <main className="page-shell main-stack" id="main">
         <header className="app-detail-hero">
           <nav aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/">Apps</Link>
-            <span>{app.name}</span>
+            <span>
+              <Link href="/">Apps</Link>
+            </span>
+            <span aria-current="page">{app.name}</span>
           </nav>
 
           <div className="app-detail-title">
             <Image
-              alt={`${app.name} icon`}
+              alt={`${app.name} app icon`}
               className="app-icon"
               height={148}
               priority
@@ -35,8 +43,8 @@ export function AppShell({
               width={148}
             />
             <div>
-              <h1>{app.name}</h1>
-              <p>{app.tagline}</p>
+              <TitleTag className="app-title">{app.name}</TitleTag>
+              <p className="app-tagline">{app.tagline}</p>
             </div>
           </div>
 
@@ -63,21 +71,29 @@ export function AppShell({
               Terms
             </PageLink>
             {app.appStoreUrl ? (
-              <a className="button ghost app-tabs__cta" href={app.appStoreUrl}>
+              <ExternalLink
+                className="button ghost app-tabs__cta"
+                href={app.appStoreUrl}
+              >
                 App Store
-              </a>
+              </ExternalLink>
             ) : null}
             {app.websiteUrl ? (
-              <a className="button ghost app-tabs__cta" href={app.websiteUrl}>
+              <ExternalLink
+                className="button ghost app-tabs__cta"
+                href={app.websiteUrl}
+              >
                 Website
-              </a>
+              </ExternalLink>
             ) : null}
           </nav>
         </header>
 
         {children}
-      </div>
-    </main>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }
 
@@ -118,7 +134,8 @@ export function PolicyArticle({
         <h1>{policy.title}</h1>
         <p className="policy-meta">
           Last updated: {policy.updatedAt} · Legal owner: {app.legalOwner} ·
-          Support: {app.supportEmail}
+          Support:{" "}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
         </p>
       </header>
 
@@ -136,7 +153,11 @@ export function PolicyArticle({
 
 export function StatusBadge({ status }: { status: AppContent["status"] }) {
   const label =
-    status === "live" ? "Public" : status === "beta" ? "Beta" : "Draft";
+    status === "live"
+      ? "Public"
+      : status === "beta"
+        ? "Beta"
+        : "In development";
   const tone = status === "live" ? "live" : status === "beta" ? "beta" : "draft";
 
   return (

@@ -52,20 +52,11 @@ export const siteMetadata: Metadata = {
     siteName,
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/apps/duetshot/screenshot-1.png",
-        width: 540,
-        height: 1170,
-        alt: "DuetShot product screenshot",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteName,
     description: siteDescription,
-    images: ["/apps/duetshot/screenshot-1.png"],
   },
   robots: {
     index: true,
@@ -101,18 +92,11 @@ export function getAppMetadata(
       url: path,
       siteName,
       type: "website",
-      images: [
-        {
-          url: app.icon,
-          alt: `${app.name} app icon`,
-        },
-      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
-      images: [app.icon],
     },
     robots: {
       index: true,

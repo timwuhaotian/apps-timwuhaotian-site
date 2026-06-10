@@ -1,4 +1,5 @@
 User-Agent: *
+Disallow: /api/
 Allow: /
 
 User-Agent: Mediapartners-Google
@@ -8,39 +9,32 @@ User-Agent: AdsBot-Google
 Allow: /
 
 User-Agent: Googlebot
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: Bingbot
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: GPTBot
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: ChatGPT-User
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: PerplexityBot
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: ClaudeBot
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 User-Agent: anthropic-ai
-Disallow: /
 Disallow: /api/
-Allow: /app-ads.txt
+Allow: /
 
 Host: https://apps.timwuhaotian.dev
 Sitemap: https://apps.timwuhaotian.dev/sitemap.xml

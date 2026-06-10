@@ -14,7 +14,7 @@
   --ink-primary: #0f0f0f;
   --ink-soft: #2a2a28;
   --muted: #65655d;
-  --muted-2: #929287;
+  --muted-2: #6e6e64;
   --line: #e1e1d8;
   --line-strong: #c8c8bb;
   --focus: #1a4d3a;
@@ -106,9 +106,8 @@ blockquote {
 }
 
 :focus-visible {
-  outline: 2.5px solid rgb(26 77 58 / 30%);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
-  border-radius: 8px;
 }
 
 ::selection {
@@ -119,6 +118,34 @@ blockquote {
 .page-shell {
   width: var(--page);
   margin: 0 auto;
+}
+
+/* Anchor targets clear the sticky header */
+#apps,
+#policies,
+#main {
+  scroll-margin-top: 96px;
+}
+
+/* Skip link — visible only while focused */
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 60;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  padding: 12px 20px;
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+  transform: translateY(calc(-100% - 20px));
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
 }
 
 /* Page wrapper */
@@ -275,6 +302,7 @@ blockquote {
   line-height: 0.9;
   letter-spacing: -0.025em;
   color: var(--ink-primary);
+  text-wrap: balance;
 }
 
 .hero-lede {
@@ -649,9 +677,10 @@ blockquote {
   width: 64px;
   height: 64px;
   border-radius: 20px;
+  display: block;
 }
 
-.directory-row h2 {
+.directory-row h3 {
   font-family: var(--font-body);
   font-size: 17px;
   font-weight: 600;
@@ -806,7 +835,7 @@ blockquote {
   border-radius: 24px;
 }
 
-.app-detail-title h1 {
+.app-detail-title .app-title {
   font-family: var(--font-display);
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 400;
@@ -815,7 +844,7 @@ blockquote {
   color: var(--ink-primary);
 }
 
-.app-detail-title p {
+.app-detail-title .app-tagline {
   margin-top: 8px;
   color: var(--muted);
   font-size: 16px;
@@ -1032,6 +1061,29 @@ blockquote {
   color: var(--link);
 }
 
+.metadata-card a:hover {
+  color: var(--link-hover);
+}
+
+/* Extra screenshots under the lead phone frame */
+.shot-strip {
+  width: 100%;
+  max-width: 340px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 10px;
+}
+
+.shot-thumb {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-xs);
+  background: var(--surface);
+}
+
 /* ===== POLICY ===== */
 .policy-shell {
   overflow: hidden;
@@ -1054,6 +1106,7 @@ blockquote {
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--ink-primary);
+  text-wrap: balance;
 }
 
 .policy-meta {
@@ -1061,6 +1114,19 @@ blockquote {
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.5;
+}
+
+.policy-meta a {
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 35%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 200ms ease;
+}
+
+.policy-meta a:hover {
+  text-decoration-color: var(--link);
 }
 
 .policy-content {
@@ -1107,13 +1173,45 @@ blockquote {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 16px 28px;
 }
 
 .footer-brand {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.footer-nav a {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.footer-nav a:hover {
+  background: rgb(255 255 255 / 80%);
+  color: var(--foreground);
+}
+
+.footer-note {
+  flex: 1 1 100%;
 }
 
 .footer-mark {
@@ -1126,6 +1224,58 @@ blockquote {
   background: linear-gradient(135deg, rgb(26 77 58 / 88%), rgb(45 101 163 / 84%));
   font-family: var(--font-display);
   font-size: 14px;
+}
+
+/* ===== STATUS PAGES (404 / error) ===== */
+.status-card {
+  min-height: min(560px, calc(100dvh - 240px));
+  display: grid;
+  gap: 20px;
+  align-content: center;
+  justify-items: start;
+  max-width: 640px;
+}
+
+.status-card h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6.5vw, 64px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink-primary);
+  text-wrap: balance;
+}
+
+.status-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+
+.status-digest {
+  color: var(--muted-2);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.status-inline-link {
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===== TOUCH ERGONOMICS ===== */
+@media (pointer: coarse) {
+  .site-nav a,
+  .footer-nav a,
+  .link-chip,
+  .app-tabs .button {
+    min-height: 44px;
+  }
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1283,11 +1433,11 @@ blockquote {
     grid-template-columns: 1fr;
   }
 
-  .app-detail-title h1 {
+  .app-detail-title .app-title {
     font-size: clamp(24px, 6.5vw, 32px);
   }
 
-  .app-detail-title p {
+  .app-detail-title .app-tagline {
     font-size: 14.5px;
   }
 
@@ -1341,6 +1491,62 @@ blockquote {
   .policy-content {
     padding: 24px;
     gap: 20px;
+  }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  body {
+    background: white;
+  }
+
+  body::after {
+    display: none;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .app-tabs,
+  .hero-actions,
+  .row-actions,
+  .status-links {
+    display: none;
+  }
+
+  .hub-page {
+    min-height: auto;
+    padding-bottom: 0;
+  }
+
+  .directory-panel,
+  .policy-shell,
+  .metadata-card,
+  .feature-item,
+  .directory-row {
+    border-color: #d5d5cc;
+    box-shadow: none;
+  }
+
+  .policy-content p {
+    max-width: none;
+    color: #1c1c1a;
+  }
+
+  .policy-meta a,
+  .metadata-card a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .app-detail-rail {
+    position: static;
+  }
+
+  .directory-row,
+  .feature-item,
+  .policy-content section {
+    break-inside: avoid;
   }
 }
 

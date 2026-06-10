@@ -42,6 +42,22 @@ describe("seo and geo metadata", () => {
     expect(adsBotAllowFound).toBe(true);
   });
 
+  it("never blocks search or AI crawlers from the public directory", () => {
+    const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+    const content = fs.readFileSync(robotsPath, "utf-8");
+
+    // `Disallow: /` (entire site) contradicts the indexed-directory purpose
+    // and the `robots: { index: true }` page metadata. Only /api/ is private.
+    const fullBlocks = content
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => /^Disallow:\s*\/$/.test(line));
+
+    expect(fullBlocks).toEqual([]);
+    expect(content).toContain("Disallow: /api/");
+    expect(content).toContain("Sitemap: https://apps.timwuhaotian.dev/sitemap.xml");
+  });
+
   it("generates canonical app metadata with social previews", async () => {
     const metadata = await generateAppMetadata({
       params: Promise.resolve({ slug: "kodda" }),
@@ -57,7 +73,7 @@ describe("seo and geo metadata", () => {
       url: "/apps/kodda",
     });
     expect(metadata.twitter).toMatchObject({
-      card: "summary",
+      card: "summary_large_image",
       title: "Kodda",
     });
   });

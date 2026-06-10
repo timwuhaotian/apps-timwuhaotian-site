@@ -1,6 +1,12 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  ExternalLink,
+  SiteFooter,
+  SiteHeader,
+  supportMailto,
+} from "@/components/site-chrome";
 import { AppContent, apps, getAppRoutes } from "@/content/apps";
 import { buildHomeJsonLd, serializeJsonLd } from "@/content/seo";
 
@@ -15,7 +21,7 @@ export default function Home() {
       />
       <SiteHeader />
 
-      <main className="page-shell main-stack" id="top">
+      <main className="page-shell main-stack" id="main">
         <section aria-labelledby="hero-title" className="hero">
           <div className="hero-card">
             <div className="hero-copy">
@@ -30,7 +36,7 @@ export default function Home() {
                 <a className="button primary" href="#apps">
                   Browse apps
                 </a>
-                <a className="button ghost" href="mailto:gosingk@gmail.com">
+                <a className="button ghost" href={supportMailto}>
                   Contact support
                 </a>
               </div>
@@ -75,37 +81,8 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="page-shell">
-          <div className="footer-brand">
-            <span className="footer-mark">A</span>
-            <span>Apps Hub · Tim Wu Haotian</span>
-          </div>
-          <span>Stable public pages for app review, users, and support.</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
-  );
-}
-
-function SiteHeader() {
-  return (
-    <header className="site-header">
-      <div className="page-shell site-header__inner">
-        <a aria-label="Apps Hub home" className="brand" href="#top">
-          <span className="brand-mark">A</span>
-          <span className="brand-copy">
-            <span className="brand-title">Apps Hub</span>
-            <span className="brand-subtitle">Tim Wu Haotian</span>
-          </span>
-        </a>
-        <nav aria-label="App hub sections" className="site-nav">
-          <a href="#apps">Apps</a>
-          <a href="#policies">Policies</a>
-          <a href="mailto:gosingk@gmail.com">Support</a>
-        </nav>
-      </div>
-    </header>
   );
 }
 
@@ -113,7 +90,9 @@ function HeroShowcase({ featuredApps }: { featuredApps: AppContent[] }) {
   return (
     <aside aria-label="Featured app shortcuts" className="hero-showcase">
       <div className="hero-showcase-top">
-        <span>Six public surfaces</span>
+        <span>
+          {featuredApps.length} apps · {featuredApps.length * 3} public pages
+        </span>
         <span>Review-ready</span>
       </div>
 
@@ -129,7 +108,7 @@ function HeroShowcase({ featuredApps }: { featuredApps: AppContent[] }) {
               style={accentStyle(app)}
             >
               <Image
-                alt={`${app.name} hero icon`}
+                alt=""
                 className="hero-visual-icon"
                 height={96}
                 priority={index < 3}
@@ -160,9 +139,14 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
         animationDelay: `${index * 80}ms`,
       }}
     >
-      <Link href={routes.intro} aria-label={app.name} className="app-icon-link">
+      <Link
+        aria-hidden="true"
+        className="app-icon-link"
+        href={routes.intro}
+        tabIndex={-1}
+      >
         <Image
-          alt={`${app.name} icon`}
+          alt=""
           className="app-icon"
           height={112}
           src={app.icon}
@@ -171,9 +155,9 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
       </Link>
 
       <div className="app-info">
-        <h2>
+        <h3>
           <Link href={routes.intro} className="app-name-link">{app.name}</Link>
-        </h2>
+        </h3>
         <p>{app.summary}</p>
         <div className="row-meta">
           {app.platforms.map((platform) => (
@@ -190,14 +174,14 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
 
       <nav aria-label={`${app.name} links`} className="row-actions">
         {app.appStoreUrl ? (
-          <a className="link-chip" href={app.appStoreUrl}>
+          <ExternalLink className="link-chip" href={app.appStoreUrl}>
             App Store
-          </a>
+          </ExternalLink>
         ) : null}
         {app.websiteUrl ? (
-          <a className="link-chip" href={app.websiteUrl}>
+          <ExternalLink className="link-chip" href={app.websiteUrl}>
             Website
-          </a>
+          </ExternalLink>
         ) : null}
         <Link className="link-chip" href={routes.intro}>
           Intro
@@ -225,7 +209,11 @@ function StatusBadge({ status }: { status: AppContent["status"] }) {
 }
 
 function statusLabel(status: AppContent["status"]) {
-  return status === "live" ? "Public" : status === "beta" ? "Beta" : "Draft";
+  return status === "live"
+    ? "Public"
+    : status === "beta"
+      ? "Beta"
+      : "In development";
 }
 
 function accentStyle(app: AppContent): CSSProperties {

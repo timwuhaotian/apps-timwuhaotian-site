@@ -19,6 +19,28 @@ describe("app detail spacing contract", () => {
   });
 });
 
+describe("site-wide polish contract", () => {
+  it("keeps a high-contrast focus ring that follows element shape", () => {
+    expect(css).toContain("outline: 3px solid var(--focus);");
+    expect(css).not.toMatch(/:focus-visible\s*{[^}]*border-radius/);
+  });
+
+  it("offers a skip link and sticky-header-aware anchor offsets", () => {
+    expect(css).toContain(".skip-link");
+    expect(css).toContain("scroll-margin-top: 96px;");
+  });
+
+  it("ships print styles that strip chrome from policy pages", () => {
+    expect(css).toContain("@media print");
+    expect(css).toMatch(/@media print[\s\S]*\.site-header/);
+    expect(css).toContain("break-inside: avoid;");
+  });
+
+  it("respects reduced motion preferences", () => {
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+  });
+});
+
 describe("premium home polish contract", () => {
   it("shows product imagery in the hero without relying on decorative orbs", () => {
     expect(css).toContain(".hero-showcase");
