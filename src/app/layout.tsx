@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import { siteMetadata } from "@/content/seo";
 import "./globals.css";
 
@@ -10,7 +10,7 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
-const dmSans = DM_Sans({
+const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -25,8 +25,8 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = siteMetadata;
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: "#f7f6f1",
+  colorScheme: "dark",
+  themeColor: "#0a0a0b",
 };
 
 export default function RootLayout({
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a className="skip-link" href="#main">

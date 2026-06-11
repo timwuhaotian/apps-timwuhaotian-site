@@ -1,7 +1,18 @@
+"use client";
+
 import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { motion } from "framer-motion";
+import {
+  ExternalLink,
+  SiteFooter,
+  SiteHeader,
+  AmbientBackground,
+  GridOverlay,
+} from "@/components/site-chrome";
+import { SmoothScrollProvider, CustomCursor } from "@/components/smooth-scroll";
+import { FadeUp, StaggerContainer } from "@/components/motion";
 import { AppContent, getAppRoutes, getPolicyPage } from "@/content/apps";
 
 type AppShellProps = {
@@ -16,84 +27,109 @@ export function AppShell({
   currentPage = "intro",
 }: AppShellProps) {
   const routes = getAppRoutes(app);
-  // Policy pages carry their own <h1> in PolicyArticle, so the masthead
-  // title demotes to keep one h1 per page.
   const TitleTag = currentPage === "intro" ? "h1" : "p";
 
   return (
-    <div className="hub-page" style={accentStyle(app)}>
-      <SiteHeader />
+    <SmoothScrollProvider>
+      <CustomCursor />
+      <AmbientBackground />
+      <GridOverlay />
 
-      <main className="page-shell main-stack" id="main">
-        <header className="app-detail-hero">
-          <nav aria-label="Breadcrumb" className="breadcrumb">
-            <span>
-              <Link href="/">Apps</Link>
-            </span>
-            <span aria-current="page">{app.name}</span>
-          </nav>
+      <div className="hub-page" style={accentStyle(app)}>
+        <SiteHeader />
 
-          <div className="app-detail-title">
-            <Image
-              alt={`${app.name} app icon`}
-              className="app-icon"
-              height={148}
-              priority
-              src={app.icon}
-              width={148}
-            />
-            <div>
-              <TitleTag className="app-title">{app.name}</TitleTag>
-              <p className="app-tagline">{app.tagline}</p>
+        <main className="page-shell main-stack" id="main">
+          <motion.header
+            className="app-detail-hero"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <nav aria-label="Breadcrumb" className="breadcrumb">
+              <span>
+                <Link href="/">Apps</Link>
+              </span>
+              <span aria-current="page">{app.name}</span>
+            </nav>
+
+            <div className="app-detail-title">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  duration: 0.5,
+                  ease: [0.25, 1, 0.5, 1],
+                  delay: 0.1,
+                }}
+              >
+                <Image
+                  alt={`${app.name} app icon`}
+                  className="app-icon"
+                  height={148}
+                  priority
+                  src={app.icon}
+                  width={148}
+                />
+              </motion.div>
+              <div>
+                <TitleTag className="app-title">{app.name}</TitleTag>
+                <p className="app-tagline">{app.tagline}</p>
+              </div>
             </div>
-          </div>
 
-          <nav aria-label={`${app.name} pages`} className="app-tabs">
-            <PageLink
-              current={currentPage}
-              href={routes.intro}
-              page="intro"
-            >
-              Intro
-            </PageLink>
-            <PageLink
-              current={currentPage}
-              href={routes.privacy}
-              page="privacy"
-            >
-              Privacy
-            </PageLink>
-            <PageLink
-              current={currentPage}
-              href={routes.terms}
-              page="terms"
-            >
-              Terms
-            </PageLink>
-            {app.appStoreUrl ? (
-              <ExternalLink
-                className="button ghost app-tabs__cta"
-                href={app.appStoreUrl}
+            <nav aria-label={`${app.name} pages`} className="app-tabs">
+              <PageLink
+                current={currentPage}
+                href={routes.intro}
+                page="intro"
               >
-                App Store
-              </ExternalLink>
-            ) : null}
-            {app.websiteUrl ? (
-              <ExternalLink
-                className="button ghost app-tabs__cta"
-                href={app.websiteUrl}
+                Intro
+              </PageLink>
+              <PageLink
+                current={currentPage}
+                href={routes.privacy}
+                page="privacy"
               >
-                Website
-              </ExternalLink>
-            ) : null}
-          </nav>
-        </header>
+                Privacy
+              </PageLink>
+              <PageLink
+                current={currentPage}
+                href={routes.terms}
+                page="terms"
+              >
+                Terms
+              </PageLink>
+              {app.appStoreUrl ? (
+                <ExternalLink
+                  className="button ghost app-tabs__cta"
+                  href={app.appStoreUrl}
+                >
+                  App Store
+                </ExternalLink>
+              ) : null}
+              {app.websiteUrl ? (
+                <ExternalLink
+                  className="button ghost app-tabs__cta"
+                  href={app.websiteUrl}
+                >
+                  Website
+                </ExternalLink>
+              ) : null}
+            </nav>
+          </motion.header>
 
-        {children}
-      </main>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {children}
+          </motion.div>
+        </main>
 
-      <SiteFooter />
-    </div>
+        <SiteFooter />
+      </div>
+    </SmoothScrollProvider>
   );
 }
 
@@ -168,8 +204,9 @@ export function StatusBadge({ status }: { status: AppContent["status"] }) {
   );
 }
 
-export function accentStyle(app: AppContent): CSSProperties {
+function accentStyle(app: AppContent): CSSProperties {
   return {
     "--app-accent": app.accentColor,
+    "--app-accent-glow": `${app.accentColor}15`,
   } as CSSProperties;
 }

@@ -24,29 +24,27 @@ describe("public app hub pages", () => {
     );
     expect(markup).toContain(">App Store<");
     expect(markup).toContain(">Website<");
-    expect(markup).toContain("directory-row");
-    expect(markup).toContain("hero-showcase");
-    expect(markup).toContain("Featured app shortcuts");
+    expect(markup).toContain("app-card");
+    expect(markup).toContain("apps-section");
+    expect(markup).toContain("app-icon-link");
     expect(markup).toContain("iOS-first");
     expect(markup).toContain("8 apps");
     expect(markup).toContain('type="application/ld+json"');
     expect(markup).toContain("ItemList");
   });
 
-  it("derives the hero showcase counters from the app catalog", () => {
+  it("shows app count badges from the catalog", () => {
     const markup = renderToStaticMarkup(<Home />);
 
-    expect(markup).toContain("8 apps · 24 public pages");
-    expect(markup).not.toContain("Six public surfaces");
+    expect(markup).toContain(">8 apps<");
   });
 
-  it("uses app imagery instead of decorative hero orbs above the fold", () => {
+  it("renders app cards with icons and links in the directory", () => {
     const markup = renderToStaticMarkup(<Home />);
 
-    expect(markup).toContain("hero-visual-icon");
-    expect(occurrences(markup, "hero-visual-link")).toBe(8);
+    expect(markup).toContain("app-icon");
+    expect(occurrences(markup, "app-card")).toBe(8);
     expect(markup).toContain('href="/apps/echo-vault"');
-    expect(markup).not.toContain("hero-orb");
   });
 
   it("labels in-development apps honestly instead of as drafts", () => {

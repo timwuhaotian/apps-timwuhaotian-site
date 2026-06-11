@@ -1,13 +1,46 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+"use client";
+
+import { useState, useEffect, type AnchorHTMLAttributes, type ReactNode } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { useScrollDirection } from "@/components/smooth-scroll";
 
 export const supportMailto = "mailto:gosingk@gmail.com";
 
 const buildYear = new Date().getFullYear();
 
-export function SiteHeader() {
+export function AmbientBackground() {
   return (
-    <header className="site-header">
+    <div className="ambient-bg" aria-hidden="true">
+      <div className="ambient-orb ambient-orb--1" />
+      <div className="ambient-orb ambient-orb--2" />
+      <div className="ambient-orb ambient-orb--3" />
+    </div>
+  );
+}
+
+export function GridOverlay() {
+  return <div className="grid-overlay" aria-hidden="true" />;
+}
+
+export function SiteHeader() {
+  const hidden = useScrollDirection();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <motion.header
+      className={`site-header ${hidden ? "hidden" : ""} ${scrolled ? "scrolled" : ""}`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
+    >
       <div className="page-shell site-header__inner">
         <Link aria-label="Apps Hub home" className="brand" href="/">
           <span aria-hidden="true" className="brand-mark">
@@ -24,7 +57,7 @@ export function SiteHeader() {
           <a href={supportMailto}>Support</a>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
 }
 

@@ -1,18 +1,38 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
+  AmbientBackground,
   ExternalLink,
+  GridOverlay,
   SiteFooter,
   SiteHeader,
   supportMailto,
 } from "@/components/site-chrome";
+import { SmoothScrollProvider, CustomCursor } from "@/components/smooth-scroll";
+import {
+  FadeUp,
+  FadeIn,
+  ScaleReveal,
+  StaggerContainer,
+  Parallax,
+  MagneticButton,
+  TiltCard,
+  TextReveal,
+} from "@/components/motion";
 import { AppContent, apps, getAppRoutes } from "@/content/apps";
 import { buildHomeJsonLd, serializeJsonLd } from "@/content/seo";
 
 export default function Home() {
   return (
-    <div className="hub-page">
+    <SmoothScrollProvider>
+      <CustomCursor />
+      <AmbientBackground />
+      <GridOverlay />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -21,149 +41,154 @@ export default function Home() {
       />
       <SiteHeader />
 
-      <main className="page-shell main-stack" id="main">
-        <section aria-labelledby="hero-title" className="hero">
-          <div className="hero-card">
-            <div className="hero-copy">
-              <div className="hero-label">Indie Apps Directory</div>
-              <h1 id="hero-title">Apps by Tim Wu Haotian</h1>
+      <div className="hub-page">
+        {/* ===== HERO ===== */}
+        <section className="hero-section" id="main">
+          <div className="hero-content">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <div className="hero-badge">
+                <span className="hero-badge-dot" />
+                Indie Apps Directory
+              </div>
+            </motion.div>
+
+            <div className="hero-title-wrap">
+              <motion.h1
+                className="hero-title"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 1, 0.5, 1] }}
+              >
+                Apps by{" "}
+                <span className="accent-word">Tim Wu Haotian</span>
+              </motion.h1>
+            </div>
+
+            <FadeUp delay={0.7}>
               <p className="hero-lede">
                 A curated collection of indie apps — voice notes, dual-camera
                 recording, spatial memory, research briefings, and AI support
                 widgets. Built with care for iOS and the web.
               </p>
+            </FadeUp>
+
+            <FadeUp delay={0.85}>
               <div className="hero-actions">
-                <a className="button primary" href="#apps">
-                  Browse apps
-                </a>
-                <a className="button ghost" href={supportMailto}>
-                  Contact support
-                </a>
+                <MagneticButton>
+                  <a className="button primary" href="#apps">
+                    Browse apps
+                  </a>
+                </MagneticButton>
+                <MagneticButton>
+                  <a className="button ghost" href={supportMailto}>
+                    Contact support
+                  </a>
+                </MagneticButton>
               </div>
-            </div>
-            <HeroShowcase featuredApps={apps} />
+            </FadeUp>
           </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            className="scroll-indicator"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 1 }}
+          >
+            <span>Scroll</span>
+            <div className="scroll-line" />
+          </motion.div>
         </section>
 
-        <section aria-labelledby="apps-title" className="directory-panel" id="apps">
-          <div className="browser-bar">
-            <div aria-hidden="true" className="browser-dots">
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className="browser-path">/ · Apps directory</div>
-          </div>
-
-          <div className="directory-body">
-            <div className="directory-top">
+        {/* ===== APPS DIRECTORY ===== */}
+        <section className="apps-section" id="apps">
+          <FadeIn>
+            <div className="apps-section-header">
               <div>
-                <h2 id="apps-title">Apps directory</h2>
-                <p className="section-summary">
+                <h2 className="apps-section-title">Apps directory</h2>
+                <p className="apps-section-subtitle">
                   Public pages for app introductions, privacy policies, and
-                  terms of use. Each app includes indexed support links for
-                  review and user reference.
+                  terms of use. Each app includes indexed support links.
                 </p>
               </div>
-              <div className="directory-controls">
+              <div className="apps-section-pills">
                 <span className="pill ios">iOS-first</span>
                 <span className="pill">{apps.length} apps</span>
                 <span className="pill">Indexed</span>
               </div>
             </div>
+          </FadeIn>
 
-            <div className="app-list" id="policies">
-              {apps.map((app, i) => (
-                <AppRow app={app} key={app.slug} index={i} />
-              ))}
-            </div>
-          </div>
+          <StaggerContainer className="app-grid" id="policies">
+            {apps.map((app, i) => (
+              <AppCard app={app} key={app.slug} index={i} />
+            ))}
+          </StaggerContainer>
         </section>
-      </main>
 
-      <SiteFooter />
-    </div>
+        <SiteFooter />
+      </div>
+    </SmoothScrollProvider>
   );
 }
 
-function HeroShowcase({ featuredApps }: { featuredApps: AppContent[] }) {
-  return (
-    <aside aria-label="Featured app shortcuts" className="hero-showcase">
-      <div className="hero-showcase-top">
-        <span>
-          {featuredApps.length} apps · {featuredApps.length * 3} public pages
-        </span>
-        <span>Review-ready</span>
-      </div>
-
-      <div className="hero-icon-wall">
-        {featuredApps.map((app, index) => {
-          const routes = getAppRoutes(app);
-
-          return (
-            <Link
-              className="hero-visual-link"
-              href={routes.intro}
-              key={app.slug}
-              style={accentStyle(app)}
-            >
-              <Image
-                alt=""
-                className="hero-visual-icon"
-                height={96}
-                priority={index < 3}
-                sizes="(max-width: 680px) 64px, 86px"
-                src={app.icon}
-                width={96}
-              />
-              <span className="hero-visual-copy">
-                <strong>{app.name}</strong>
-                <span>{statusLabel(app.status)}</span>
-              </span>
-            </Link>
-          );
-        })}
-      </div>
-    </aside>
-  );
-}
-
-function AppRow({ app, index }: { app: AppContent; index: number }) {
+function AppCard({ app, index }: { app: AppContent; index: number }) {
   const routes = getAppRoutes(app);
 
   return (
-    <article
-      className="directory-row"
-      style={{
-        ...accentStyle(app),
-        animationDelay: `${index * 80}ms`,
+    <motion.article
+      className="app-card"
+      style={
+        {
+          "--app-accent": app.accentColor,
+          "--app-accent-glow": `${app.accentColor}15`,
+          animationDelay: `${index * 80}ms`,
+        } as CSSProperties
+      }
+      variants={{
+        hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+        visible: {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
+        },
       }}
     >
-      <Link
-        aria-hidden="true"
-        className="app-icon-link"
-        href={routes.intro}
-        tabIndex={-1}
-      >
-        <Image
-          alt=""
-          className="app-icon"
-          height={112}
-          src={app.icon}
-          width={112}
-        />
-      </Link>
+      <div className="app-icon-wrap">
+        <Link
+          aria-hidden="true"
+          className="app-icon-link"
+          href={routes.intro}
+          tabIndex={-1}
+        >
+          <Image
+            alt=""
+            className="app-icon"
+            height={112}
+            src={app.icon}
+            width={112}
+          />
+        </Link>
+      </div>
 
       <div className="app-info">
         <h3>
-          <Link href={routes.intro} className="app-name-link">{app.name}</Link>
+          <Link href={routes.intro} className="app-name-link">
+            {app.name}
+          </Link>
         </h3>
         <p>{app.summary}</p>
         <div className="row-meta">
           {app.platforms.map((platform) => (
             <span
-              className={`pill ${platform === "iOS" ? "ios" : ""}`}
+              className={`pill ${platform === "iOS" || platform === "iPadOS" ? "ios" : ""}`}
               key={platform}
+              style={{ minHeight: 24, padding: "2px 10px", fontSize: 11 }}
             >
               {platform}
             </span>
@@ -193,13 +218,12 @@ function AppRow({ app, index }: { app: AppContent; index: number }) {
           Terms
         </Link>
       </nav>
-    </article>
+    </motion.article>
   );
 }
 
 function StatusBadge({ status }: { status: AppContent["status"] }) {
   const tone = status === "live" ? "live" : status === "beta" ? "beta" : "draft";
-
   return (
     <span className={`badge ${tone}`}>
       <span className="dot" />
@@ -214,10 +238,4 @@ function statusLabel(status: AppContent["status"]) {
     : status === "beta"
       ? "Beta"
       : "In development";
-}
-
-function accentStyle(app: AppContent): CSSProperties {
-  return {
-    "--app-accent": app.accentColor,
-  } as CSSProperties;
 }

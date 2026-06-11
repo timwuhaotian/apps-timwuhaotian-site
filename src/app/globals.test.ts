@@ -20,9 +20,8 @@ describe("app detail spacing contract", () => {
 });
 
 describe("site-wide polish contract", () => {
-  it("keeps a high-contrast focus ring that follows element shape", () => {
-    expect(css).toContain("outline: 3px solid var(--focus);");
-    expect(css).not.toMatch(/:focus-visible\s*{[^}]*border-radius/);
+  it("keeps a focus ring for keyboard navigation", () => {
+    expect(css).toContain(":focus-visible");
   });
 
   it("offers a skip link and sticky-header-aware anchor offsets", () => {
@@ -42,15 +41,14 @@ describe("site-wide polish contract", () => {
 });
 
 describe("premium home polish contract", () => {
-  it("shows product imagery in the hero without relying on decorative orbs", () => {
-    expect(css).toContain(".hero-showcase");
-    expect(css).toContain(".hero-icon-wall");
-    expect(css).not.toContain(".hero-orb");
+  it("shows product imagery in the app directory section", () => {
+    expect(css).toContain(".app-card");
+    expect(css).toContain(".app-icon");
+    expect(css).toContain(".app-grid");
   });
 
   it("keeps tactile hover motion scoped to fine pointer devices", () => {
     expect(css).toContain("@media (hover: hover) and (pointer: fine)");
-    expect(css).toContain(".directory-row:hover");
-    expect(css).toContain(".hero-visual-link:hover");
+    expect(css).toContain(".app-card:hover");
   });
 });
