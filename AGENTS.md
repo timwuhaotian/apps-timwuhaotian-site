@@ -14,20 +14,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
    - 密码: `2e=W9hbg$YE42Q4s`
    - 项目目录: `/root/code/apps-timwuhaotian-site`
 
-2. 执行部署流程：
-   ```bash
-   ssh root@45.76.178.248
-   cd /root/code/apps-timwuhaotian-site
-   git pull
-   # 重启 next 服务（根据实际服务管理方式选择）
-   pm2 restart next    # 如果使用 pm2
-   # 或
-   systemctl restart next  # 如果使用 systemd
-   ```
-
 3. 使用 sshpass 实现免交互 SSH：
    ```bash
-   sshpass -p '2e=W9hbg$YE42Q4s' ssh -o StrictHostKeyChecking=no root@45.76.178.248 'cd /root/code/apps-timwuhaotian-site && git pull && pm2 restart next'
+   sshpass -p '2e=W9hbg$YE42Q4s' ssh -o StrictHostKeyChecking=no root@45.76.178.248 'cd /root/code/apps-timwuhaotian-site && git pull && systemctl restart apps-timwuhaotian-site'
    ```
 
 4. 如果本地 `.env` 有更新，需同步到 VPS：
