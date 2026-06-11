@@ -27,7 +27,7 @@ describe("site-wide polish contract", () => {
 
   it("offers a skip link and sticky-header-aware anchor offsets", () => {
     expect(css).toContain(".skip-link");
-    expect(css).toContain("scroll-margin-top: 96px;");
+    expect(css).toContain("scroll-margin-top: 88px;");
   });
 
   it("ships print styles that strip chrome from policy pages", () => {
