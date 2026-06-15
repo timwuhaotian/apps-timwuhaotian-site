@@ -11,7 +11,12 @@ import {
   AmbientBackground,
   GridOverlay,
 } from "@/components/site-chrome";
-import { SmoothScrollProvider, CustomCursor } from "@/components/smooth-scroll";
+import {
+  SmoothScrollProvider,
+  CustomCursor,
+  ScrollProgress,
+  AmbientDrift,
+} from "@/components/smooth-scroll";
 import { FadeUp, StaggerContainer } from "@/components/motion";
 import { AppContent, getAppRoutes, getPolicyPage } from "@/content/apps";
 
@@ -32,6 +37,8 @@ export function AppShell({
   return (
     <SmoothScrollProvider>
       <CustomCursor />
+      <ScrollProgress />
+      <AmbientDrift />
       <AmbientBackground />
       <GridOverlay />
 

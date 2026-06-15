@@ -12,17 +12,19 @@ import {
   SiteHeader,
   supportMailto,
 } from "@/components/site-chrome";
-import { SmoothScrollProvider, CustomCursor } from "@/components/smooth-scroll";
+import {
+  SmoothScrollProvider,
+  CustomCursor,
+  ScrollProgress,
+  AmbientDrift,
+} from "@/components/smooth-scroll";
 import {
   FadeUp,
   FadeIn,
-  ScaleReveal,
   StaggerContainer,
-  Parallax,
   MagneticButton,
-  TiltCard,
-  TextReveal,
 } from "@/components/motion";
+import { HeroConstellation } from "@/components/hero-constellation";
 import { AppContent, apps, getAppRoutes } from "@/content/apps";
 import { buildHomeJsonLd, serializeJsonLd } from "@/content/seo";
 
@@ -30,6 +32,8 @@ export default function Home() {
   return (
     <SmoothScrollProvider>
       <CustomCursor />
+      <ScrollProgress />
+      <AmbientDrift />
       <AmbientBackground />
       <GridOverlay />
 
@@ -44,6 +48,8 @@ export default function Home() {
       <div className="hub-page">
         {/* ===== HERO ===== */}
         <section className="hero-section" id="main">
+          <HeroConstellation />
+
           <div className="hero-content">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -139,13 +145,26 @@ export default function Home() {
 function AppCard({ app, index }: { app: AppContent; index: number }) {
   const routes = getAppRoutes(app);
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    e.currentTarget.style.setProperty("--mouse-x", `${x}%`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}%`);
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.setProperty("--mouse-x", "50%");
+    e.currentTarget.style.setProperty("--mouse-y", "50%");
+  };
+
   return (
     <motion.article
       className="app-card"
       style={
         {
           "--app-accent": app.accentColor,
-          "--app-accent-glow": `${app.accentColor}15`,
+          "--app-accent-glow": `${app.accentColor}18`,
           animationDelay: `${index * 80}ms`,
         } as CSSProperties
       }
@@ -158,6 +177,8 @@ function AppCard({ app, index }: { app: AppContent; index: number }) {
           transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] },
         },
       }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="app-icon-wrap">
         <Link

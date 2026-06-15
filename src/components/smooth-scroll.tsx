@@ -93,6 +93,50 @@ export function useMagnetic() {
   return { ref, onMouseMove: handleMouseMove, onMouseLeave: handleMouseLeave };
 }
 
+/* ===== Scroll progress bar ===== */
+export function ScrollProgress() {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY;
+      const scrollHeight = doc.scrollHeight - doc.clientHeight;
+      const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+      if (barRef.current) {
+        barRef.current.style.transform = `scaleX(${progress})`;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return <div ref={barRef} className="scroll-progress" aria-hidden="true" />;
+}
+
+/* ===== Ambient BG mouse drift ===== */
+export function AmbientDrift() {
+  useEffect(() => {
+    const bg = document.querySelector(".ambient-bg") as HTMLElement | null;
+    if (!bg) return;
+
+    const onMove = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      bg.style.setProperty("--orb-x", dx.toFixed(3));
+      bg.style.setProperty("--orb-y", dy.toFixed(3));
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
+  return null;
+}
+
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);

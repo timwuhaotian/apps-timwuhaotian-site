@@ -153,22 +153,23 @@ p, h1, h2, h3, h4, figure, blockquote {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.12;
-  transition: transform 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .ambient-orb--1 {
-  width: 600px;
-  height: 600px;
+  width: 640px;
+  height: 640px;
   background: var(--accent);
-  top: -10%;
-  right: -8%;
+  top: -12%;
+  right: -6%;
   animation: floatOrb1 20s ease-in-out infinite;
 }
 
 .ambient-orb--2 {
-  width: 500px;
-  height: 500px;
+  width: 520px;
+  height: 520px;
   background: #0ea5e9;
   bottom: -10%;
   left: -5%;
@@ -176,12 +177,19 @@ p, h1, h2, h3, h4, figure, blockquote {
 }
 
 .ambient-orb--3 {
-  width: 350px;
-  height: 350px;
+  width: 380px;
+  height: 380px;
   background: var(--accent-secondary);
-  top: 40%;
-  left: 50%;
+  top: 38%;
+  left: 52%;
+  opacity: 0.14;
   animation: floatOrb3 18s ease-in-out infinite;
+}
+
+/* Pointer-reactive drift layer (set via JS) */
+.ambient-bg {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(calc(var(--orb-x, 0) * 22px), calc(var(--orb-y, 0) * 22px), 0);
 }
 
 @keyframes floatOrb1 {
@@ -456,6 +464,27 @@ p, h1, h2, h3, h4, figure, blockquote {
   align-items: center;
 }
 
+/* ===== CONSTELLATION ===== */
+.constellation-icon:hover {
+  opacity: 1 !important;
+  box-shadow: 0 0 32px var(--app-accent-glow, rgba(124, 92, 252, 0.3)), 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ===== SCROLL PROGRESS ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  z-index: 9999;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  box-shadow: 0 0 8px rgba(124, 92, 252, 0.4), 0 0 16px rgba(94, 234, 212, 0.15);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
 /* ===== BUTTONS ===== */
 .button, .link-chip {
   min-height: 44px;
@@ -490,8 +519,35 @@ p, h1, h2, h3, h4, figure, blockquote {
   transform: translateY(0) scale(0.98);
 }
 
+/* Shimmer sweep on primary button */
+.button.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.12) 55%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: none;
+  pointer-events: none;
+}
+
+.button.primary:hover::after {
+  transform: translateX(120%);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button.primary:hover:active::after {
+  transition: none;
+}
+
 .button.ghost, .link-chip {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   color: var(--text-secondary);
   padding: 0 20px;
@@ -500,7 +556,11 @@ p, h1, h2, h3, h4, figure, blockquote {
 .button.ghost:hover, .link-chip:hover {
   border-color: var(--border-hover);
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.link-chip:focus-visible, .button.ghost:focus-visible {
+  border-color: var(--border-strong);
 }
 
 .link-chip {
@@ -597,10 +657,15 @@ p, h1, h2, h3, h4, figure, blockquote {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--app-accent-glow, transparent), transparent 60%);
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--app-accent-glow, rgba(124, 92, 252, 0.12)),
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 300ms;
   pointer-events: none;
+  z-index: 0;
 }
 
 .app-card::after {
@@ -609,16 +674,18 @@ p, h1, h2, h3, h4, figure, blockquote {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 2.5px;
   background: var(--app-accent, var(--accent));
   opacity: 0;
   transition: opacity 300ms;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 }
 
 .app-card:hover {
   border-color: var(--border-hover);
   background: var(--bg-card-hover);
   transform: translateX(4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--app-accent, transparent);
 }
 
 .app-card:hover::before {
@@ -649,7 +716,8 @@ p, h1, h2, h3, h4, figure, blockquote {
 }
 
 .app-card:hover .app-icon {
-  box-shadow: 0 4px 20px rgba(124, 92, 252, 0.2), 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 24px var(--app-accent-glow, rgba(124, 92, 252, 0.2)),
+    0 4px 20px rgba(124, 92, 252, 0.2), 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .app-card:hover .app-icon-link {
@@ -938,9 +1006,46 @@ p, h1, h2, h3, h4, figure, blockquote {
 
 .phone-block.small { min-height: 42px; }
 
+/* Branded app splash inside phone frame */
+.phone-splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  background: radial-gradient(ellipse 80% 60% at 50% 20%, var(--bg-elevated), var(--bg-card));
+  flex: 1;
+  padding: 24px;
+  text-align: center;
+}
+
+.phone-splash .splash-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  box-shadow: 0 0 32px var(--app-accent-glow, rgba(124, 92, 252, 0.2)),
+    0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.phone-splash .splash-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.phone-splash .splash-tagline {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 220px;
+}
+
 .phone-block.hero-block {
-  min-height: 152px;
-  background: linear-gradient(135deg, var(--accent), #9333ea);
+  display: none;
 }
 
 /* Metadata card */
@@ -1217,14 +1322,14 @@ p, h1, h2, h3, h4, figure, blockquote {
 }
 
 .scroll-line {
-  width: 1px;
-  height: 32px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
+  width: 1.5px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(124, 92, 252, 0.6), transparent);
 }
 
 @keyframes bounce-soft {
   0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-  50% { transform: translateX(-50%) translateY(8px); opacity: 0.5; }
+  50% { transform: translateX(-50%) translateY(8px); opacity: 0.4; }
 }
 
 /* ===== TOUCH ===== */

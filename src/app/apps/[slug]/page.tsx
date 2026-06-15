@@ -167,10 +167,17 @@ function MediaStrip({ app }: { app: (typeof apps)[number] }) {
   return (
     <div aria-hidden="true" className="phone-frame">
       <div className="phone-notch" />
-      <div className="phone-block hero-block" />
-      <div className="phone-block small" />
-      <div className="phone-block" />
-      <div className="phone-block small" />
+      <div className="phone-splash">
+        <Image
+          alt=""
+          className="splash-icon"
+          height={128}
+          src={app.icon}
+          width={128}
+        />
+        <span className="splash-name">{app.name}</span>
+        <span className="splash-tagline">{app.tagline}</span>
+      </div>
     </div>
   );
 }
