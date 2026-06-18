@@ -7,8 +7,9 @@ import {
 } from "@/content/apps";
 
 describe("apps content contract", () => {
-  it("lists the eight real managed apps", () => {
+  it("lists the nine real managed apps", () => {
     expect(apps.map((app) => app.slug)).toEqual([
+      "kinvoice",
       "echo-vault",
       "duetshot",
       "found",
@@ -61,6 +62,7 @@ describe("apps content contract", () => {
     expect(
       Object.fromEntries(apps.map((app) => [app.slug, app.accentColor])),
     ).toEqual({
+      kinvoice: "#2F4A3A",
       "echo-vault": "#25745d",
       duetshot: "#7559c9",
       found: "#b46b20",

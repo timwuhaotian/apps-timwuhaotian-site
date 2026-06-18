@@ -46,6 +46,69 @@ const legalOwner = "WU HAOTIAN";
 
 export const apps = [
   {
+    slug: "kinvoice",
+    name: "KinVoice",
+    tagline: "Preserve a loved one's voice and hear their stories again.",
+    summary:
+      "KinVoice records a family member's voice with their consent, clones it with cloud AI, and lets you ask questions and hear stories told back in their voice. Recordings live in a private library on your device; audio is sent to the cloud AI provider only during voice cloning, transcription, and playback, and is not retained on our servers.",
+    platforms: ["iOS"],
+    status: "in development",
+    bundleId: "com.kinvoice.kinvoice",
+    websiteUrl: "https://kinvoice.app",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-18",
+    termsUpdatedAt: "2026-06-18",
+    icon: "/apps/kinvoice/icon.png",
+    screenshots: [],
+    accentColor: "#2F4A3A",
+    features: [
+      "Record guided voice memories of a family member with consent-first prompts.",
+      "Clone their voice with cloud AI and chat — hear replies and stories told back in their voice.",
+      "Speak your questions aloud (cloud speech-to-text) or type them.",
+      "A private memory library of recordings and generated stories lives on your device.",
+      "Sign in with Apple; in-app account deletion removes your server-side data.",
+      "Free to start with one cloned voice; KinVoice Pro (auto-renewing) raises limits and allows up to five voices.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "voice recordings of a family member, captured with their consent (the raw reference sample is stored only in the app's private storage on your device and re-sent to the cloud voice service on each synthesis — see Third Parties)",
+        "the questions you speak during voice chat (transmitted to the cloud AI service for speech-to-text and not retained on our servers)",
+        "your chat messages and the family member's name and relationship you provide as context (sent to the cloud AI service to generate replies and stories)",
+        "your Apple account identifier and email address from Sign in with Apple (the email may be a private Apple relay address; used to create and identify your account)",
+        "voice-profile metadata you create — family member name, title, generated voice label, and recording duration (stored on our server so your cloned voices list across devices)",
+        "usage counters and subscription state — voice minutes, message and story counts, plan tier, and Apple transaction identifiers — managed through Apple In-App Purchase and stored on our server",
+      ],
+      storage:
+        "KinVoice keeps your raw voice recordings — the reference audio used for cloning — in the app's private storage on your device. That on-device audio is the single source of truth: it is re-sent to the cloud voice service each time speech is generated, rather than stored on our servers. Our backend (a SQLite database on a private server) stores only your account (Apple user identifier, the email returned by Sign in with Apple, and an optional display name), voice-profile metadata (family member name, title, generated voice label, and duration), usage counters, and Apple subscription state. We do not retain raw or generated audio on our servers beyond the moment needed to relay a single request to the cloud voice provider. You can delete your account and all server-side data from within the app at any time, which removes your account, voice-profile metadata, usage, and subscription records from our server; deleting the app removes the on-device library. Standard iOS device backups may include the on-device library depending on your backup settings.",
+      sharing:
+        "KinVoice does not sell your data. Your recordings, voice library, and chat content are never used for advertising, and the app contains no analytics or tracking SDK. To clone a voice, transcribe what you say, generate a reply or story, and speak it back in the cloned voice, KinVoice transmits the relevant audio and text over HTTPS to Xiaomi MiMo, a cloud AI service operated by Xiaomi Corporation in the People's Republic of China; because this provider processes requests in China, that audio and text leave your country during processing. These requests carry only an opaque account identifier used for usage metering — your name, email, and Apple identifier are not sent with them. Subscription receipts are sent to Apple for validation. See the Third Parties section below for details.",
+      thirdParties: [
+        {
+          name: "Xiaomi MiMo (Xiaomi Corporation, People's Republic of China)",
+          description:
+            "The cloud AI provider that powers voice cloning, speech-to-text, chat replies, and cloned-voice synthesis. It receives the reference voice sample (to clone a family member's voice), the audio you record during voice chat (for transcription), the text of your messages and the family member's name you provide (to generate a reply or story), and the reply text (to synthesize speech in the cloned voice). Audio and text are sent over HTTPS for each request and are not retained on KinVoice's own servers; no name, email, or Apple identifier accompanies these requests, only an opaque account identifier for metering. Because Xiaomi MiMo processes requests in China, this data leaves your country during processing. Xiaomi MiMo privacy policy: https://privacy.mi.com/all/en_US/",
+        },
+        {
+          name: "Apple (Apple Inc., United States)",
+          description:
+            "Provides Sign in with Apple, which returns your Apple user identifier and, on first sign-in, your email address or a private Apple relay address, and validates In-App Purchase subscription receipts. You can manage or stop forwarding from a private relay address in your Apple ID settings. Apple privacy policy: https://www.apple.com/legal/privacy/",
+        },
+      ],
+      permissions: [
+        "Microphone access records the voice samples you capture and the questions you speak during voice chat.",
+        "Sign in with Apple creates and identifies your account; the email may be a private relay address you can disable in your Apple ID settings.",
+        "Network access is required to clone voices, transcribe speech, generate chat replies and stories, synthesize cloned-voice audio, and validate subscriptions.",
+      ],
+      paidFeatures:
+        "KinVoice is free to start, including one cloned voice and a monthly allowance of voice minutes, chat messages, and stories. KinVoice Pro is an auto-renewing subscription (monthly or yearly) sold through Apple In-App Purchase that raises those allowances and allows up to five cloned voices. Payment is charged to your Apple ID at confirmation, renews automatically unless cancelled at least 24 hours before the end of the current period, and can be managed or cancelled in your Apple ID settings.",
+      termsUse:
+        "Use KinVoice only to record and clone the voice of a person who has given you explicit consent to do so; you are responsible for obtaining that consent. Do not use KinVoice to impersonate, defraud, or harm anyone, or to clone a voice without permission. AI-generated speech and responses are a synthetic recreation of a voice and may be imperfect or inaccurate. KinVoice is not intended for users under 13.",
+      availability:
+        "Voice cloning, transcription, chat, story generation, and cloned-voice playback require a network connection and depend on the availability of the Xiaomi MiMo cloud service. Behavior can vary by region, network connectivity, device, OS version, and your plan limits. Monthly allowances, cloned-voice counts, and in-app purchase prices can vary by region and App Store account state.",
+    },
+  },
+  {
     slug: "echo-vault",
     name: "EchoVault",
     tagline: "Local-first voice notes that become searchable actions.",
