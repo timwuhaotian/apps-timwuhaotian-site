@@ -54,7 +54,6 @@ export const apps = [
     platforms: ["iOS"],
     status: "in development",
     bundleId: "com.kinvoice.kinvoice",
-    websiteUrl: "https://kinvoice.app",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-06-18",
