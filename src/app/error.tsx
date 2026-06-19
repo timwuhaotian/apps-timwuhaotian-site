@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import {
   AmbientBackground,
   GridOverlay,
@@ -21,7 +21,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <CustomCursor />
       <AmbientBackground />
       <GridOverlay />
@@ -62,6 +62,6 @@ export default function Error({
           </div>
         </motion.section>
       </main>
-    </>
+    </MotionConfig>
   );
 }

@@ -224,6 +224,14 @@ p, h1, h2, h3, h4, figure, blockquote {
 
 /* ===== CUSTOM CURSOR ===== */
 @media (hover: hover) and (pointer: fine) {
+  /* Hide the OS cursor only while the JS-driven custom cursor is mounted, so a
+     failed/absent script never leaves the page cursor-less. !important beats the
+     per-element `cursor: pointer` rules below. */
+  html.cursor-none,
+  html.cursor-none * {
+    cursor: none !important;
+  }
+
   .cursor-dot {
     position: fixed;
     width: 8px;
@@ -420,7 +428,6 @@ p, h1, h2, h3, h4, figure, blockquote {
 
 .hero-title-wrap {
   margin-bottom: 28px;
-  overflow: hidden;
 }
 
 .hero-title {
@@ -763,6 +770,30 @@ p, h1, h2, h3, h4, figure, blockquote {
   min-width: 200px;
   position: relative;
   z-index: 1;
+}
+
+/* Wide screens: two cards per row instead of one full-width column, so the
+   1200px canvas isn't a sparse single list. Each card reflows to icon + info on
+   top and its links on a left-aligned row below, keeping a card's actions next
+   to the card they belong to. */
+@media (min-width: 1100px) {
+  .app-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-card {
+    grid-template-columns: 64px 1fr;
+    align-items: start;
+  }
+
+  .row-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    min-width: 0;
+    margin-top: 2px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
 }
 
 /* ===== BADGES ===== */

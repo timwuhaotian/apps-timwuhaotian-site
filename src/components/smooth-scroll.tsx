@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
+import { MotionConfig } from "framer-motion";
 import Lenis from "@studio-freight/lenis";
 
 export function SmoothScrollProvider({
@@ -36,7 +37,11 @@ export function SmoothScrollProvider({
     };
   }, []);
 
-  return <>{children}</>;
+  // reducedMotion="user" makes every framer-motion animation honor the OS
+  // "reduce motion" setting (transforms/layout are skipped, opacity still
+  // resolves so content never stays hidden) without touching the visuals
+  // for everyone else.
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }
 
 export function useScrollDirection() {
@@ -140,57 +145,51 @@ export function AmbientDrift() {
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const pos = useRef({ x: 0, y: 0 });
-  const target = useRef({ x: 0, y: 0 });
+  const ringPos = useRef({ x: 0, y: 0 }); // lerped — the ring trails the pointer
+  const target = useRef({ x: 0, y: 0 }); // exact pointer — the dot stays precise
   const [visible, setVisible] = useState(false);
   const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
-    // Only on desktop
+    // Custom cursor is a desktop, motion-positive flourish only. Touch devices
+    // and people who asked for reduced motion keep their native cursor.
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
     const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    if (!hasHover.matches) return;
+    if (prefersReduced || !hasHover.matches) return;
+
+    const INTERACTIVE = "a, button, [role='button'], .app-card, .button, .link-chip";
+    const root = document.documentElement;
+    root.classList.add("cursor-none");
 
     const onMove = (e: MouseEvent) => {
       target.current = { x: e.clientX, y: e.clientY };
-      if (!visible) setVisible(true);
+      setVisible(true); // no-op after the first move (React bails on equal state)
     };
 
-    const onEnterInteractive = () => setHovering(true);
-    const onLeaveInteractive = () => setHovering(false);
+    // Event delegation instead of binding every element on each DOM mutation —
+    // mouseover bubbles, so one listener tracks hover state with no leak.
+    const onOver = (e: MouseEvent) => {
+      const el = e.target as Element | null;
+      setHovering(Boolean(el?.closest?.(INTERACTIVE)));
+    };
 
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
 
-    // Observe interactive elements
-    const observer = new MutationObserver(() => {
-      document
-        .querySelectorAll("a, button, [role='button'], .app-card, .button, .link-chip")
-        .forEach((el) => {
-          el.addEventListener("mouseenter", onEnterInteractive);
-          el.addEventListener("mouseleave", onLeaveInteractive);
-        });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Initial bind
-    document
-      .querySelectorAll("a, button, [role='button'], .app-card, .button, .link-chip")
-      .forEach((el) => {
-        el.addEventListener("mouseenter", onEnterInteractive);
-        el.addEventListener("mouseleave", onLeaveInteractive);
-      });
-
-    // Lerp loop
     let rafId: number;
     function animate() {
-      pos.current.x += (target.current.x - pos.current.x) * 0.12;
-      pos.current.y += (target.current.y - pos.current.y) * 0.12;
+      ringPos.current.x += (target.current.x - ringPos.current.x) * 0.18;
+      ringPos.current.y += (target.current.y - ringPos.current.y) * 0.18;
 
+      // Dot marks the exact pointer (precise click hotspot)…
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
+        dotRef.current.style.transform = `translate(${target.current.x}px, ${target.current.y}px) translate(-50%, -50%)`;
       }
+      // …the ring follows with elastic lag.
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${target.current.x}px, ${target.current.y}px) translate(-50%, -50%)`;
+        ringRef.current.style.transform = `translate(${ringPos.current.x}px, ${ringPos.current.y}px) translate(-50%, -50%)`;
       }
       rafId = requestAnimationFrame(animate);
     }
@@ -198,10 +197,11 @@ export function CustomCursor() {
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseover", onOver);
       cancelAnimationFrame(rafId);
-      observer.disconnect();
+      root.classList.remove("cursor-none");
     };
-  }, [visible]);
+  }, []);
 
   if (!visible) return null;
 
