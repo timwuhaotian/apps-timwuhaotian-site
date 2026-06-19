@@ -521,6 +521,147 @@ export const apps = [
         "On-device AI word analysis uses Apple's Foundation Models (Apple Intelligence) and requires a supported iPhone or iPad running iOS 26 or later with Apple Intelligence enabled; on other devices the app falls back to an offline editor you complete yourself. Text-to-speech voices, advertising availability, the App Tracking Transparency prompt, and the regional consent message can vary by device, OS version, region, and network connectivity.",
     },
   },
+  {
+    slug: "the-pair",
+    name: "The Pair",
+    tagline: "Two AI agents cross-check each other's code.",
+    summary:
+      "The Pair is a free, open-source desktop app that runs two AI coding agents — a read-only Mentor that plans and reviews, and an Executor that writes code and runs commands — which cross-check each other's work to catch AI hallucinations before they reach your codebase. Model-agnostic: mix Claude Code, OpenAI Codex, Gemini CLI, and opencode in any combination.",
+    platforms: ["Web"],
+    status: "live",
+    websiteUrl: "https://github.com/timwuhaotian/the-pair",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-19",
+    termsUpdatedAt: "2026-06-19",
+    icon: "/apps/the-pair/icon.png",
+    screenshots: [],
+    accentColor: "#6366f1",
+    features: [
+      "Dual-agent architecture — read-only Mentor + Executor cross-validate each other's output.",
+      "Unified Pair Console with conversation, timeline, terminal events, and activity in one scrollable feed.",
+      "Model-agnostic — mix Claude Code, Codex, Gemini CLI, opencode, or local models via Ollama.",
+      "Smart Coordination with structured handoff prompts, quality gates, and smart-pause logic.",
+      "Full Automation Mode — agents work autonomously with workspace-scoped permissions.",
+      "Git change tracking with unified diff viewer, token usage monitoring, and session recovery.",
+      "i18n — English, 简体中文, 日本語, 한국어.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "project files and code in your local workspace (read and modified by the AI agents you configure)",
+        "conversation history and agent session data (stored locally on your device)",
+        "API keys for AI providers you configure (stored locally on your device, never transmitted to The Pair's developers)",
+      ],
+      storage:
+        "The Pair stores all session data, conversation history, and configuration locally on your device. There is no account system, no cloud backend, and no server that receives your data. API keys for AI providers are stored in your local configuration and used only to communicate directly with the provider endpoints you specify.",
+      sharing:
+        "The Pair does not collect, transmit, or sell any user data. Your code, conversations, and agent sessions never leave your device except when sent directly to the AI provider endpoints you have configured (e.g., Anthropic, OpenAI, Google). The Pair has no analytics SDK, no telemetry, no crash reporting, and no tracking of any kind.",
+      permissions: [
+        "File system access reads and writes project files in your local workspace.",
+        "Network access communicates only with AI provider API endpoints you configure.",
+        "No microphone, camera, contacts, location, or photo library permissions are required.",
+      ],
+      paidFeatures:
+        "The Pair is free and open-source under the Apache 2.0 license. There are no in-app purchases, subscriptions, or paid features. AI provider costs are billed directly by the providers you choose to use.",
+      termsUse:
+        "Use The Pair for software development on codebases you own or have permission to modify. You are responsible for reviewing AI-generated code before committing or deploying it. The Pair is a development aid — always verify agent output. The Pair is not intended for users under 13.",
+      availability:
+        "The Pair requires macOS, Windows, or Linux with sufficient resources to run your configured AI agents. AI provider availability, rate limits, and costs depend on the providers you configure. Some features such as local model support require additional setup (e.g., Ollama).",
+    },
+  },
+  {
+    slug: "harbor",
+    name: "Harbor",
+    tagline: "Turn your Mac or PC into a private exit node.",
+    summary:
+      "Harbor is a personal desktop app that bundles sing-box and cloudflared to turn your machine into a VLESS WebSocket exit node through Cloudflare Tunnel — no manual CLI setup required. Scan a QR code or copy a VLESS link to connect from any compatible client.",
+    platforms: ["Web"],
+    status: "live",
+    websiteUrl: "https://github.com/timwuhaotian/harbor",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-19",
+    termsUpdatedAt: "2026-06-19",
+    icon: "/apps/harbor/icon.png",
+    screenshots: [],
+    accentColor: "#0ea5e9",
+    features: [
+      "Zero-config tunnel — bundled cloudflared and sing-box binaries, no manual installation.",
+      "QR code and VLESS link — scan or copy to connect from V2Box, Surge, Shadowrocket, and more.",
+      "System tray controls — start, stop, and manage from the menu bar; close-to-tray behavior.",
+      "Auto-launch on login for persistent operation.",
+      "Bilingual UI — English and 中文 with in-app language switcher.",
+      "Built-in auto-update checker with changelog display and one-click download.",
+      "Real-time logs with port conflict detection and dependency health checks.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "tunnel configuration and credentials you create (stored locally on your device)",
+        "Cloudflare Tunnel tokens and VLESS connection parameters (stored in the app's local config)",
+        "runtime logs from sing-box and cloudflared processes (displayed in-app, stored locally)",
+      ],
+      storage:
+        "Harbor stores all configuration, tunnel credentials, and logs locally on your device. There is no account system, no cloud backend, and no telemetry server. Tunnel tokens and VLESS parameters are written to the app's local configuration directory.",
+      sharing:
+        "Harbor does not collect, transmit, or sell any user data. The app has no analytics SDK, no telemetry, no crash reporting, and no tracking. Network traffic flows only through the Cloudflare Tunnel you configure. Harbor does not phone home to its developers.",
+      permissions: [
+        "Network access runs cloudflared and sing-box processes that create the local tunnel endpoint.",
+        "File system access stores configuration and bundled binaries in the app's local directory.",
+        "No microphone, camera, contacts, location, or photo library permissions are required.",
+      ],
+      paidFeatures:
+        "Harbor is free and open-source under the Apache 2.0 license. There are no in-app purchases, subscriptions, or paid features. Cloudflare Tunnel usage is governed by Cloudflare's own terms and pricing.",
+      termsUse:
+        "Use Harbor only on machines you own or have permission to configure as network exit nodes. You are responsible for complying with local laws regarding proxy and tunnel services. Harbor is not intended for users under 13.",
+      availability:
+        "Harbor requires macOS or Windows with network access. The bundled cloudflared and sing-box binaries must be compatible with your OS and architecture. Cloudflare Tunnel availability depends on Cloudflare's service status.",
+    },
+  },
+  {
+    slug: "ai-bill",
+    name: "AI Bill",
+    tagline: "How much are you really burning on AI every month?",
+    summary:
+      "AI Bill is a single-page web app that lets you select your AI subscriptions — Claude, ChatGPT, Gemini, Kimi, MiniMax, and more — calculates your monthly total spend, and generates a shareable receipt card in three visual templates. Supports ¥/$ currency toggle and CN/EN bilingual UI.",
+    platforms: ["Web"],
+    status: "live",
+    supportEmail,
+    legalOwner,
+    privacyUpdatedAt: "2026-06-19",
+    termsUpdatedAt: "2026-06-19",
+    icon: "/apps/ai-bill/icon.png",
+    screenshots: [],
+    accentColor: "#f97316",
+    features: [
+      "13+ AI service provider catalog with real pricing tiers, searchable by international and domestic providers.",
+      "¥ / $ one-click currency toggle with live exchange rate conversion.",
+      "CN / EN bilingual interface and shareable card output.",
+      "Real-time bill calculation with animated counter, spending persona tier, and coffee-equivalent Easter egg.",
+      "Three shareable card templates — thermal receipt, terminal console, and poster Wrapped style.",
+      "QR code on each card linking back to the tool; copy to clipboard or download as PNG.",
+      "Custom subscription entry for unlisted services like Midjourney, Suno, or API credits.",
+    ],
+    policyProfile: {
+      dataUse: [
+        "AI subscription selections and custom entries you enter (stored only in your browser's local storage)",
+        "preferred currency and language settings (stored on-device only)",
+      ],
+      storage:
+        "AI Bill is a fully client-side single-page application. All data — your subscription selections, custom entries, currency preference, and language setting — is stored in your browser's local storage. There is no backend, no account system, and no server that receives your data.",
+      sharing:
+        "AI Bill does not collect, transmit, or sell any user data. The app has no analytics SDK, no telemetry, no crash reporting, and no tracking. All processing happens entirely in your browser. Shareable receipt cards are generated client-side using html-to-image.",
+      permissions: [
+        "Network access is used only to load the web application and fetch exchange rate data.",
+        "No microphone, camera, contacts, location, or photo library permissions are required.",
+      ],
+      paidFeatures:
+        "AI Bill is completely free to use. There are no in-app purchases, subscriptions, or paid features.",
+      termsUse:
+        "Use AI Bill for personal budgeting and awareness of your AI subscription spending. Pricing data is sourced from public information and may not reflect the latest changes from each provider — verify current prices on provider websites before making financial decisions. AI Bill is not intended for users under 13.",
+      availability:
+        "AI Bill requires a modern web browser with JavaScript enabled. Exchange rates are fetched from a public API and may vary. Shareable card generation requires browser support for the Canvas API.",
+    },
+  },
 ] satisfies AppContent[];
 
 export function getAppBySlug(slug: string) {
