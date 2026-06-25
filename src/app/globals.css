@@ -112,7 +112,9 @@ p, h1, h2, h3, h4, figure, blockquote {
 }
 
 .main-stack {
-  padding: 56px 0 80px;
+  /* Clear the fixed header (~88px tall) so top-aligned content
+     like the breadcrumb doesn't slip under it. */
+  padding: 104px 0 80px;
 }
 
 .skip-link {
@@ -1375,6 +1377,9 @@ p, h1, h2, h3, h4, figure, blockquote {
   .site-nav, .apps-section-pills { justify-content: flex-start; }
 
   .hero-section { padding-top: 100px; }
+
+  /* Header stacks vertically here (~126px tall), so push content down further. */
+  .main-stack { padding-top: 140px; }
 
   .hero-title { font-size: clamp(32px, 9vw, 48px); }
   .hero-lede { font-size: 14.5px; }
