@@ -113,7 +113,7 @@ describe("MiniMax chat proxy route", () => {
 
   it("does not fall back to the local opencode config in production", async () => {
     const fetchMock = vi.spyOn(globalThis, "fetch");
-    process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
     delete process.env.MINIMAX_API_KEY;
 
     const response = await POST(jsonRequest({ prompt: "Hi" }));
@@ -146,7 +146,7 @@ function jsonResponse(body: unknown, init?: ResponseInit) {
   });
 }
 
-function sentBody(fetchMock: ReturnType<typeof vi.spyOn<typeof globalThis, "fetch">>) {
+function sentBody(fetchMock: ReturnType<typeof vi.fn>) {
   const init = fetchMock.mock.calls[0]?.[1];
   return JSON.parse(String(init?.body));
 }

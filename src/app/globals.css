@@ -147,6 +147,8 @@ p, h1, h2, h3, h4, figure, blockquote {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(calc(var(--orb-x, 0) * 22px), calc(var(--orb-y, 0) * 22px), 0);
 }
 
 .ambient-orb {
@@ -184,12 +186,6 @@ p, h1, h2, h3, h4, figure, blockquote {
   left: 52%;
   opacity: 0.14;
   animation: floatOrb3 18s ease-in-out infinite;
-}
-
-/* Pointer-reactive drift layer (set via JS) */
-.ambient-bg {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translate3d(calc(var(--orb-x, 0) * 22px), calc(var(--orb-y, 0) * 22px), 0);
 }
 
 @keyframes floatOrb1 {
@@ -1028,15 +1024,6 @@ p, h1, h2, h3, h4, figure, blockquote {
   background: var(--bg);
 }
 
-.phone-block {
-  min-height: 80px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
-}
-
-.phone-block.small { min-height: 42px; }
-
 /* Branded app splash inside phone frame */
 .phone-splash {
   display: flex;
@@ -1073,10 +1060,6 @@ p, h1, h2, h3, h4, figure, blockquote {
   line-height: 1.5;
   color: var(--text-secondary);
   max-width: 220px;
-}
-
-.phone-block.hero-block {
-  display: none;
 }
 
 /* Metadata card */
@@ -1324,17 +1307,6 @@ p, h1, h2, h3, h4, figure, blockquote {
 
 .status-inline-link:hover { text-decoration-color: var(--accent); }
 
-/* ===== SECTION LABEL ===== */
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: 32px;
-}
-
 /* ===== SCROLL INDICATOR ===== */
 .scroll-indicator {
   position: absolute;
@@ -1373,7 +1345,7 @@ p, h1, h2, h3, h4, figure, blockquote {
   :root { --page: min(100vw - 32px, 900px); }
 
   .app-detail-grid { grid-template-columns: 1fr; }
-  .app-detail-rail { grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); position: static; }
+  .app-detail-rail { position: static; }
   .phone-frame { justify-self: start; }
 
   .app-card { grid-template-columns: 56px 1fr; }

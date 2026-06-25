@@ -53,17 +53,21 @@ export async function POST(request: Request) {
     return Response.json({ error: "messages[] is required" }, { headers, status: 400 });
   }
 
-  const upstream = await fetch(`${mimoHost()}/chat/completions`, {
-    method: "POST",
-    headers: { "api-key": apiKey, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: DEFAULT_CHAT_MODEL,
-      messages: body.messages,
-      temperature: typeof body.temperature === "number" ? body.temperature : 0.1,
-      max_tokens: typeof body.max_tokens === "number" ? body.max_tokens : 1024,
-      ...(isRecord(body.response_format) ? { response_format: body.response_format } : {}),
-    }),
-  });
+  const upstream = await safeFetch(
+    `${mimoHost()}/chat/completions`,
+    {
+      method: "POST",
+      headers: { "api-key": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: DEFAULT_CHAT_MODEL,
+        messages: body.messages,
+        temperature: typeof body.temperature === "number" ? body.temperature : 0.1,
+        max_tokens: typeof body.max_tokens === "number" ? body.max_tokens : 1024,
+        ...(isRecord(body.response_format) ? { response_format: body.response_format } : {}),
+      }),
+    },
+    headers,
+  );
 
   const data = await readUpstreamJson(upstream);
   if (!upstream.ok) {
@@ -72,5 +76,25 @@ export async function POST(request: Request) {
       { headers, status: upstream.status === 401 ? 503 : upstream.status },
     );
   }
-  return Response.json(data ?? { error: "mimo-upstream-error" }, { headers });
+  if (data === undefined) {
+    return Response.json({ error: "mimo-upstream-error" }, { headers, status: 502 });
+  }
+  return Response.json(data, { headers });
+}
+
+// Wraps fetch so a network/transport failure returns a clean 502 instead of
+// surfacing as an unhandled promise rejection.
+async function safeFetch(
+  input: string,
+  init: RequestInit,
+  headers: Headers,
+): Promise<Response> {
+  try {
+    return await fetch(input, init);
+  } catch {
+    return Response.json(
+      { error: "mimo-upstream-unreachable" },
+      { headers, status: 502 },
+    );
+  }
 }

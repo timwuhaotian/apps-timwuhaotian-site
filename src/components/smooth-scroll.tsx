@@ -25,14 +25,15 @@ export function SmoothScrollProvider({
 
     lenisRef.current = lenis;
 
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
@@ -49,6 +50,7 @@ export function useScrollDirection() {
   const lastY = useRef(0);
 
   useEffect(() => {
+    lastY.current = window.scrollY;
     let ticking = false;
 
     function onScroll() {
@@ -123,6 +125,11 @@ export function ScrollProgress() {
 /* ===== Ambient BG mouse drift ===== */
 export function AmbientDrift() {
   useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced) return;
+
     const bg = document.querySelector(".ambient-bg") as HTMLElement | null;
     if (!bg) return;
 

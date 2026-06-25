@@ -128,7 +128,7 @@ export default async function Image() {
             flexWrap: "wrap",
             justifyContent: "flex-end",
             alignContent: "center",
-            gap: 24,
+            gap: 14,
             width: 340,
             flexShrink: 0,
           }}
@@ -136,15 +136,15 @@ export default async function Image() {
           {icons.map((src, index) => (
             <img
               alt=""
-              height={132}
+              height={88}
               key={index}
               src={src}
               style={{
-                borderRadius: 32,
-                boxShadow: "0 18px 40px rgba(15,15,15,0.16)",
+                borderRadius: 20,
+                boxShadow: "0 12px 28px rgba(15,15,15,0.14)",
                 transform: index % 2 === 0 ? "rotate(-3deg)" : "rotate(3deg)",
               }}
-              width={132}
+              width={88}
             />
           ))}
         </div>

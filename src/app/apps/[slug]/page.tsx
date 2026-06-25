@@ -78,8 +78,11 @@ export default async function AppPage({ params }: PageProps) {
         <aside className="app-detail-rail">
           <MediaStrip app={app} />
 
-          <section className="metadata-card">
-            <h2>App metadata</h2>
+          <section
+            className="metadata-card"
+            aria-labelledby={`${app.slug}-metadata-title`}
+          >
+            <h2 id={`${app.slug}-metadata-title`}>App metadata</h2>
             <dl>
               <Info label="Status" value={<StatusBadge status={app.status} />} />
               <Info label="Platforms" value={app.platforms.join(", ")} />

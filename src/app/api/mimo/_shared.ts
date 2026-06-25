@@ -3,6 +3,8 @@
 // env-based key) but targets MiMo's Token Plan endpoint, which authenticates
 // with an `api-key` header. The Token Plan key lives in MIMO_API_KEY (Vercel
 // env) and never reaches the EchoVault mobile client.
+import { timingSafeEqual } from "node:crypto";
+
 export const MIMO_DEFAULT_HOST = "https://token-plan-cn.xiaomimimo.com/v1";
 
 type RateBucket = { count: number; resetAt: number };
@@ -86,11 +88,19 @@ export function checkAppSecret(request: Request) {
 
   if (!secret) return { ok: true as const }; // skip when not configured
 
-  if (!provided || provided !== secret) {
+  if (!provided || !safeSecretEqual(provided, secret)) {
     return { ok: false as const };
   }
 
   return { ok: true as const };
+}
+
+// Constant-time comparison so attackers can't time-bruteforce the app secret.
+function safeSecretEqual(a: string, b: string) {
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
 }
 
 export async function readUpstreamJson(response: Response) {

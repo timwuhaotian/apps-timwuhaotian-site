@@ -204,7 +204,7 @@ export function StatusBadge({ status }: { status: AppContent["status"] }) {
 
   return (
     <span className={`badge ${tone}`}>
-      <span className="dot" />
+      <span aria-hidden="true" className="dot" />
       {label}
     </span>
   );

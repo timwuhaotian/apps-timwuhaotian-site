@@ -25,7 +25,7 @@ export default function Error({
       <CustomCursor />
       <AmbientBackground />
       <GridOverlay />
-      <main className="page-shell" style={{ paddingTop: 120, paddingBottom: 80 }}>
+      <main className="page-shell" id="main" style={{ paddingTop: 120, paddingBottom: 80 }}>
         <motion.section
           aria-labelledby="error-title"
           className="status-card"

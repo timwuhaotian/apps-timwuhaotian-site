@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const upstream = await callMiniMax({ ...config, apiKey }, payload.value);
+  const upstream = await callMiniMaxSafe({ ...config, apiKey }, payload.value, headers);
   const data = await readUpstreamJson(upstream);
 
   if (!upstream.ok) {
@@ -130,6 +130,23 @@ async function callMiniMax(
     },
     method: "POST",
   });
+}
+
+// Wraps callMiniMax so a network/transport failure returns a clean 502 instead
+// of surfacing as an unhandled promise rejection.
+async function callMiniMaxSafe(
+  config: { apiHost: string; apiKey: string },
+  body: Record<string, unknown>,
+  headers: Headers,
+): Promise<Response> {
+  try {
+    return await callMiniMax(config, body);
+  } catch {
+    return Response.json(
+      { error: "MiniMax upstream unreachable" },
+      { headers, status: 502 },
+    );
+  }
 }
 
 async function getMiniMaxConfig() {

@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { apps } from "@/content/apps";
 
 const orbits = [
@@ -17,7 +17,6 @@ const orbits = [
 ];
 
 export function HeroConstellation() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -25,6 +24,11 @@ export function HeroConstellation() {
   const springY = useSpring(mouseY, { stiffness: 30, damping: 25 });
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReduced) return;
+
     const onMove = (e: MouseEvent) => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
@@ -37,7 +41,6 @@ export function HeroConstellation() {
 
   return (
     <div
-      ref={containerRef}
       style={{
         position: "absolute",
         top: 0,

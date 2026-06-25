@@ -28,7 +28,7 @@ describe("public app hub pages", () => {
     expect(markup).toContain("apps-section");
     expect(markup).toContain("app-icon-link");
     expect(markup).toContain("iOS-first");
-    expect(markup).toContain("9 apps");
+    expect(markup).toContain("12 apps");
     expect(markup).toContain('type="application/ld+json"');
     expect(markup).toContain("ItemList");
   });
@@ -36,14 +36,14 @@ describe("public app hub pages", () => {
   it("shows app count badges from the catalog", () => {
     const markup = renderToStaticMarkup(<Home />);
 
-    expect(markup).toContain(">9 apps<");
+    expect(markup).toContain(">12 apps<");
   });
 
   it("renders app cards with icons and links in the directory", () => {
     const markup = renderToStaticMarkup(<Home />);
 
     expect(markup).toContain("app-icon");
-    expect(occurrences(markup, "app-card")).toBe(9);
+    expect(occurrences(markup, "app-card")).toBe(12);
     expect(markup).toContain('href="/apps/echo-vault"');
   });
 

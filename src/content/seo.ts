@@ -274,7 +274,6 @@ function buildSoftwareApplication(app: AppContent): JsonLdNode {
     operatingSystem: app.platforms.join(", "),
     image: absoluteUrl(app.icon),
     url: absoluteUrl(routes.intro),
-    sameAs: externalLinks,
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },

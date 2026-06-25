@@ -625,6 +625,7 @@ export const apps = [
       "AI Bill is a single-page web app that lets you select your AI subscriptions — Claude, ChatGPT, Gemini, Kimi, MiniMax, and more — calculates your monthly total spend, and generates a shareable receipt card in three visual templates. Supports ¥/$ currency toggle and CN/EN bilingual UI.",
     platforms: ["Web"],
     status: "live",
+    websiteUrl: "https://github.com/timwuhaotian/ai-bill",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-06-19",

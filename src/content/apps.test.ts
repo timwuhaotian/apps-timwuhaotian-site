@@ -7,7 +7,7 @@ import {
 } from "@/content/apps";
 
 describe("apps content contract", () => {
-  it("lists the nine real managed apps", () => {
+  it("lists the twelve real managed apps", () => {
     expect(apps.map((app) => app.slug)).toEqual([
       "kinvoice",
       "echo-vault",
@@ -18,6 +18,9 @@ describe("apps content contract", () => {
       "kodda",
       "ai-quick-note",
       "ai-chinese-dict",
+      "the-pair",
+      "harbor",
+      "ai-bill",
     ]);
   });
 
@@ -39,7 +42,9 @@ describe("apps content contract", () => {
   });
 
   it("requires production links for web apps", () => {
-    const webApps = apps.filter((app) => app.platforms.includes("Web"));
+    const webApps = apps.filter((app) =>
+      (app.platforms as readonly string[]).includes("Web"),
+    );
 
     expect(webApps.length).toBeGreaterThan(0);
 
@@ -71,6 +76,9 @@ describe("apps content contract", () => {
       kodda: "#0f766e",
       "ai-quick-note": "#E8603C",
       "ai-chinese-dict": "#a86617",
+      "the-pair": "#6366f1",
+      harbor: "#0ea5e9",
+      "ai-bill": "#f97316",
     });
   });
 

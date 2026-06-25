@@ -56,22 +56,26 @@ export async function POST(request: Request) {
   const mime = (isRecord(body) && cleanString(body.mime)) || "audio/wav";
   const language = (isRecord(body) && cleanString(body.language)) || "auto";
 
-  const upstream = await fetch(`${mimoHost()}/chat/completions`, {
-    method: "POST",
-    headers: { "api-key": apiKey, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: ASR_MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "input_audio", input_audio: { data: `data:${mime};base64,${audioBase64}` } },
-          ],
-        },
-      ],
-      asr_options: { language },
-    }),
-  });
+  const upstream = await safeFetch(
+    `${mimoHost()}/chat/completions`,
+    {
+      method: "POST",
+      headers: { "api-key": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: ASR_MODEL,
+        messages: [
+          {
+            role: "user",
+            content: [
+              { type: "input_audio", input_audio: { data: `data:${mime};base64,${audioBase64}` } },
+            ],
+          },
+        ],
+        asr_options: { language },
+      }),
+    },
+    headers,
+  );
 
   const data = await readUpstreamJson(upstream);
   if (!upstream.ok) {
@@ -82,6 +86,23 @@ export async function POST(request: Request) {
   }
 
   return Response.json({ text: extractText(data), seconds: extractSeconds(data) }, { headers });
+}
+
+// Wraps fetch so a network/transport failure returns a clean 502 instead of
+// surfacing as an unhandled promise rejection.
+async function safeFetch(
+  input: string,
+  init: RequestInit,
+  headers: Headers,
+): Promise<Response> {
+  try {
+    return await fetch(input, init);
+  } catch {
+    return Response.json(
+      { error: "mimo-upstream-unreachable" },
+      { headers, status: 502 },
+    );
+  }
 }
 
 function extractText(data: unknown) {
