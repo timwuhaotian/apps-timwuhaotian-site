@@ -63,6 +63,14 @@ describe("apps content contract", () => {
     });
   });
 
+  it("tracks KinVoice as a live App Store app", () => {
+    expect(getAppBySlug("kinvoice")).toMatchObject({
+      appStoreUrl: "https://apps.apple.com/us/app/id6780894097",
+      bundleId: "com.kinvoice.kinvoice",
+      status: "live",
+    });
+  });
+
   it("uses the design-system app accent tokens", () => {
     expect(
       Object.fromEntries(apps.map((app) => [app.slug, app.accentColor])),

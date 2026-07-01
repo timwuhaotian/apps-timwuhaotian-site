@@ -52,14 +52,21 @@ export const apps = [
     summary:
       "KinVoice records a family member's voice with their consent, clones it with cloud AI, and lets you ask questions and hear stories told back in their voice. Recordings live in a private library on your device; audio is sent to the cloud AI provider only during voice cloning, transcription, and playback, and is not retained on our servers.",
     platforms: ["iOS"],
-    status: "in development",
+    status: "live",
     bundleId: "com.kinvoice.kinvoice",
+    appStoreUrl: "https://apps.apple.com/us/app/id6780894097",
     supportEmail,
     legalOwner,
     privacyUpdatedAt: "2026-06-18",
     termsUpdatedAt: "2026-06-18",
     icon: "/apps/kinvoice/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/kinvoice/01.png",
+      "/apps/kinvoice/02.png",
+      "/apps/kinvoice/03.png",
+      "/apps/kinvoice/04.png",
+      "/apps/kinvoice/05.png",
+    ],
     accentColor: "#2F4A3A",
     features: [
       "Record guided voice memories of a family member with consent-first prompts.",
@@ -228,7 +235,13 @@ export const apps = [
     privacyUpdatedAt: "2026-05-15",
     termsUpdatedAt: "2026-05-15",
     icon: "/apps/found/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/found/01_remember_home.png",
+      "/apps/found/02_items_list.png",
+      "/apps/found/03_search_result.png",
+      "/apps/found/04_tag_filter.png",
+      "/apps/found/05_item_detail.png",
+    ],
     accentColor: "#b46b20",
     features: [
       "Capture a photo, store it locally with GPS coordinates, timestamp, and accuracy.",
@@ -479,7 +492,13 @@ export const apps = [
     privacyUpdatedAt: "2026-06-07",
     termsUpdatedAt: "2026-06-07",
     icon: "/apps/ai-chinese-dict/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/ai-chinese-dict/01_home_library.png",
+      "/apps/ai-chinese-dict/02_word_detail.png",
+      "/apps/ai-chinese-dict/03_add_word.png",
+      "/apps/ai-chinese-dict/04_review_deck.png",
+      "/apps/ai-chinese-dict/05_settings_profile.png",
+    ],
     accentColor: "#a86617",
     features: [
       "Capture any Chinese word, phrase, or sentence and get pinyin, an English meaning, and example sentences.",
@@ -535,7 +554,12 @@ export const apps = [
     privacyUpdatedAt: "2026-06-19",
     termsUpdatedAt: "2026-06-19",
     icon: "/apps/the-pair/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/the-pair/intro-1.png",
+      "/apps/the-pair/intro-2.png",
+      "/apps/the-pair/intro-3.png",
+      "/apps/the-pair/intro-4.png",
+    ],
     accentColor: "#6366f1",
     features: [
       "Dual-agent architecture — read-only Mentor + Executor cross-validate each other's output.",
