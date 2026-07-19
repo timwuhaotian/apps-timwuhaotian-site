@@ -1,8 +1,7 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
 import { getAppBySlug } from "@/content/apps";
+import { appIconDataUri } from "@/content/app-icon";
 
 export const alt =
   "App overview card showing the app icon, name, tagline, platforms, and release status";
@@ -25,11 +24,7 @@ export default async function Image({
     notFound();
   }
 
-  const iconData = await readFile(
-    join(process.cwd(), "public", app.icon),
-    { encoding: "base64" },
-  );
-  const iconSrc = `data:image/png;base64,${iconData}`;
+  const iconSrc = await appIconDataUri(app);
   const statusLabel =
     app.status === "live"
       ? "Public"

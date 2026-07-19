@@ -1,7 +1,6 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { apps } from "@/content/apps";
+import { appIconDataUri } from "@/content/app-icon";
 
 export const alt =
   "Apps by Tim Wu Haotian — indie iOS and web app directory";
@@ -13,15 +12,8 @@ export const size = {
 
 export const contentType = "image/png";
 
-async function iconDataUri(iconPath: string) {
-  const data = await readFile(join(process.cwd(), "public", iconPath), {
-    encoding: "base64",
-  });
-  return `data:image/png;base64,${data}`;
-}
-
 export default async function Image() {
-  const icons = await Promise.all(apps.map((app) => iconDataUri(app.icon)));
+  const icons = await Promise.all(apps.map((app) => appIconDataUri(app)));
 
   return new ImageResponse(
     (
