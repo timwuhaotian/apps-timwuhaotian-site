@@ -701,7 +701,13 @@ export const apps = [
     privacyUpdatedAt: "2026-07-19",
     termsUpdatedAt: "2026-07-19",
     icon: "/apps/sec-daily/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/sec-daily/screenshot-1.png",
+      "/apps/sec-daily/screenshot-2.png",
+      "/apps/sec-daily/screenshot-3.png",
+      "/apps/sec-daily/screenshot-4.png",
+      "/apps/sec-daily/screenshot-5.png",
+    ],
     accentColor: "#F5A623",
     features: [
       "Daily curated SEC filings briefing, scored and ranked by AI.",
