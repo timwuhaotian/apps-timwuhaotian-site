@@ -746,7 +746,13 @@ export const apps = [
     privacyUpdatedAt: "2026-07-19",
     termsUpdatedAt: "2026-07-19",
     icon: "/apps/cve-daily/icon.png",
-    screenshots: [],
+    screenshots: [
+      "/apps/cve-daily/screenshot-1.png",
+      "/apps/cve-daily/screenshot-2.png",
+      "/apps/cve-daily/screenshot-3.png",
+      "/apps/cve-daily/screenshot-4.png",
+      "/apps/cve-daily/screenshot-5.png",
+    ],
     accentColor: "#C2410C",
     features: [
       "Daily curated CVE digest from NVD and CISA KEV sources.",
